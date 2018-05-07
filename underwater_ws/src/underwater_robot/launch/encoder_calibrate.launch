@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- This launch file is inteded to calibrate the encoders-->
+    <!--arduino node -->
+	<node pkg="rosserial_python" type="serial_node.py" name="motor_1">
+		<param name="port" value="$(env motor_1)"/>
+	</node>
+	<node pkg="rosserial_python" type="serial_node.py" name="motor_2">
+		<param name="port" value="$(env motor_2)"/>
+	</node>
+	<node pkg="rosserial_python" type="serial_node.py" name="motor_3">
+		<param name="port" value="$(env motor_3)"/>
+    </node>
+
+    <!--calibration code-->
+    <node pkg="underwater_robot"  type="encoder_calibrate" name="encoder_calibrate" output="screen">
+    	
+</launch>

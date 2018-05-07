@@ -1,0 +1,8 @@
+prefix=/home/william/Underwater/underwater_ws/install
+
+Name: underwater_msg
+Description: Description of underwater_msg
+Version: 0.0.0
+Cflags: -I/home/william/Underwater/underwater_ws/install/include
+Libs: -L/home/william/Underwater/underwater_ws/install/lib 
+Requires: geometry_msgs message_runtime roscpp rospy std_msgs

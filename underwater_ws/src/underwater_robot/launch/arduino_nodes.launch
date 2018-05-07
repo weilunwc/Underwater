@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <!--This launch file is intended to setup all the arduino nodes connections-->
+	<!--arduino node -->
+	<node pkg="rosserial_python" type="serial_node.py" name="center_motor">
+        <param name="port" value="$(env center_motor)"/>
+	</node>
+    
+    <node pkg="rosserial_python" type="serial_node.py" name="motor_1">
+		<param name="port" value="$(env motor_1)"/>
+	</node>
+    
+    <node pkg="rosserial_python" type="serial_node.py" name="motor_2">
+		<param name="port" value="$(env motor_2)"/>
+	</node>
+    
+    <node pkg="rosserial_python" type="serial_node.py" name="motor_3">
+		<param name="port" value="$(env motor_3)"/>
+	</node>
+	
+	
+</launch>

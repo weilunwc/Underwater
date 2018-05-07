@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+	<!--arduino node -->
+	<node pkg="rosserial_python" type="serial_node.py" name="imu_check">
+		<param name="port" value="/dev/ttyUSB2"/>
+	</node>
+	<node pkg="rosserial_python" type="serial_node.py" name="barometer_check">
+		<param name="port" value="/dev/ttyUSB0"/>
+	</node>
+
+	<!--joystick node -->
+	<node pkg="joy" type="joy_node" name="joy">
+	</node>
+	
+	
+</launch>

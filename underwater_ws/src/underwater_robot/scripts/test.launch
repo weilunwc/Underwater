@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <!--Imu Baro Enc1 Enc2 Enc3 En1_off Enc2_off Enc3_off--> 
+    <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>
+    <node pkg="underwater_robot" type="pseudo_sensor.py" name="pseudo_sensor"/>  
+    <node pkg="underwater_robot" type="sensor_visualize.py" name="sensor_visualize"/>  
+</launch>

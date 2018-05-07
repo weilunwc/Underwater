@@ -1,0 +1,7 @@
+build-nano328
+build-uno
+*.out
+*.swp
+*.pyc
+encoder_calibrate.txt
+./scripts/configs.py

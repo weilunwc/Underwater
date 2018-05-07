@@ -1,0 +1,8 @@
+prefix=/home/william/Underwater/underwater_ws/devel
+
+Name: underwater_robot
+Description: Description of underwater_robot
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/william/Underwater/underwater_ws/devel/lib 
+Requires: message_runtime geometry_msgs roscpp rospy std_msgs

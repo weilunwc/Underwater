@@ -4,6 +4,12 @@
 #include <vector>
 using namespace std;
 
+Robot::Robot(){
+    start = false;
+    start_straight = false;
+
+}
+
 /* Motors */
 void Robot::publish_motors(){
     center_motor_pub = n.advertise<underwater_msg::Cmd>("center_motor",10);
@@ -73,27 +79,35 @@ void Robot::print_baro(){
 /* Joystick */
 void Robot::subscribe_joystick(){
     head_leg = 1;
-    motor_mode = 1; // flipping mode 1 spinning mode 2
 
     joy_sub = n.subscribe("joy", 1000, &Robot::read_joystick, this);
     buttons.resize(11);
+    prev_buttons.resize(11);
     axis.resize(8);
     for(int i = 0;i < 8;i++){
         axis[i] = 0;
     }
     for(int i = 0;i < 11;i++){
         buttons[i] = 0;
+        prev_buttons[i] = 0;
     }
+    cruise_mode = false;
+    cruise_speed = 0;
 }
 
 void Robot::read_joystick(const sensor_msgs::Joy &joyInfo){
     for(int i = 0;i < 8;i++){
         axis[i] = joyInfo.axes[i];
     }
+    /* store the previous state of the buttons */
+    for(int i = 0;i < 11;i++){
+        prev_buttons[i] = buttons[i];
+    }
     for(int i = 0;i < 11;i++){
         buttons[i] = joyInfo.buttons[i];
     }
-    print_joystick();
+   
+    //print_joystick();
 
     /* use these two buttons as a switch to activate robot*/
     if(buttons[8] == 1){
@@ -109,12 +123,14 @@ void Robot::read_joystick(const sensor_msgs::Joy &joyInfo){
     if(buttons[3] == 1) head_leg = 1; // Y
     if(buttons[2] == 1) head_leg = 2; // X
     if(buttons[1] == 1) head_leg = 3; // B
+
 }
 
 void Robot::print_joystick(){
-    ROS_INFO("buttons: %d %d %d %d %d %d %d %d %d %d %d", buttons[0], buttons[1], buttons[2],
-            buttons[3], buttons[4], buttons[5], buttons[6], buttons[7],buttons[8],
-            buttons[9], buttons[10]);
+    for(int i = 0;i < 11;i++){
+        cout << buttons[i] << " ";
+    }
+    cout << endl;
 }
 
 /* Position */
@@ -514,5 +530,136 @@ void Robot::joystick_flip_pid(){
     motor1_cmd.flipping_speed = speed*(head_leg == 1);
     motor2_cmd.flipping_speed = speed*(head_leg == 2);
     motor3_cmd.flipping_speed = speed*(head_leg == 3);
+}
+
+/* Go straight and use joystick to keep headings straight */
+void Robot::joystick_openloop_straight(int max_straight_speed, int max_adjust_speed){
+    
+    /* go striaght */
+    int speed;
+    if(cruise_mode) speed = cruise_speed;
+    else speed = fabs(axis[4])*50;
+    planar_straight(speed);
+    
+    /* adjust using joystick */
+    int adjust_speed = axis[0]*30;
+    planar_straight_joystick_adjust(adjust_speed);
+    
+    /* check cruise mode */
+    if(prev_buttons[10] != buttons[10]){
+        cruise_mode = !cruise_mode;
+        cruise_speed = speed;
+        cout << "cruise mode " << cruise_mode << endl;
+
+    }
+}
+
+/* Go straight and use imu to keep headings straight */
+void Robot::joystick_closedloop_straight(){
+    
+    /* go striaght */
+    int speed;
+    if(axis[4] > 0.2){
+        if(start_straight == false){
+            // save the current angle as the coursing angle
+            start_straight = true;
+            current_angle = yaw;
+        }
+        speed = axis[4]*50; 
+        planar_straight(speed);
+        
+        /* adjust using imu */
+        int target_yaw = current_angle + 90 * head_leg;
+        if(target_yaw > 360) target_yaw -= 360;
+        planar_straight_imu_adjust(target_yaw);
+    }
+    else{
+        start_straight = false;
+        speed = 0;
+    }
+
+    
+}
+
+/* planar motion : go straight */
+void Robot::planar_straight(int speed){
+    
+    /* Go straight */
+    center_cmd.mode = 0;
+    motor1_cmd.mode = 2;
+    motor2_cmd.mode = 2;
+    motor3_cmd.mode = 2;
+    
+    motor1_cmd.flipping_speed = speed;
+    motor2_cmd.flipping_speed = speed;
+    motor3_cmd.flipping_speed = speed;
+    
+    switch(head_leg){
+        case 1:
+            motor1_cmd.flipping_speed = 0;
+            motor2_cmd.flipping_angle = -90;
+            motor3_cmd.flipping_angle = 90;
+            break;
+        case 2:
+            motor1_cmd.flipping_angle = 90;
+            motor2_cmd.flipping_speed = 0;
+            motor3_cmd.flipping_angle = -90;
+            break;
+        case 3:
+            motor1_cmd.flipping_angle = -90;
+            motor2_cmd.flipping_angle = 90;
+            motor3_cmd.flipping_speed = 0;
+        default:
+            break;
+    }
+}
+
+
+/* Use joystick to control the head leg to adjust course angle */
+void Robot::planar_straight_joystick_adjust(int adjust_speed){
+
+    int adjust_angle = adjust_speed > 0 ? 90 : -90;
+    adjust_speed = fabs(adjust_speed);
+    switch(head_leg){
+        case 1:
+            motor1_cmd.flipping_speed = adjust_speed;
+            motor1_cmd.flipping_angle = adjust_angle;
+            break;
+        case 2:
+            motor2_cmd.flipping_speed = adjust_speed;
+            motor2_cmd.flipping_angle = adjust_angle;
+            break;
+        case 3:
+            motor3_cmd.flipping_speed = adjust_speed;
+            motor3_cmd.flipping_angle = adjust_angle;
+            break;
+        default:
+            break;
+    }
+}
+
+/* Use Imu feedback to control the head leg to adjust course angle */
+void Robot::planar_straight_imu_adjust(int target_yaw){
+    
+    /* Use the head leg to adjust course angle */
+    int error = yaw - target_yaw;
+    int adjust_angle = error > 0 ? 90 : -90;
+    int adjust_speed = 30;
+    switch(head_leg){
+        case 1:
+            motor1_cmd.flipping_speed = adjust_speed;
+            motor1_cmd.flipping_angle = adjust_angle;
+            break;
+        case 2:
+            motor2_cmd.flipping_speed = adjust_speed;
+            motor2_cmd.flipping_angle = adjust_angle;
+            break;
+        case 3:
+            motor3_cmd.flipping_speed = adjust_speed;
+            motor3_cmd.flipping_angle = adjust_angle;
+            break;
+        default:
+            break;
+    }
 }
 

@@ -24,7 +24,7 @@ using namespace std;
 class Robot{
 
 public:
-	Robot(){start = false;};
+	Robot();
 	
     /* set up publisher and subscriber */
 	void publish_motors();		
@@ -63,7 +63,11 @@ public:
     void test_flipping(); 
     void joystick_spin_pid();
     void joystick_flip_pid();
-
+    void joystick_openloop_straight(int max_straight_speed, int max_adjust_speed);
+    void joystick_closedloop_straight();
+    void planar_straight(int speed);
+    void planar_straight_joystick_adjust(int adjust_speed);
+    void planar_straight_imu_adjust(int target_yaw);
 
 private:
 	ros::NodeHandle n;
@@ -76,8 +80,9 @@ private:
 	ros::Subscriber joy_sub;
 
     void read_joystick(const sensor_msgs::Joy &joy_info);
-    vector<int> buttons;
-	vector<double> axis;
+    vector<bool> buttons;
+	vector<bool> prev_buttons;
+    vector<double> axis;
 
 	/* IMU subscriber */
 	ros::Subscriber imu_sub;
@@ -101,10 +106,15 @@ private:
     void read_pos(const geometry_msgs::Point32 &pos_msg);
     geometry_msgs::Point32 position; 
     
-    int head_leg; // parameter that determines which leg is the heading leg
-    int motor_mode; // flipping mode or spinning mode
-
-	/* switch that controls when to start and end the code */
+    /* Code parameters such as pid errors */
+    int head_leg; // the leg pointing frontwards 
+    
+    /* Planar Motion */
+    bool cruise_mode; // fix the forward speed
+    int cruise_speed;	
+    int current_angle;
+    bool start_straight;
+    /* switch that controls when to start and end the code */
 	bool start;
 };
 

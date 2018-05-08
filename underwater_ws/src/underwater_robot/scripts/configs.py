@@ -40,7 +40,6 @@ if __name__ == '__main__':
     control_config = {'Encoder':False, 'Imu':True, 'Barometer':False, 'Position':False, 'Joy':True, \
             'Motor':True}
     rospy.set_param('control_configs', control_config) 
-    
 
 
     rospy.spin()

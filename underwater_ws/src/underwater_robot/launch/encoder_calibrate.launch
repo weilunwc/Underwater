@@ -13,6 +13,6 @@
     </node>
 
     <!--calibration code-->
-    <node pkg="underwater_robot"  type="encoder_calibrate" name="encoder_calibrate" output="screen">
+    <node pkg="underwater_robot"  type="encoder_calibrate" name="encoder_calibrate" output="screen"/>
     	
 </launch>

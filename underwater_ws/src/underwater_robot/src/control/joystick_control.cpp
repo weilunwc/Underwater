@@ -24,7 +24,8 @@ int main(int argc, char **argv){
     nh.getParam("control_configs", control_config);
     
     /* Set up the topics */
-	if(control_config["Motor"]){
+	/*
+    if(control_config["Motor"]){
         robot.publish_motors();
     }
 	if(control_config["Encoder"]){
@@ -39,8 +40,10 @@ int main(int argc, char **argv){
 	if(control_config["Barometer"]){
         robot.subscribe_baro();   
     }
-
+    */
     
+    robot.publish_motors();
+    robot.subscribe_joystick();
 	/* Set up frequency */
 	ros::Rate loop_rate(100);
     
@@ -48,15 +51,25 @@ int main(int argc, char **argv){
 		/* suspend the robot and wait for start command */
 		robot.check_suspend();
         
+        /* Controllers */
+
         /* openloop with joystick to do openloop control (basic yaw, pitch) */
         //robot.process_joystick();
         
         /* tune the motor spinning pid which reacts to the joystick commands */ 
-        robot.joystick_spin_pid();
+        //robot.joystick_spin_pid();
         
         /* tune the motor flipping pid which reacts to the joystick commands */ 
         //robot.joystick_flip_pid();
         
+        /* robot goes straigt and use joystick to calibrate */
+        int max_straight_speed = 50;
+        int max_adjust_speed = 30;
+        robot.joystick_openloop_straight(max_straight_speed, max_adjust_speed);
+    
+        /* robot goes straight and uses Imu to calibrate */
+        // robot.joysrick_closedloop_straight();
+
 		robot.send_motor_commands();		
         
         ros::spinOnce();

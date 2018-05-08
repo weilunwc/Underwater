@@ -138,7 +138,7 @@ void loop(){
             if(enable_encoder3){
                 int motor_cmd;
                 motor_cmd = 0.3*(flipping_speed + 10);
-                myMotor.flip(flipping_angle, motor_cmd, myEncoder);
+                myMotor.flip(flipping_angle, flipping_speed, myEncoder);
             }
             else myMotor.brake();
             break;

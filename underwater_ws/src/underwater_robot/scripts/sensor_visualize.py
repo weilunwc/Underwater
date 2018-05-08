@@ -218,14 +218,17 @@ class ImuListen():
         self.ax1 = self.fig.add_subplot(311)
         self.ax1.grid()
         plt.title('Roll')
+        plt.ylim((-350,350))
         
         self.ax2 = self.fig.add_subplot(312)
         self.ax2.grid()
         plt.title('Pitch')
+        plt.ylim((-350,350))
         
         self.ax3 = self.fig.add_subplot(313)
         self.ax3.grid()
         plt.title('Yaw')
+        plt.ylim((-350,350))
         
         plt.ion()
         plt.show()

@@ -35,6 +35,12 @@ if __name__ == '__main__':
     # Set up visualization options
     visual_config = {'Encoder':True, 'Imu':False, 'Barometer':False, 'Position':False }
     rospy.set_param('visual_configs', visual_config) 
+    
+    # Set up robot controller subscriber and publisher configuration
+    control_config = {'Encoder':False, 'Imu':True, 'Barometer':False, 'Position':False, 'Joy':True, \
+            'Motor':True}
+    rospy.set_param('control_configs', control_config) 
+    
 
 
     rospy.spin()

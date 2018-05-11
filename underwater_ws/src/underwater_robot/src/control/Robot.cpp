@@ -7,7 +7,8 @@ using namespace std;
 Robot::Robot(){
     start = false;
     start_straight = false;
-
+    cumulate_error = 0;
+    last_error = 0;
 }
 
 /* Motors */
@@ -662,4 +663,31 @@ void Robot::planar_straight_imu_adjust(int target_yaw){
             break;
     }
 }
+
+void Robot::constant_z(int target_z){
+}
+
+void Robot::joystick_z(){
+}
+
+void Robot::balance_roll(){
+}
+
+void Robot::balance_pitch(){
+}
+/* PID reference 
+void Robot::basic_pid(int target){
+
+    double true_value = imu.read();
+    double error = target - true_value;
+    
+    cumulate_error += error;
+    double del_error = error - last_error;
+    double P,I,D;
+    double usage = P*error + I * cumulate_error + D * del_error;
+
+    last_error = error;
+
+}
+*/
 

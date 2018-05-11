@@ -68,7 +68,13 @@ public:
     void planar_straight(int speed);
     void planar_straight_joystick_adjust(int adjust_speed);
     void planar_straight_imu_adjust(int target_yaw);
-
+    
+    /* z motion */
+    void constant_z(int speed);
+    void joystick_z();
+    void imu_planar_stable();
+    void balance_roll();
+    void balance_pitch();
 private:
 	ros::NodeHandle n;
 
@@ -116,6 +122,12 @@ private:
     bool start_straight;
     /* switch that controls when to start and end the code */
 	bool start;
+
+
+    /* PID error */
+    double last_error;
+    double cumulate_error;
+
 };
 
 #endif

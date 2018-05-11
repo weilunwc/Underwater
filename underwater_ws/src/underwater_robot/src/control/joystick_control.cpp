@@ -8,10 +8,13 @@
 #include <map>
 #include <string>
 #include "Robot.h"
+#include "time.h"
 
 using namespace std;
 
 int main(int argc, char **argv){
+
+
 
 	/* Initialize the node */
 	ros::init(argc, argv, "joystick_control");
@@ -44,12 +47,31 @@ int main(int argc, char **argv){
     
     robot.publish_motors();
     robot.subscribe_joystick();
-	/* Set up frequency */
+    
+    /* Take what you need
+    robot.publish_motors();
+    robot.subscribe_joystick();
+	robot.subscribe_imu();
+	robot.subscribe_baro();
+    robot.subscribe_encoder();
+    robot.subscribe_pos();
+	*/
+
+
+    /* Set up frequency */
 	ros::Rate loop_rate(100);
+    
+    /* time */
+    clock_t t0, t;
+    double dt;
+    int cum_time = 0;
+    t0 = clock();
+    
     
     while(ros::ok()){
 		/* suspend the robot and wait for start command */
-		robot.check_suspend();
+		// comment if no joystick
+        robot.check_suspend();
         
         /* Controllers */
 
@@ -62,6 +84,10 @@ int main(int argc, char **argv){
         /* tune the motor flipping pid which reacts to the joystick commands */ 
         //robot.joystick_flip_pid();
         
+
+        /* test imu feedback yaw control*/
+        // robot.imu_yaw_control();
+        
         /* robot goes straigt and use joystick to calibrate */
         int max_straight_speed = 50;
         int max_adjust_speed = 30;
@@ -69,7 +95,28 @@ int main(int argc, char **argv){
     
         /* robot goes straight and uses Imu to calibrate */
         // robot.joysrick_closedloop_straight();
+        
 
+        /* Z motion */
+        robot.constant_z(60);
+        robot.joystick_z();
+        
+        t = clock();
+        dt = (double)(t -t0)/CLOCKS_PER_SEC;
+        if(dt > 1){
+            cum_time += dt;
+            t0 = clock();
+        }
+        
+        if(cum_time % 20 > 10){
+            robot.balance_roll();
+        }
+        else{
+            robot.balance_pitch();
+        }
+
+        
+        /* Don't change anything below */
 		robot.send_motor_commands();		
         
         ros::spinOnce();

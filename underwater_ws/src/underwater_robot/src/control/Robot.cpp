@@ -8,7 +8,7 @@ Robot::Robot(){
     start = false;
     start_straight = false;
     cumulate_error = 0;
-    last_error = 0;
+    last_error = 1;
 }
 
 /* Motors */
@@ -664,10 +664,23 @@ void Robot::planar_straight_imu_adjust(int target_yaw){
     }
 }
 
-void Robot::constant_z(int target_z){
+void Robot::constant_z(int target_speed){
+    center_cmd.mode = 1; 
+    center_cmd.spinning_speed = target_speed; 
 }
 
 void Robot::joystick_z(){
+    center_cmd.mode = 1;
+    if(axis[2] != 1){
+        center_cmd.spinning_speed = 85*(1-axis[2])/2;
+    }
+    else if(axis[5]!=1){
+        center_cmd.spinning_speed = -85*(1-axis[5])/2;
+    }
+    else{
+        center_cmd.spinning_speed = 0;
+    }
+    
 }
 
 void Robot::balance_roll(){

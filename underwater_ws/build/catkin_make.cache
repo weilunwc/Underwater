@@ -1,2 +1,0 @@
-underwater_msg:underwater_robot:underwater_sim
--DCATKIN_DEVEL_PREFIX=/home/william/Underwater/underwater_ws/devel -DCMAKE_INSTALL_PREFIX=/home/william/Underwater/underwater_ws/install -G Unix Makefiles

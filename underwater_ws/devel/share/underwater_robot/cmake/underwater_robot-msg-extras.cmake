@@ -1,2 +1,0 @@
-set(underwater_robot_MESSAGE_FILES "/home/william/Underwater/underwater_ws/src/underwater_robot/msg/Cmd.msg;/home/william/Underwater/underwater_ws/src/underwater_robot/msg/Baro.msg;/home/william/Underwater/underwater_ws/src/underwater_robot/msg/Euler.msg;/home/william/Underwater/underwater_ws/src/underwater_robot/msg/Encoder.msg;/home/william/Underwater/underwater_ws/src/underwater_robot/msg/Imu.msg")
-set(underwater_robot_SERVICE_FILES "")

@@ -579,7 +579,6 @@ void Robot::joystick_closedloop_straight(){
         speed = 0;
     }
 
-    
 }
 
 /* planar motion : go straight */

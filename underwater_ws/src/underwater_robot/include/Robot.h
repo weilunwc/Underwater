@@ -123,7 +123,6 @@ private:
     /* switch that controls when to start and end the code */
 	bool start;
 
-
     /* PID error */
     double last_error;
     double cumulate_error;

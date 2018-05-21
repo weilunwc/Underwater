@@ -24,7 +24,7 @@ sudo apt-get install arduino-mk
 To check if this step is successful, let's try to compile a sample code. 
 
 ```
-cd ~/Arduino/libraries/Underwater_Motor/motor
+cd ~/Underwater/underwater_ws/src/underwater_robot/underwater_arduino/arduino_nodes
 make
 ``` 
 If it compiles without error then its installed successfully

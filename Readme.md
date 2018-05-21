@@ -16,7 +16,10 @@ After running `./install.sh` , you should be able to find an Arduino icon on you
 
 **3. Install Arduino Makefile to operato in terminal**
 
-`sudo apt-get update sudo apt-get install arduino-mk`
+```
+sudo apt-get update 
+sudo apt-get install arduino-mk
+```
 
 To check if this step is successful, let's try to compile a sample code. 
 

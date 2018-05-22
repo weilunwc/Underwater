@@ -6,7 +6,7 @@
 cd ~/
 git clone https://github.com/weilunwc/Underwater.git
 cd ~/Underwater
-cat shell_config.txt >> .bashrc
+cat shell_config.txt >> ~/.bashrc
 ```
 
 **2. Install Arduino for linux system**

@@ -44,7 +44,7 @@ Download nano firmware from [here](https://www.elegoo.com/download/)
 
 **5. Check ROS version**
 
-type `ros version -d` and remember the version of ros you are using
+type `rosversion -d` and remember the version of ros you are using
 
 If ros is not installed, check out [installation](http://wiki.ros.org/ROS/Installation) and [tutorials](http://wiki.ros.org/ROS/Tutorials)
 
@@ -52,13 +52,15 @@ If ros is not installed, check out [installation](http://wiki.ros.org/ROS/Instal
 
 Follow tutorials from [here](http://wiki.ros.org/joy/Tutorials/ConfiguringALinuxJoystick)
 
-`sudo apt-get install ros-kinetic-joy`
+`sudo apt-get install ros-<version>-joy`
+
+for <version> type in the results from previous step
 
 **7. Install Arduino serrial package to interface ROS with Ardunio**
 
 Follow the instructions on [here](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup) 
 
-`sudo apt-get install ros-kinetic-rosserial sudo apt-get install ros-kinetic-rosserial-arduino`
+`sudo apt-get install ros-<version>-rosserial sudo apt-get install ros-<version>-rosserial-arduino`
 
 **8.Generate the ros arduino library**
 

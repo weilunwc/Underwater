@@ -58,9 +58,10 @@ Follow tutorials from [here](http://wiki.ros.org/joy/Tutorials/ConfiguringALinux
 **7. Install Arduino serrial package to interface ROS with Ardunio**
 
 Follow the instructions on [here](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup) 
-
-`sudo apt-get install ros-kinetic-rosserial sudo apt-get install ros-kinetic-rosserial-arduino`
-
+```
+sudo apt-get install ros-kinetic-rosserial 
+sudo apt-get install ros-kinetic-rosserial-arduino`
+```
 **8.Generate the ros arduino library**
 
 ```

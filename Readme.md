@@ -5,6 +5,7 @@
 ```
 cd ~/
 git clone https://github.com/weilunwc/Underwater.git
+cd ~/Underwater
 cat shell_config.txt >> .bashrc
 ```
 

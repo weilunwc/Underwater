@@ -5,7 +5,8 @@
 ```
 cd ~/
 git clone https://github.com/weilunwc/Underwater.git
-cat shell_config.txt >> .bashrc
+cd ~/Underwater
+cat shell_config.txt >> ~/.bashrc
 ```
 
 **2. Install Arduino for linux system**
@@ -60,8 +61,11 @@ for <version> type in the results from previous step
 
 Follow the instructions on [here](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup) 
 
-`sudo apt-get install ros-<version>-rosserial sudo apt-get install ros-<version>-rosserial-arduino`
 
+```
+sudo apt-get install ros-kinetic-rosserial 
+sudo apt-get install ros-kinetic-rosserial-arduino`
+```
 **8.Generate the ros arduino library**
 
 ```

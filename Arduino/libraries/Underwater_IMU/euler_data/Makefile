@@ -1,9 +1,11 @@
 ARDUINO_DIR = /usr/share/arduino
 #ARDUINO_PORT = /dev/ttyUSB*
 #BOARD_TAG = nano328
-ARDUINO_PORT = /dev/ttyUSB2
+#ARDUINO_PORT = /dev/ttyUSB2
 #ARDUINO_PORT = $(center_motor)
-BOARD_TAG = nano328
+#BOARD_TAG = nano328
+BOARD_TAG = uno
+ARDUINO_PORT = /dev/ttyACM0
 
 
 

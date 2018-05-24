@@ -290,7 +290,7 @@
         </visual>
     </link> 
     
-     <joint name="motor" type="continuous">
+     <joint name="center_motor" type="continuous">
         <parent link="base_link"/>
         <child link="yaw_M1_link"/>
         <origin xyz="0.000 0 0.0005" rpy="0 0 0"/>

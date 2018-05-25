@@ -122,7 +122,7 @@ void loop(){
                 motor_cmd = 0.3*(spinning_speed + 10);
             }
             //motor_cmd = 0.3*(spinning_speed + 10);
-            myMotor.set_speed(motor_cmd);
+            myMotor.set_speed(spinning_speed);
             
             break;
         case 2:

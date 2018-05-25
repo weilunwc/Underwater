@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <Eigen/Dense>
 using namespace std;
 
 Robot::Robot(){
@@ -368,6 +369,42 @@ void Robot::process_imu_yaw(double set_yaw){
 /* Process sensor signal to control command 
  * Basic Openloop Control 
  */
+
+void Robot::process_Ground(){
+
+
+    double l = 1.0;
+    
+    Eigen::MatrixXd m(3,3);
+    m(0,0) = -2.0/3.0;
+    m(0,1) = 0;
+    m(0,2) = 1.0/(3.0*l);
+    
+    m(1,0) = 1.0/3.0;
+    m(1,1) = -sqrt(3)/3.0;
+    m(1,2) = 1.0/(3.0*l);
+
+    m(2,0) = 1.0/3.0;
+    m(2,1) = sqrt(3)/3.0;
+    m(2,2) = 1.0/(3.0*l);
+    Eigen::VectorXd v(3);
+
+    center_cmd.mode = 1;
+    double fx = -1*axis[0];
+    double fy = axis[1];
+    double dtheta = -1*axis[3];
+
+    v << fx, fy, dtheta;
+    v = m*v;
+    motor1_cmd.mode = 1;
+    motor1_cmd.spinning_speed = 80*v(0);
+    motor2_cmd.mode = 1;
+    motor2_cmd.spinning_speed = 80*v(1);
+    motor3_cmd.mode = 1;
+    motor3_cmd.spinning_speed = 80*v(2)/1.8;
+    cout << v << endl;
+
+}  
 void Robot::process_joystick(){
     /* center motor */    
     center_cmd.mode = 1;

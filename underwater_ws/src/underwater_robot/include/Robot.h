@@ -58,7 +58,8 @@ public:
     vector<int> load_encoder_calibrate();
     
     /* process data methods */
-	void process_joystick();	 
+	void process_joystick();
+	void process_Ground();		 
     void process_imu_yaw(double set_yaw);	
     void test_flipping(); 
     void joystick_spin_pid();

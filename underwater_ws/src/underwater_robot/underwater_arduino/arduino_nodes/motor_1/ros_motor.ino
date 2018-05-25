@@ -117,7 +117,8 @@ void loop(){
             else{
                 motor_cmd = 0.2*(spinning_speed + 10);
             }
-            myMotor.set_speed(motor_cmd);
+            myMotor.set_speed(spinning_speed);
+            //myMotor.set_speed(motor_cmd);
             break;
         case 2:
             // Flipping Mode

@@ -71,8 +71,10 @@ int main(int argc, char **argv){
     while(ros::ok()){
 		/* suspend the robot and wait for start command */
 		// comment if no joystick
-        robot.check_suspend();
+      //  robot.check_suspend();
         
+
+
         /* Controllers */
 
         /* openloop with joystick to do openloop control (basic yaw, pitch) */
@@ -83,21 +85,22 @@ int main(int argc, char **argv){
         
         /* tune the motor flipping pid which reacts to the joystick commands */ 
         //robot.joystick_flip_pid();
-        
-
+        robot.process_Ground();
+        cout << "hey " <<endl;
         /* test imu feedback yaw control*/
         // robot.imu_yaw_control();
         
         /* robot goes straigt and use joystick to calibrate */
-        int max_straight_speed = 50;
-        int max_adjust_speed = 30;
-        robot.joystick_openloop_straight(max_straight_speed, max_adjust_speed);
+        //int max_straight_speed = 50;
+        //int max_adjust_speed = 30;
+        //robot.joystick_openloop_straight(max_straight_speed, max_adjust_speed);
     
         /* robot goes straight and uses Imu to calibrate */
         // robot.joysrick_closedloop_straight();
         
 
         /* Z motion */
+        /*
         robot.constant_z(60);
         robot.joystick_z();
         
@@ -114,8 +117,14 @@ int main(int argc, char **argv){
         else{
             robot.balance_pitch();
         }
-
+        */
         
+
+
+
+
+
+
         /* Don't change anything below */
 		robot.send_motor_commands();		
         

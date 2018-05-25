@@ -16,9 +16,10 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
    
   <!-- connect to arduino -->
-  <node name="arduino" pkg="rosserial_python" type="serial_node.py">
+  
+  <!--<node name="arduino" pkg="rosserial_python" type="serial_node.py">
     <param name="port" value="/dev/ttyACM0"/>
-  </node>
+  </node>-->
    
   <!--broadcast parameters-->
   <node name="imu_broadcast" pkg="underwater_sim" type="broadcast_euler.py"/>

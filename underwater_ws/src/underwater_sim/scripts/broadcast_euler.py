@@ -19,6 +19,8 @@ class ImuBroadcast:
         self.roll = imu_msg.roll
         self.pitch = imu_msg.pitch
         self.yaw = imu_msg.yaw
+    
+    def broadcast(self):
         roll = np.deg2rad(self.roll)
         pitch = np.deg2rad(self.pitch)
         yaw = np.deg2rad(self.yaw)
@@ -45,5 +47,12 @@ if __name__ == '__main__':
     imu_broadcast = ImuBroadcast()
     rospy.init_node('imu_broadcast')
     rospy.Subscriber('imu', Imu, imu_broadcast.listener)
-    #rospy.Subscriber('imu', Quaternion, imu_broadcast.listener)
-    rospy.spin() 
+    rate = rospy.Rate(10)
+
+    while not rospy.is_shutdown():
+        imu_broadcast.broadcast()
+        rate.sleep()
+
+
+
+

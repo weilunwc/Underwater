@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="visualize" default="False"/>
+    <arg name="visualize" default="True"/>
 
     <!--Set up the confiuration for experiment--> 
     <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  

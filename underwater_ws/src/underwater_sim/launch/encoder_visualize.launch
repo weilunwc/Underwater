@@ -4,26 +4,24 @@
   <arg name="model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
 
 
-  <param name="robot_description" command="cat $(arg model)" />
+  <param name="robot_description" command="cat $(arg model)"/>
 
-  <!-- send fake joint values -->
+  <!--send joint states-->
+  <node name="encoder_joint_state" pkg="underwater_sim" type="encoder.py"/>
+
+  <!-- joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="true"/>
+    <param name="use_gui" value="false"/>
+    <rosparam param="source_list">["my_encoder/joint_states"]</rosparam>
   </node>
 
-  
+   
+
   <!-- Combine joint values -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
-   
-  <!-- connect to arduino -->
-  <!--<node name="arduino" pkg="rosserial_python" type="serial_node.py">
-    <param name="port" value="/dev/ttyACM0"/>
-  </node>-->
-   
-  <!--broadcast parameters-->
-  <node name="imu_broadcast" pkg="underwater_sim" type="broadcast.py"/>
+
   <!-- Show in Rviz   -->
   <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_mira_pkg)/rviz_config/urdf.rviz"/>-->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/underwater.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/basic.rviz"/>
 
 </launch>

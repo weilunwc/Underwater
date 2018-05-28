@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 78
+    Help Height: 255
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -8,8 +8,11 @@ Panels:
         - /Status1
         - /Grid1
         - /RobotModel1
+        - /RobotModel1/Status1
+        - /TF1
+        - /RobotModel2
       Splitter Ratio: 0.5
-    Tree Height: 682
+    Tree Height: 505
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -131,7 +134,7 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: robot_description
+      Robot Description: robot/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -149,6 +152,8 @@ Visualization Manager:
           Value: true
         cylinder3_link:
           Value: true
+        dummy_link:
+          Value: true
         motorcylinder1_link:
           Value: true
         motorcylinder2_link:
@@ -163,11 +168,15 @@ Visualization Manager:
           Value: true
         shaft3_link:
           Value: true
+        ship_base_link:
+          Value: true
         wheel1_link:
           Value: true
         wheel2_link:
           Value: true
         wheel3_link:
+          Value: true
+        world:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -175,37 +184,42 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        robot_base_link:
-          center_link:
-            {}
-          cylinder1_link:
-            {}
-          cylinder2_link:
-            {}
-          cylinder3_link:
-            {}
-          motorcylinder1_link:
-            {}
-          motorcylinder2_link:
-            {}
-          motorcylinder3_link:
-            {}
-          shaft1_link:
-            wheel1_link:
-              {}
-          shaft2_link:
-            wheel2_link:
-              {}
-          shaft3_link:
-            wheel3_link:
+        world:
+          ship_base_link:
+            dummy_link:
               {}
       Update Interval: 0
       Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        dummy_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        ship_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: ship/robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: robot_base_link
+    Fixed Frame: world
     Frame Rate: 30
   Name: root
   Tools:
@@ -226,7 +240,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.87968922
+      Distance: 1.52807844
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -241,10 +255,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.264796942
+      Pitch: 1.13979673
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.96039915
+      Yaw: 5.01040173
     Saved: ~
 Window Geometry:
   Displays:

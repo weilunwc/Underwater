@@ -1,0 +1,11 @@
+<launch>
+    <!-- visualize rviz robot and remapping robot sensor data to visualization-->
+    <arg name="model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
+    
+    
+
+
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/underwater.rviz"/>
+
+</launch>

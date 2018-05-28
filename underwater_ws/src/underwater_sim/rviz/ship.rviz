@@ -52,7 +52,7 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
-      Collision Enabled: false
+      Collision Enabled: true
       Enabled: true
       Links:
         All Links Enabled: true
@@ -60,72 +60,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        center_link:
+        dummy_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        cylinder1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        cylinder2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        cylinder3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel3_link:
+        ship_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -137,75 +76,24 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        center_link:
-          Value: true
-        cylinder1_link:
-          Value: true
-        cylinder2_link:
-          Value: true
-        cylinder3_link:
-          Value: true
-        motorcylinder1_link:
-          Value: true
-        motorcylinder2_link:
-          Value: true
-        motorcylinder3_link:
-          Value: true
-        robot_base_link:
-          Value: true
-        shaft1_link:
-          Value: true
-        shaft2_link:
-          Value: true
-        shaft3_link:
-          Value: true
-        wheel1_link:
-          Value: true
-        wheel2_link:
-          Value: true
-        wheel3_link:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        robot_base_link:
-          center_link:
-            {}
-          cylinder1_link:
-            {}
-          cylinder2_link:
-            {}
-          cylinder3_link:
-            {}
-          motorcylinder1_link:
-            {}
-          motorcylinder2_link:
-            {}
-          motorcylinder3_link:
-            {}
-          shaft1_link:
-            wheel1_link:
-              {}
-          shaft2_link:
-            wheel2_link:
-              {}
-          shaft3_link:
-            wheel3_link:
-              {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: robot_base_link
+    Fixed Frame: ship_base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -226,7 +114,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.87968922
+      Distance: 2.84930468
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -241,10 +129,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.264796942
+      Pitch: 0.6747967
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.96039915
+      Yaw: 4.84039593
     Saved: ~
 Window Geometry:
   Displays:

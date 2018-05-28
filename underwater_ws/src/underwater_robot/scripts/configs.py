@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # Set up Arduino configuration
     # IMU Baro Enc1 Enc2 Enc3 Enc1_off Enc2_off Enc3_off
     imu = 1
-    baro = 0
+    baro = 1
     enc1 = 1
     enc2 = 1
     enc3 = 1
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     rospy.set_param('arduino_configs', arduino_config)
     
     # Set up visualization options
-    visual_config = {'Encoder':True, 'Imu':False, 'Barometer':False, 'Position':False }
+    visual_config = {'Encoder':True, 'Imu':True, 'Barometer':True, 'Position':False }
     rospy.set_param('visual_configs', visual_config) 
     
     # Set up robot controller subscriber and publisher configuration

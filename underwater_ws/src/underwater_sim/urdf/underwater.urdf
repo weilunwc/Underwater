@@ -30,7 +30,7 @@
     <!-- * * * Link Definitions * * * -->
 
     <!-- mesh files -->
-    <link name="base_link">
+    <link name="robot_base_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <mass value="0.607" />
@@ -452,7 +452,7 @@
     <!-- * * * Joint Definitions * * * -->
 
     <joint name="center_motor" type="continuous">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="center_link"/>
         <origin xyz="0.000 0 0.0005" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -460,7 +460,7 @@
     </joint>
 
     <joint name="motor1" type="continuous">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="shaft1_link"/>
         <origin xyz="0 0.36 0.045" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -468,7 +468,7 @@
     </joint>  
 
     <joint name="motor2" type="continuous">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="shaft2_link"/>
         <origin xyz="-0.31184 -0.17988 0.045" rpy="0 0 2.094"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -476,7 +476,7 @@
     </joint> 
   
     <joint name="motor3" type="continuous">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="shaft3_link"/>
         <origin xyz="0.31184 -0.17988 0.045" rpy="0 0 -2.094"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -509,7 +509,7 @@
     </joint>
 
     <joint name="cylinder1_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="cylinder1_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -517,7 +517,7 @@
     </joint>
 
     <joint name="cylinder2_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="cylinder2_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -525,7 +525,7 @@
     </joint>
 
     <joint name="cylinder3_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="cylinder3_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -533,7 +533,7 @@
     </joint>
 
     <joint name="motorcylinder1_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="motorcylinder1_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -541,7 +541,7 @@
     </joint>
 
     <joint name="motorcylinder2_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="motorcylinder2_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
@@ -549,7 +549,7 @@
     </joint>
 
     <joint name="motorcylinder3_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="robot_base_link"/>
         <child link="motorcylinder3_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>

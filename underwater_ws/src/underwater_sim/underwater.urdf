@@ -4,7 +4,7 @@
     <!-- * * * Color Definitions * * * -->
 
      <material name="white">
-        <color rgba="1 1 1 0.5"/>
+        <color rgba="1 1 1 1"/>
     </material>
 
      <material name="green2">
@@ -18,7 +18,13 @@
     <material name="gray">
     	<color rgba="0.5 0.5 0.5 0.9"/>
     </material>
+
     
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/underwater_robot</robotNamespace>
+        </plugin>
+    </gazebo>
 
     <!-- * * * Link Definitions * * * -->
 
@@ -38,111 +44,14 @@
         
         <visual>
             <!-- shifted the visual origin because mesh shfit-->
-            <origin rpy="1.57075 0 0" xyz="-0.49 0.51 -0.32"/>
+            <origin rpy="0 0 0" xyz="0 0 -0.2"/>
             <geometry>
                 <!-- <cylinder radius="0.44056" length="0.006"/> -->
-                <mesh filename="package://underwater_sim/models/meshes/topPlate.dae" scale="0.002 0.002 0.002"/> 
+                <mesh filename="package://underwater_sim/models/meshes/FullRobotAssemblyS18_v5.dae" scale="0.0025 0.0025 0.0025"/> 
             </geometry>
             <material name="white"/>
         </visual>
     </link> 
-
-
-     <link name="motor1_link">
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.791" />
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
-        </inertial>
-        
-        <collision>
-            <origin rpy="1.5708 0 1.048" xyz=".3 -.1732 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/>
-            </geometry>
-        </collision>
-        
-        <visual>
-            <origin rpy="1.5708 0 1.048" xyz=".3 -.1732 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/> 
-                <!--<mesh filename="package://underwater_robot/models/meshes/MotorBoxAssembly.dae" scale="0.005 0.005 0.005"/>--> 
-            </geometry>
-            <material name="green2"/>
-        </visual>
-    </link> 
-
-    <joint name="motor1_joint1" type="fixed">
-        <parent link="base_link"/>
-        <child link="motor1_link"/>
-        <origin xyz="0.000 0 0.0000" rpy="0 0 0"/>
-            <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
-        <axis xyz="0 0 0"/>
-    </joint>  
-
-    <link name="motor2_link">
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.791" />
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
-        </inertial>
-        
-        <collision>
-            <origin rpy="1.5708 0 -1.048" xyz="-.3 -.1732 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/>
-            </geometry>
-        </collision>
-        
-        <visual>
-            <origin rpy="1.5708 0 -1.048" xyz="-.3 -.1732 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/>
-            </geometry>
-            <material name="green2"/>
-        </visual>
-    </link> 
-
-    <joint name="motor2_joint2" type="fixed">
-        <parent link="base_link"/>
-        <child link="motor2_link"/>
-        <origin xyz="0.000 0 0.0000" rpy="0 0 0"/>
-            <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
-        <axis xyz="0 0 0"/>
-    </joint> 
-
-    <link name="motor3_link">
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.791" />
-            <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
-        </inertial>
-        
-        <collision>
-            <origin rpy="1.5708 0 0" xyz="0 -.3464 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/>
-            </geometry>
-        </collision>
-        
-        <visual>
-            <origin rpy="1.5708 0 0" xyz="0 .3464 0"/>
-            <geometry>
-                <cylinder radius="0.1" length="0.4"/>
-            </geometry>
-         <material name="green2"/>
-        </visual>
-    </link> 
-
-    <joint name="motor3_joint3" type="fixed">
-        <parent link="base_link"/>
-        <child link="motor3_link"/>
-        <origin xyz="0.000 0 0.0000" rpy="0 0 0"/>
-            <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
-        <axis xyz="0 0 0"/>
-    </joint>   
-
-<!--  WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP-->
 
 
     <link name="shaft1_link">
@@ -152,15 +61,16 @@
             <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
         </inertial>
          <collision>
-            <origin rpy="1.5708 0 0" xyz="0 .3464 .0"/>
+            <origin rpy="0 0 1.5078" xyz="0 .3464 .0"/>
             <geometry>
-            <cylinder radius="0.02" length="0.3"/>
+                <cylinder radius="0.02" length="0.4"/>
             </geometry>
         </collision>
         <visual>
-        <origin rpy="1.5708 0 0" xyz="0 .3464 0"/>
+        <origin rpy="0 0 3.1415" xyz="0 0.15 -0.04"/>
         <geometry>
-            <cylinder radius="0.02" length="0.3"/>
+            <!--<cylinder radius="0.02" length="0.4"/>-->
+                <mesh filename="package://underwater_sim/models/meshes/motorAssembly.dae" scale="0.0025 0.0025 0.0025"/>
         </geometry>
          <material name="white"/>
         </visual>
@@ -168,23 +78,13 @@
 
 
     <joint name="motor1" type="continuous">
-        <parent link="motor1_link"/>
+        <parent link="base_link"/>
         <child link="shaft1_link"/>
         <origin xyz=".3 -.1732 0" rpy="0 0 -2.094"/>
             <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1 0"/>
     </joint> 
 
-    <transmission name="tran1">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="motor1">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="motor1">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
 
     <link name="shaft2_link">
         <inertial>
@@ -192,7 +92,7 @@
             <mass value="0.18" />
             <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
         </inertial>
-        
+     0
         <collision>
             <origin rpy="1.5708 0 0" xyz="0 .3464 0"/>
             <geometry>
@@ -201,99 +101,81 @@
         </collision>
         
         <visual>
-            <origin rpy="1.5708 0 0" xyz="0 .3464 0 "/>
+            <origin rpy="3.1415 0 0" xyz="0 0.15 0.13"/>
             <geometry>
-                <cylinder radius="0.02" length="0.4"/>
+                <!--<cylinder radius="0.02" length="0.4"/>-->
+                <mesh filename="package://underwater_sim/models/meshes/motorAssembly.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
             <material name="white"/>
         </visual>
     </link>  
 
      <joint name="motor2" type="continuous">
-        <parent link="motor2_link"/>
+        <parent link="base_link"/>
         <child link="shaft2_link"/>
         <origin xyz="-.3 -.1732 0" rpy="0 0 2.094"/>
             <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1 0 "/>
     </joint> 
 
-    <transmission name="tran2">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="motor2">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="motor2">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
 
     <link name="shaft3_link">
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="3.1415 0 0" rpy="0 0 0"/>
             <mass value="0.18" />
             <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
         </inertial>
         
         <collision>
-            <origin rpy="1.5708 0 0" xyz="0 .3464 .0"/>
+            <origin rpy="0 0 0" xyz="0 .3464 .0"/>
             <geometry>
                 <cylinder radius="0.02" length="0.4"/>
             </geometry>
         </collision>
         
         <visual>
-            <origin rpy="1.5708 0 0" xyz="0 .3464 0"/>
+            <origin rpy="0 0 3.1415" xyz="0 .15 -0.04"/>
             <geometry>
-                <cylinder radius="0.02" length="0.4"/>
+                <!--<cylinder radius="0.02" length="0.4"/>-->
+                <mesh filename="package://underwater_sim/models/meshes/motorAssembly.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
             <material name="white"/>
         </visual>
     </link> 
 
     <joint name="motor3" type="continuous">
-        <parent link="motor3_link"/>
+        <parent link="base_link"/>
         <child link="shaft3_link"/>
         <origin xyz="0 .3464 0" rpy="0 0 0"/>
             <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1.5708 0"/>
     </joint>  
 
-    <transmission name="tran3">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="motor3">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="motor3">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-  
-    <link name="yaw_M1_link">
+    <link name="center_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <mass value="0.210" />
             <inertia ixx="0.0002835" ixy="0.0" ixz="0.0" iyy="0.0002835" iyz="0.0" izz="0.000324"/>
         </inertial>
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <origin rpy="0 0 0" xyz="-0.077 -0.081 -0.035"/>
             <geometry>
-                <cylinder radius="0.03" length="0.06"/>
+                <!-- <cylinder radius="0.03" length="0.06"/> -->
+                <mesh filename="package://underwater_sim/models/meshes/centralPropeller.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
-             <material name="green2"/>
+             <material name="black"/>
         </visual>
     </link> 
     
      <joint name="center_motor" type="continuous">
         <parent link="base_link"/>
-        <child link="yaw_M1_link"/>
+        <child link="center_link"/>
         <origin xyz="0.000 0 0.0005" rpy="0 0 0"/>
             <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 0 1"/>
     </joint>
 
-
+    <!-- 
     <link name="wheel1_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -335,6 +217,17 @@
             <geometry>
                 <cylinder radius="0.3" length="0.06"/>
             </geometry>
+    <transmission name="tran3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="motor3">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+  
         </collision>
         
         <visual>
@@ -384,11 +277,11 @@
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1 0"/>
     </joint> 
-    <!--
+    -->
     <gazebo>
         <plugin name="buoyancy_underwater_robot" filename="libBuoyancyPlugin.so">
             <fluid_density>1000</fluid_density>
         </plugin>
     </gazebo>
-    -->
+
 </robot> 

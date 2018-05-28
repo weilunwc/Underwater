@@ -66,13 +66,20 @@ Follow the instructions on [here](http://wiki.ros.org/rosserial_arduino/Tutorial
 sudo apt-get install ros-kinetic-rosserial 
 sudo apt-get install ros-kinetic-rosserial-arduino`
 ```
-**8.Generate the ros arduino library**
+**8. Generate the ros arduino library**
 
 ```
 roscd underwater_robot/utilities
 ./build_arduino_msg
 ```
 Whenever we build any custom message types in ros, make sure you do this again by `build_ros_msg`
+
+
+**9. Set up ros-usb-cam**
+
+Connect the computer to the usb-camera, and download the ros package `sudo apt-get install ros-<version>-usb-cam`
+
+Test if its working with `roslaunch usb_cam usb_cam-test.launch`
 
 
 Now We're all set!

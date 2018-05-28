@@ -2,4 +2,4 @@ devel/
 build/
 *.swp
 configs.py
-underwater_ws/src/underwater_sim/model/meshes
+underwater_ws/src/underwater_sim/models

@@ -10,16 +10,18 @@ import tf2_ros
 import numpy as np
 
 if __name__ == '__main__':
-    rospy.init_node('robot_broadcast')
+    rospy.init_node("robot_broadcast")
     
+    position = rospy.get_param("position")
+    orientation = rospy.get_param("orientation")
     # Load pose from parameter server
-    x = 0
-    y = 0
-    z = 0
+    x = position['x']
+    y = position['y']
+    z = position['z']
 
-    roll = 0
-    pitch = 0
-    yaw = 0
+    roll = orientation['roll']
+    pitch = orientation['pitch']
+    yaw = orientation['yaw']
      # set up transformation
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()

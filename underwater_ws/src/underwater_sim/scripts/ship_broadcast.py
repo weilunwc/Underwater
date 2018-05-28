@@ -13,13 +13,17 @@ if __name__ == '__main__':
     rospy.init_node('ship_broadcast')
     
     # Load pose from parameter server
-    x = 1
-    y = 2
-    z = 0
+    position = rospy.get_param("position")
+    orientation = rospy.get_param("orientation")
+    
+    # Load pose from parameter server
+    x = position['x']
+    y = position['y']
+    z = position['z']
 
-    roll = 0
-    pitch = 0
-    yaw = 0
+    roll = orientation['roll']
+    pitch = orientation['pitch']
+    yaw = orientation['yaw']
      # set up transformation
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()

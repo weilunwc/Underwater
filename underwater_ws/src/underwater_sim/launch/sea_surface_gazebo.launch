@@ -1,0 +1,32 @@
+<launch>
+    
+    <arg name="setting_file" default="example.yaml"/>
+    <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
+    <arg name="ship_model" default="$(find underwater_sim)/urdf/ship.urdf"/>
+
+    <!-- load initial pose of robot and shift to params -->
+    <rosparam command="load" file="$(find underwater_sim)/setting/$(arg setting_file)"/>
+    
+    <!--gazebo arguments-->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!--launch an empty gazebo world-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="$(arg headless)"/>
+        <arg name="debug" value="$(arg debug)"/>
+    </include>
+    
+    <node name="world_spawner" pkg="underwater_sim" type="spawner.py"/>
+    <!--
+    <include file="$(find underwater_sim)/launch/robot_gazebo.launch"/>
+    
+    <include file="$(find underwater_sim)/launch/ship_gazebo.launch"/>
+    -->
+</launch>

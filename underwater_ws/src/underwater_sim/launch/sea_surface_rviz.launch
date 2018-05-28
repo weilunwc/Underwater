@@ -1,0 +1,25 @@
+<launch>
+    
+    <arg name="setting_file" default="example.yaml"/>
+    <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
+    <arg name="ship_model" default="$(find underwater_sim)/urdf/ship.urdf"/>
+
+    <!-- load initial pose of robot and shift to params -->
+    <rosparam command="load" file="$(find underwater_sim)/setting/$(arg setting_file)"/>
+    
+    <group ns="robot">
+        <include file="$(find underwater_sim)/launch/robot_rviz.launch">
+            <arg name="model" value="$(arg robot_model)"/>
+        </include>
+    </group> 
+    
+    <group ns="ship">
+        <include file="$(find underwater_sim)/launch/ship_rviz.launch">
+            <arg name="model" value="$(arg ship_model)"/>
+        </include>
+    </group> 
+    
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/sea_surface.rviz"/>
+
+</launch>

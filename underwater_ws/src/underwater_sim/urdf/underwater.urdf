@@ -470,7 +470,7 @@
     <joint name="motor2" type="continuous">
         <parent link="base_link"/>
         <child link="shaft2_link"/>
-        <origin xyz="-0.52 -0.3 0.045" rpy="0 0 2.094"/>
+        <origin xyz="-0.31184 -0.17988 0.045" rpy="0 0 2.094"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1 0 "/>
     </joint> 
@@ -478,7 +478,7 @@
     <joint name="motor3" type="continuous">
         <parent link="base_link"/>
         <child link="shaft3_link"/>
-        <origin xyz="0.52 -0.3 0.045" rpy="0 0 -2.094"/>
+        <origin xyz="0.31184 -0.17988 0.045" rpy="0 0 -2.094"/>
         <limit lower="-1" upper="1" effort="0.1" velocity="0.05"/>
         <axis xyz="0 1 0"/>
     </joint>  

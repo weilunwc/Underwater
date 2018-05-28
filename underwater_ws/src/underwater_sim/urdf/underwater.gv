@@ -1,0 +1,20 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"center_link" [label="center_link"];
+"shaft1_link" [label="shaft1_link"];
+"wheel1_link" [label="wheel1_link"];
+"shaft2_link" [label="shaft2_link"];
+"shaft3_link" [label="shaft3_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "center_motor" [label="xyz: 0 0 0.0005 \nrpy: 0 -0 0"]
+"center_motor" -> "center_link"
+"base_link" -> "motor1" [label="xyz: 0 0.3464 0 \nrpy: 0 -0 0"]
+"motor1" -> "shaft1_link"
+"shaft1_link" -> "wheel1_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"wheel1_joint" -> "wheel1_link"
+"base_link" -> "motor2" [label="xyz: -0.3 -0.1732 0 \nrpy: 0 -0 2.094"]
+"motor2" -> "shaft2_link"
+"base_link" -> "motor3" [label="xyz: 0.3 -0.1732 0 \nrpy: 0 0 -2.094"]
+"motor3" -> "shaft3_link"
+}

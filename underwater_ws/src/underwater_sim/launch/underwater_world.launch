@@ -1,4 +1,7 @@
 <launch>
+    <!-- launch rviz-->
+    <arg name="rviz" default="true"/>
+
     <!--gazebo arguments-->
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
@@ -17,5 +20,10 @@
     
     <!--spawn underwater urdf into gazebo-->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -z 1 -model underwater"/>
-    
+   
+   <!--visualize in rviz-->
+   <include file="$(find underwater_sim)/launch/urdf_visualize.launch"/>
+   <node name="gazebo_broadcast" pkg="underwater_sim" type="gazebo_broadcast.py"/>
+
+
 </launch>

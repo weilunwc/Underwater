@@ -4,13 +4,13 @@
     <link name="ship_base_link">
         <visual>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ship.dae"/>
+                <mesh filename="package://underwater_sim/models/meshes/ship/ship.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
         </visual>
 
         <collision name="base_link_collision">
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ship.dae"/>
+                <mesh filename="package://underwater_sim/models/meshes/ship/ship.dae"/>
             </geometry>
         </collision>
     

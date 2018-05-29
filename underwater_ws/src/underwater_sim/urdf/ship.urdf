@@ -3,14 +3,15 @@
 
     <link name="ship_base_link">
         <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ship/ship.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/ship/testShip.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
         </visual>
-
         <collision name="base_link_collision">
+            <origin rpy="0 0 0" xyz="0 0 20"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ship/ship.dae"/>
+                <mesh filename="package://underwater_sim/models/meshes/ship/hull.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>
         </collision>
     

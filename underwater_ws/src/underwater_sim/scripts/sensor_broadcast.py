@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-sensor_broadcast.py -- this python script collects the sensor topics and broadcasts them
+sensor_broadcast.py -- this python script collects the sensor topics and broadcasts
                        to rviz in real time. 
 """
 

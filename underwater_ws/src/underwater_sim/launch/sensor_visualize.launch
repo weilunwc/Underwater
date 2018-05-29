@@ -1,19 +1,23 @@
 <launch>
-  <!-- visualize rviz robot and remapping robot sensor data to visualization-->
-  <arg name="model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
+    <!-- visualize rviz robot and remapping robot sensor data to visualization-->
+    <arg name="model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
 
-  <param name="robot_description" command="cat $(arg model)"/>
+    <param name="robot_description" command="cat $(arg model)"/>
 
-  <!--send joint states-->
-  <node name="encoder_joint_state" pkg="underwater_sim" type="sensor_broadcast.py"/>
+    <!--send joint states-->
+    <node name="encoder_joint_state" pkg="underwater_sim" type="sensor_broadcast.py"/>
 
-  <!-- joint values subscribers to myencoder joint_states-->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="false"/>
-    <rosparam param="source_list">["my_encoder/joint_states"]</rosparam>
-  </node>
+    <!-- joint values subscribers to myencoder joint_states-->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false"/>
+        <rosparam param="source_list">["my_encoder/joint_states"]</rosparam>
+    </node>
 
-  <!-- Combine joint values -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+    <!-- Combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+    
+    <!-- Show in Rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/underwater.rviz"/>
+
 
 </launch>

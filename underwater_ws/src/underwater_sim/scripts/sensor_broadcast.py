@@ -42,7 +42,7 @@ class SensorBroadcast:
     
         t.header.stamp = rospy.Time.now()
         t.header.frame_id = "world"
-        t.child_frame_id = "base_link"
+        t.child_frame_id = "robot_base_link"
         t.transform.translation.x = p.x
         t.transform.translation.y = p.y
         t.transform.translation.z = p.z

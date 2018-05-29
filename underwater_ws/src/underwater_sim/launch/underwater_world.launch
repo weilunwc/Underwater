@@ -24,8 +24,7 @@
    
     <!--visualize in rviz-->
     <group if="$(arg rviz)">
-        <include file="$(find underwater_sim)/launch/urdf_visualize.launch"/>
-        <node name="gazebo_broadcast" pkg="underwater_sim" type="gazebo_broadcast.py"/>
+        <include file="$(find underwater_sim)/launch/gazebo_broadcast.launch"/>
     </group>
 
 </launch>

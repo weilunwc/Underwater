@@ -48,7 +48,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 -.0976"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/MainBody.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/MainBody.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
@@ -63,7 +63,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="-0.0302 -0.03215 -0.018"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/CentralPropeller.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/CentralPropeller.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="black"/>
         </visual>
@@ -74,7 +74,7 @@
         <visual>
             <origin rpy="0 0 3.1415" xyz="0 -.09 -.034"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
@@ -84,7 +84,7 @@
         <visual>
             <origin rpy="0 0 3.1415" xyz="0 -.09 -.034"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
@@ -94,7 +94,7 @@
         <visual>
             <origin rpy="0 0 3.1415" xyz="0 -.09 -.034"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Shaft.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
@@ -110,7 +110,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 -.014"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -126,7 +126,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 -.014"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -142,7 +142,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0  -.014"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/Cylinder.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -153,7 +153,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 .244 0.00"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -164,7 +164,7 @@
         <visual>
             <origin rpy="0 0 -2.094" xyz=".2114 -.122 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -175,7 +175,7 @@
         <visual>
             <origin rpy="0 0 2.094" xyz="-.2114 -.122 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.0025 0.0025 0.0025"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/TubeMotor.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>

@@ -144,10 +144,10 @@ class QuaternionBroadcast:
         return self.q
 
 if __name__ == '__main__':
-    sensor_broadcast = SensorBroadcast()
+    sensor_broadcast = SensorBroadcast('euler')
     rospy.init_node('sensor_broadcast')
     #rospy.Subscriber('imu', Imu, imu_broadcast.listener)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(100)
 
     while not rospy.is_shutdown():
         sensor_broadcast.broadcast()

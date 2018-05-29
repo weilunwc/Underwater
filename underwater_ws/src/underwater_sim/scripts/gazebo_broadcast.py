@@ -24,7 +24,6 @@ class GazeboBroadcast:
     def listener(self, msg):
         robot_index = msg.name.index("underwater")
         self.robot_pose = msg.pose[robot_index] 
-        print(self.robot_pose)
 
     def broadcast(self):
         # set up transformation

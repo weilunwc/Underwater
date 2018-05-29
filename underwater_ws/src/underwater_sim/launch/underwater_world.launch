@@ -1,6 +1,9 @@
 <launch>
+    <!-- launch rviz-->
+    <arg name="rviz" default="false"/>
+
     <!--gazebo arguments-->
-    <arg name="paused" default="false"/>
+    <arg name="paused" default="true"/>
     <arg name="use_sim_time" default="true"/>
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
@@ -13,9 +16,16 @@
         <arg name="gui" value="$(arg gui)"/>
         <arg name="headless" value="$(arg headless)"/>
         <arg name="debug" value="$(arg debug)"/>
+        <arg name="world_name" value="$(find underwater_gazebo)/worlds/underwater.world"/>
     </include>
     
     <!--spawn underwater urdf into gazebo-->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -z 1 -model underwater"/>
-    
+   
+    <!--visualize in rviz-->
+    <group if="$(arg rviz)">
+        <include file="$(find underwater_sim)/launch/urdf_visualize.launch"/>
+        <node name="gazebo_broadcast" pkg="underwater_sim" type="gazebo_broadcast.py"/>
+    </group>
+
 </launch>

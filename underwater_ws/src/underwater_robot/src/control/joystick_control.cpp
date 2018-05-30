@@ -85,8 +85,7 @@ int main(int argc, char **argv){
         
         /* tune the motor flipping pid which reacts to the joystick commands */ 
         //robot.joystick_flip_pid();
-        robot.process_Ground();
-        cout << "hey " <<endl;
+        //robot.process_Ground();
         /* test imu feedback yaw control*/
         // robot.imu_yaw_control();
         

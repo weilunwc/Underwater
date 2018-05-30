@@ -33,7 +33,7 @@ if __name__ == '__main__':
     rospy.set_param('arduino_configs', arduino_config)
     
     # Set up visualization options
-    visual_config = {'Encoder':True, 'Imu':True, 'Barometer':True, 'Position':False }
+    visual_config = {'Encoder':False, 'Imu':False, 'Barometer':False, 'Position':False }
     rospy.set_param('visual_configs', visual_config) 
     
     # Set up robot controller subscriber and publisher configuration

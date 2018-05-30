@@ -7,5 +7,5 @@ export arduino_lib_path=/home/$USER/Underwater/Arduino
 alias robo_ck='export ck_dir=`pwd`;  cd ~/Underwater/underwater_ws; catkin_make; cd $ck_dir'
 alias build_ros_msg='export ck_dir=`pwd`; roscd underwater_robot/utilities; ./build_arduino_msg.sh; cd $ck_dir'
 source ~/Underwater/underwater_ws/devel/setup.zsh
-#source ~/Underwater/underwater_ws/devel/setup.sh
-#source ~/Underwater/underwater_ws/devel/setup.bash
+source ~/Underwater/underwater_ws/devel/setup.sh
+source ~/Underwater/underwater_ws/devel/setup.bash

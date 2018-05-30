@@ -2,6 +2,7 @@
 <launch>
     <arg name="visualize" default="True"/>
     <arg name="rviz" default="False"/>
+    <arg name="record" default="False"/>
 
     <!--Set up the confiuration for experiment--> 
     <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
@@ -18,6 +19,10 @@
 
     <!-- rviz visualize robot state -->
     <group if="$(arg rviz)">
-        <include file="$(find underwater_sim)/launch/sensor_visualize.launch"/>
+        <include file="$(find underwater_sim)/launch/sensor_broadcast.launch"/>
     </group>
+    
+    <!-- record bag file -->
+    <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)"/>
+    
 </launch>

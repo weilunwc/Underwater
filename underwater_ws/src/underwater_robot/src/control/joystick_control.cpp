@@ -71,7 +71,7 @@ int main(int argc, char **argv){
     while(ros::ok()){
 		/* suspend the robot and wait for start command */
 		// comment if no joystick
-      //  robot.check_suspend();
+       robot.check_suspend();
         
 
 

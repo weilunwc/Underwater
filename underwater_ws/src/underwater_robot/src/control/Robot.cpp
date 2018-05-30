@@ -371,7 +371,8 @@ void Robot::process_imu_yaw(double set_yaw){
  */
 
 void Robot::process_Ground(){
-
+    center_cmd.mode = 1;
+    center_cmd.spinning_speed = 80;
 
     double l = 1.0;
     

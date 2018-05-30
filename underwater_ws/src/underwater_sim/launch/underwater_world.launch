@@ -1,7 +1,7 @@
 <launch>
     <!-- launch rviz-->
     <arg name="rviz" default="false"/>
-    <arg name="" default="false"/>
+    <arg name="record" default="false"/>
 
     <!--gazebo arguments-->
     <arg name="paused" default="true"/>
@@ -21,7 +21,8 @@
     </include>
     
     <!--spawn underwater urdf into gazebo-->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -z 1 -model underwater"/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -x 0 -y 0 -z 0.5 -model underwater"/>
    
     <!--visualize in rviz-->
     <include file="$(find underwater_sim)/launch/gazebo_broadcast.launch" if="$(arg rviz)"/>

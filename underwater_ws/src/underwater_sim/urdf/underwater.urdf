@@ -150,19 +150,33 @@
 
     <link name="camera_link">
         <collision>
-            <origin xyz="-0.03 0 0" rpy="0 1.5708 0"/>
+            <origin xyz="-0.028 0 0" rpy="0 1.5708 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/camera.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/camera.dae" scale="0.0015 0.0015 0.0015"/>
             </geometry>
         </collision>
         <visual>
-            <origin xyz="-0.05 0 0" rpy="0 1.5708 0" />
+            <origin xyz="-0.028 0 0" rpy="0 1.5708 0" />
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/robot/camera.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/robot/camera.dae" scale="0.0015 0.0015 0.0015"/>
             </geometry>
         </visual>
     </link> 
 
+    <link name="imu_link">
+        <collision>
+            <origin xyz="0 0 0.057" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/robot/imu.dae" scale="0.0012 0.0012 0.0012"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0.057" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/robot/imu.dae" scale="0.0012 0.0012 0.0012"/>
+            </geometry>
+        </visual>
+    </link> 
     
     <link name="motorcylinder1_link">
 
@@ -329,6 +343,13 @@
         <parent link="cylinder3_link"/>
         <child link="camera_link"/>
         <origin rpy="0 0 -1.5708" xyz="0 -0.03 0.1"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    
+    <joint name="imu_joint" type="fixed">
+        <parent link="cylinder3_link"/>
+        <child link="imu_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <axis xyz="0 1 0"/>
     </joint>
     
@@ -516,4 +537,25 @@
          	</plugin>
        	</sensor>
      </gazebo>
+
+  	<gazebo reference="imu_link">
+    	<gravity>true</gravity>
+    	<sensor name="imu_sensor" type="imu">
+      		<always_on>true</always_on>
+      		<update_rate>100</update_rate>
+      		<visualize>true</visualize>
+      		<topic>gazebo_imu</topic>
+      		<plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        		<topicName>imu</topicName>
+        		<bodyName>imu_link</bodyName>
+        		<updateRateHZ>10.0</updateRateHZ>
+        		<gaussianNoise>0.0</gaussianNoise>
+        		<xyzOffset>0 0 0</xyzOffset>
+        		<rpyOffset>0 0 0</rpyOffset>
+        		<frameName>imu_link</frameName>
+      		</plugin>
+      		<pose>0 0 0 0 0 0</pose>
+    	</sensor>
+  	</gazebo>
+
 </robot> 

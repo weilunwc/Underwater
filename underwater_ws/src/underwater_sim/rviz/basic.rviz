@@ -67,7 +67,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+          Value: false
         center_link:
           Alpha: 1
           Show Axes: false
@@ -88,6 +88,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: false
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         motorcylinder1_link:
           Alpha: 1
           Show Axes: false
@@ -198,10 +203,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.474796593
+      Pitch: 0.589796364
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.66541195
+      Yaw: 4.51541424
     Saved: ~
 Window Geometry:
   Displays:

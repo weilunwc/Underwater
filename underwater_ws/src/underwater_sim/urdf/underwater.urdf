@@ -30,7 +30,7 @@
     <!-- * * * Link Definitions * * * -->
 
     <!-- mesh files -->
-    <link name="robot_base_link">
+	<link name="robot_base_link">
         
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -52,7 +52,7 @@
             </geometry>
             <material name="white"/>
         </visual>
-    </link> 
+    </link>
 
     <link name="center_link">
         <inertial>
@@ -179,15 +179,15 @@
             </geometry>
             <material name="transparent"/>
         </visual>
-    </link> 
-
+    </link>
 
     <link name="wheel1_link">
         
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.361" />
-            <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.0" izz="0.0007561973"/>
+            <mass value="0.45" />
+            <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
+            <!-- <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.0" izz="0.0007561973"/> -->
         </inertial>
         <collision>
             <origin rpy="1.5708 0 0" xyz="0 0 0"/>
@@ -200,8 +200,8 @@
     <link name="wheel2_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.361" />
-            <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.0" izz="0.0007561973"/>
+            <mass value="0.5"/>
+            <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
             <origin rpy="1.5708 0 0" xyz="0 0 0"/>
@@ -215,8 +215,8 @@
     <link name="wheel3_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.361" />
-            <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.0" izz="0.0007561973"/>
+            <mass value="0.5"/>
+            <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
             <origin rpy="1.5708 0 0" xyz="0 0 0"/>
@@ -225,8 +225,9 @@
             </geometry>
         </collision>
     </link> 
-    
-    <!-- * * * Joint Definitions * * * -->
+
+	
+<!-- * * * Joint Definitions * * * -->
 
     <joint name="center_motor" type="continuous">
         <parent link="robot_base_link"/>
@@ -452,5 +453,36 @@
         <transparency>0.7</transparency>
         </visual>
     </gazebo>
-
-</robot> 
+	<gazebo>
+		<plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+			<fluid_density>1000</fluid_density>fluid_density>
+			<link name="robot_base_link">
+				<center_of_volume>0 0 0</center_of_volume>
+				<volume>0.00559<volume>
+		</plugin>
+	</gazebo>
+	<gazebo>
+		<plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+			<fluid_density>1000</fluid_density>fluid_density>
+			<link name="wheel1_link">
+				<center_of_volume>0 0 0</center_of_volume>
+				<volume>0.000391<volume>
+		</plugin>
+	</gazebo>
+	<gazebo>
+		<plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+			<fluid_density>1000</fluid_density>fluid_density>
+			<link name="wheel2_link">
+				<center_of_volume>0 0 0</center_of_volume>
+				<volume>0.000391<volume>
+		</plugin>
+	</gazebo>
+	<gazebo>
+		<plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+			<fluid_density>1000</fluid_density>fluid_density>
+			<link name="wheel3_link">
+				<center_of_volume>0 0 0</center_of_volume>
+				<volume>0.000391/volume>
+		</plugin>
+	</gazebo>
+</robot>

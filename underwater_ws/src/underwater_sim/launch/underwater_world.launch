@@ -2,6 +2,7 @@
     <!-- launch rviz-->
     <arg name="rviz" default="false"/>
     <arg name="record" default="false"/>
+    <arg name="bag_name" default="gazebo"/>
 
     <!--gazebo arguments-->
     <arg name="paused" default="false"/>
@@ -27,7 +28,9 @@
     <include file="$(find underwater_sim)/launch/gazebo_broadcast.launch" if="$(arg rviz)"/>
     
     <!--record gazebo state to bag file-->
-    <include file="$(find underwater_sim)/launch/gazebo_record.launch" if="$(arg record)"/>
+    <include file="$(find underwater_sim)/launch/gazebo_record.launch" if="$(arg record)">
+        <arg name="bag_name" value="$(arg bag_name)"/>
+    </include>
     
 
 </launch>

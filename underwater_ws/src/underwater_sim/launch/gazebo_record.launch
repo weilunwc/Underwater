@@ -1,4 +1,5 @@
 <launch>
+    <arg name="bag_name" default="gazebo"/>
     <!-- record to a bag file -->
-    <node name="gazebo_record" pkg="rosbag" type="record" args="-o /home/william/Underwater/Experiments/gazebo /gazebo/model_states"/>
+    <node name="gazebo_record" pkg="rosbag" type="record" args="-o /home/william/Underwater/Experiments/$(arg bag_name) /gazebo/model_states"/>
 </launch>

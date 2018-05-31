@@ -7,10 +7,17 @@ project(underwater_gazebo)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+    roscpp    
+    underwater_msg
+)
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(gazebo REQUIRED)
+link_directories(${GAZEBO_LIBRARY_DIRS})
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -112,14 +119,18 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-# ${catkin_INCLUDE_DIRS}
+    #include
+  ${GAZEBO_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/underwater_gazebo.cpp
-# )
+
+add_library(encoder SHARED src/encoder.cc)
+target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+
+add_library(position SHARED src/position.cc)
+target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

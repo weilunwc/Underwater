@@ -3,8 +3,11 @@
     <arg name="bag_name" default="sensor"/>
     
     <!-- This launch file is inteded to record a bag file for important sensor data -->
+    <!--
     <node pkg="rosbag" name="sensor_record" type="record" 
-    args="-o /home/william/Underwater/$(arg bag_name) /imu /position /encoder1 /encoder2 /encoder3"/>
-    
+    args="-o /home/william/Underwater/Experiments/$(arg bag_name) /imu /position /encoder_1 /encoder_2 /encoder_3"/>
+    -->
+    <node pkg="rosbag" name="sensor_record" type="record" 
+    args="-o /home/william/Underwater/Experiments/$(arg bag_name) -a "/>
 
 </launch>

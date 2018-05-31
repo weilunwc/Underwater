@@ -123,8 +123,8 @@ void loop(){
         case 2:
             // Flipping Mode
             if(enable_encoder1){
-                int motor_cmd;
-                motor_cmd = 0.2*(flipping_speed + 10);
+                //int motor_cmd;
+                //motor_cmd = 0.2*(flipping_speed + 10);
                 //myMotor.flip(flipping_angle, motor_cmd, myEncoder);
                 myMotor.flip(flipping_angle, flipping_speed, myEncoder);
                 //myMotor.set_speed(50);

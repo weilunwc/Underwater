@@ -132,13 +132,13 @@ void loop(){
                 // Use experimental correlation
                 motor_cmd = 0.3*(spinning_speed + 10);
             }
-            myMotor.set_speed(spinning_speed);
+            myMotor.set_speed(float(spinning_speed)/1.2);
             break;
         case 2:
             if(enable_encoder3){
                 int motor_cmd;
                 motor_cmd = 0.3*(flipping_speed + 10);
-                myMotor.flip(flipping_angle, flipping_speed, myEncoder);
+                myMotor.flip(flipping_angle, float(flipping_speed)/1.2, myEncoder);
             }
             else myMotor.brake();
             break;

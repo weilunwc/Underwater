@@ -25,7 +25,8 @@ class Robot{
 
 public:
 	Robot();
-	
+    
+    int mode;
     /* set up publisher and subscriber */
 	void publish_motors();		
 	void subscribe_joystick();

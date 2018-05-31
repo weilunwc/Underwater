@@ -39,7 +39,6 @@ namespace gazebo
     GZ_REGISTER_MODEL_PLUGIN(Encoder)
     
     Encoder::Encoder(){
-       
        enc_.encoder_angle = 0;
        enc_.encoder_speed = 0;
     }

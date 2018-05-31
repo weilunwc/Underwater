@@ -9,7 +9,7 @@
             </geometry>
         </visual>
         <collision name="base_link_collision">
-            <origin rpy="0 0 0" xyz="0 0 20"/>
+            <origin rpy="0 0 0" xyz="0 0 5"/>
             <geometry>
                 <mesh filename="package://underwater_sim/models/meshes/ship/hull.dae" scale="0.0025 0.0025 0.0025"/>
             </geometry>

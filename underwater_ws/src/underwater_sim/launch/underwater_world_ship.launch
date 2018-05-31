@@ -1,0 +1,41 @@
+<launch>
+    <!-- launch rviz-->
+    <arg name="rviz" default="false"/>
+    <arg name="record" default="false"/>
+    <arg name="bag_name" default="gazebo"/>
+
+    <!--gazebo arguments-->
+    <arg name="paused" default="true"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!--launch an empty gazebo world-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="$(arg headless)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="world_name" value="$(find underwater_gazebo)/worlds/full_ship.world"/>
+    </include>
+    
+    <!--spawn underwater urdf into gazebo-->
+    <!--<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -x 0 -y 0 -z 0.3 -model underwater"/>-->
+    <!--<node name="ship_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/ship.urdf -urdf -x 10 -y -20 -z 0 -model ship"/>
+    <node name="ocean_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/ocean.urdf -urdf -x 0 -y 0 -z -20 -model ocean"/>-->
+   
+    <!--visualize in rviz-->
+    <include file="$(find underwater_sim)/launch/gazebo_broadcast.launch" if="$(arg rviz)"/>
+    
+    <!--record gazebo state to bag file-->
+    <include file="$(find underwater_sim)/launch/gazebo_record.launch" if="$(arg record)">
+        <arg name="bag_name" value="$(arg bag_name)"/>
+    </include>
+    
+
+</launch>

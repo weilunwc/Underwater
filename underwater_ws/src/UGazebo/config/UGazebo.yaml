@@ -1,0 +1,20 @@
+#this file represents the controller being used
+UGazebo:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # Effort Controllers ---------------------------------------
+  motor1_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: motor1
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  motor2_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: motor2
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  motor3_torque_controller:
+    type: effort_controllers/JointEffortController
+    joint: motor3
+    pid: {p: 100.0, i: 0.01, d: 10.0}

@@ -1,0 +1,715 @@
+<sdf version='1.6'>
+  <world name='default'>
+    <gravity>0 0 0</gravity>
+    <scene>
+      <grid>0</grid>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>0</shadows>
+    </scene>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+          <transparency>0.3</transparency>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>0 0 -10 0 -0 0</pose>
+    </model>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose frame=''>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='ocean_tank'>
+      <link name='ocean_surface_link'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <mass>95.78</mass>
+          <inertia>
+            <ixx>57.28</ixx>
+            <ixy>0</ixy>
+            <ixz>-0.23</ixz>
+            <iyy>57.28</iyy>
+            <iyz>0</iyz>
+            <izz>6.09</izz>
+          </inertia>
+        </inertial>
+        <collision name='ocean_surface_link_collision_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/ocean/ocean_layer.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='ocean_surface_link_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0025 0.0025 0.0025</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/ocean/ocean_layer.dae</uri>
+            </mesh>
+          </geometry>
+          <transparency>1</transparency>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>0 0 -20 0 -0 0</pose>
+    </model>
+    <model name='tank'>
+      <link name='tank_link'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <mass>191.56</mass>
+          <inertia>
+            <ixx>114.56</ixx>
+            <ixy>0</ixy>
+            <ixz>-0.46</ixz>
+            <iyy>114.56</iyy>
+            <iyz>0</iyz>
+            <izz>12.18</izz>
+          </inertia>
+        </inertial>
+        <collision name='tank_link_fixed_joint_lump__base_link_collision_collision'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/tank/tank.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='tank_link_fixed_joint_lump__base_link_collision_collision_1'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/tank/tank_water.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='tank_link_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/tank/tank.dae</uri>
+            </mesh>
+          </geometry>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='tank_link_fixed_joint_lump__tank_water_link_visual_1'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/tank/tank_water.dae</uri>
+            </mesh>
+          </geometry>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>10 -20 0 0 -0 0</pose>
+    </model>
+    <model name='underwater_tank'>
+      <link name='robot_base_link'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <mass>5.99</mass>
+          <inertia>
+            <ixx>0.0831986</ixx>
+            <ixy>0.000865722</ixy>
+            <ixz>0.000957917</ixz>
+            <iyy>0.0835726</iyy>
+            <iyz>0.000183237</iyz>
+            <izz>0.12186</izz>
+          </inertia>
+        </inertial>
+        <collision name='robot_base_link_collision'>
+          <pose frame=''>0 0 0.01 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.11</length>
+              <radius>0.25</radius>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='robot_base_link_fixed_joint_lump__cylinder1_link_collision_1'>
+          <pose frame=''>0.1048 0.0605 0.12 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.09</length>
+              <radius>0.045</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='robot_base_link_fixed_joint_lump__cylinder2_link_collision_2'>
+          <pose frame=''>-0.1048 0.0605 0.12 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.09</length>
+              <radius>0.045</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='robot_base_link_fixed_joint_lump__cylinder3_link_collision_3'>
+          <pose frame=''>0 -0.121 0.12 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.09</length>
+              <radius>0.045</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='robot_base_link_fixed_joint_lump__camera_link_collision_4'>
+          <pose frame=''>0 -0.123 0.1 3.14159 1.57079 1.57079</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0015 0.0015 0.0015</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/camera.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='robot_base_link_fixed_joint_lump__imu_link_collision_5'>
+          <pose frame=''>0 -0.121 0.057 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0012 0.0012 0.0012</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/imu.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='robot_base_link_visual'>
+          <pose frame=''>0 0 -0.0976 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/MainBody.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__cylinder1_link_visual_1'>
+          <pose frame=''>0.1048 0.0605 -0.014 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/Cylinder.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__cylinder2_link_visual_2'>
+          <pose frame=''>-0.1048 0.0605 -0.014 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/Cylinder.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__cylinder3_link_visual_3'>
+          <pose frame=''>0 -0.121 -0.014 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/Cylinder.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__camera_link_visual_4'>
+          <pose frame=''>0 -0.123 0.1 3.14159 1.57079 1.57079</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0015 0.0015 0.0015</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/camera.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__imu_link_visual_5'>
+          <pose frame=''>0 -0.121 0.057 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0012 0.0012 0.0012</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/imu.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__motorcylinder1_link_visual_6'>
+          <pose frame=''>0 0.244 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/TubeMotor.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__motorcylinder2_link_visual_7'>
+          <pose frame=''>0.2114 -0.122 0 0 0 -2.094</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/TubeMotor.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <visual name='robot_base_link_fixed_joint_lump__motorcylinder3_link_visual_8'>
+          <pose frame=''>-0.2114 -0.122 0 0 -0 2.094</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/cerlab/Underwater/underwater_ws/src/underwater_sim/models/meshes/robot/TubeMotor.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>0.3 0.3 0.3 0.4</ambient>
+            <diffuse>0.7 0.7 0.7 0.4</diffuse>
+            <specular>0.01 0.01 0.01 0.4</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+              <normal_map>__default__</normal_map>
+            </shader>
+          </material>
+          <cast_shadows>1</cast_shadows>
+          <transparency>0.7</transparency>
+        </visual>
+        <velocity_decay/>
+        <velocity_decay/>
+        <velocity_decay/>
+        <velocity_decay/>
+        <sensor name='camera1' type='camera'>
+          <update_rate>30</update_rate>
+          <camera name='head'>
+            <pose frame=''>0 0 0 0 -0 0</pose>
+            <horizontal_fov>1.39626</horizontal_fov>
+            <image>
+              <width>800</width>
+              <height>800</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>0.0</updateRate>
+            <cameraName>underwater/camera1</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose frame=''>0 -0.151 0.1 0 0 -1.5708</pose>
+        </sensor>
+        <velocity_decay/>
+        <sensor name='imu_sensor' type='imu'>
+          <always_on>1</always_on>
+          <update_rate>100</update_rate>
+          <visualize>1</visualize>
+          <topic>gazebo_imu</topic>
+          <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
+            <topicName>imu</topicName>
+            <bodyName>imu_link</bodyName>
+            <updateRateHZ>10.0</updateRateHZ>
+            <gaussianNoise>0.0</gaussianNoise>
+            <xyzOffset>0 0 0</xyzOffset>
+            <rpyOffset>0 0 0</rpyOffset>
+            <frameName>imu_link</frameName>
+            <robotNamespace>/</robotNamespace>
+          </plugin>
+          <pose frame=''>0 -0.121 0 0 -0 0</pose>
+        </sensor>
+        <velocity_decay/>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='BuoyancyPlugin' filename='libBuoyancyPlugin.so'>
+        <fluid_density>1000</fluid_density>
+        <link name='robot_base_link'>
+          <center_of_volume>0 0 0</center_of_volume>
+          <volume>0.00599</volume>
+        </link>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <static>0</static>
+      <plugin name='LiftDragPlugin' filename='libLiftDragPlugin.so'>
+        <air_density>1000</air_density>
+        <cla>0</cla>
+        <cla_stall>0</cla_stall>
+        <cda>0</cda>
+        <cda_stall>0</cda_stall>
+        <alpha_stall>0</alpha_stall>
+        <a0>0</a0>
+        <area>0.5654866776</area>
+        <upward>0 0 1</upward>
+        <forward>1 0 0</forward>
+        <link_name>robot_base_link</link_name>
+        <cp>0 0 0</cp>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+      <pose frame=''>0 0 0.3 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>0 0</sim_time>
+      <real_time>0 0</real_time>
+      <wall_time>1527745527 688721279</wall_time>
+      <iterations>0</iterations>
+      <model name='ground_plane'>
+        <pose frame=''>0 0 -10 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0 0 -10 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ocean_tank'>
+        <pose frame=''>0 0 -20 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='ocean_surface_link'>
+          <pose frame=''>0 0 -20 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='tank'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='tank_link'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='underwater_tank'>
+        <pose frame=''>0 0 0.3 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='robot_base_link'>
+          <pose frame=''>0 0 0.3 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose frame=''>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>150.551 -111.497 96.1342 0 0.495643 2.82819</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

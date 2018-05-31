@@ -1,0 +1,45 @@
+<launch>
+    <!-- launch rviz-->
+    <arg name="rviz" default="false"/>
+    <param name="robot_description" textfile="$(find UGazebo)/urdf/underwater.urdf" />
+
+    <!--gazebo arguments-->
+    <arg name="paused" default="true"/>
+    <arg name="use_sim_time" default="false"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!--launch an empty gazebo world-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="$(arg headless)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="world_name" value="$(find underwater_gazebo)/worlds/underwater.world"/>
+    </include>
+    
+
+    <!--spawn underwater urdf into gazebo-->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find UGazebo)/urdf/underwater.urdf -urdf -z 1 -model UGazebo">
+    </node>
+   
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find UGazebo)/config/UGazebo.yaml" command="load" />
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/UGazebo" args="motor1_torque_controller motor2_torque_controller motor3_torque_controller joint_state_controller "/>
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+      <remap from="/joint_states" to="/UGazebo/joint_states" />
+    </node>
+
+   <node pkg="joy" type="joy_node" name="joy">
+    </node>
+
+    <node name="motor_effort_node" pkg="UGazebo"   type="walk" output="screen" respawn="true" />
+</launch>

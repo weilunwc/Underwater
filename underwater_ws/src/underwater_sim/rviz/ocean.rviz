@@ -9,7 +9,6 @@ Panels:
         - /Grid1
         - /RobotModel1
         - /RobotModel1/Links1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 751
@@ -51,7 +50,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: wheel3_link
+      Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -63,82 +62,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        camera_link:
+        dummy_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        center_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        cylinder1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        cylinder2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        cylinder3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        motorcylinder3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shaft3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel3_link:
+        ocean_surface_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -150,24 +78,30 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        dummy_link:
+          Value: true
+        ocean_surface_link:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        ocean_surface_link:
+          dummy_link:
+            {}
       Update Interval: 0
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: robot_base_link
+    Fixed Frame: ocean_surface_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -188,25 +122,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.73725724
+      Distance: 8.99792194
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0593039542
-        Y: 0.00205993513
-        Z: -0.00174390327
+        X: 0.127525851
+        Y: -0.422972411
+        Z: -0.60459137
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.589796364
+      Pitch: 0.789796174
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.51541424
+      Yaw: 4.87041807
     Saved: ~
 Window Geometry:
   Displays:

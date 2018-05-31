@@ -3,7 +3,6 @@
     <world name="underwater_world">
         <gravity>0 0 0</gravity>
 
-        <scene>
             <grid>false</grid>
             <sky>
                 <clouds>
@@ -13,6 +12,7 @@
         </scene>
 
         <include>
+            <pose>0 0 -10 0 0 0</pose>
             <uri>model://ground_plane</uri>
             <pose>0 0 -10 0 0 0</pose>
         </include>

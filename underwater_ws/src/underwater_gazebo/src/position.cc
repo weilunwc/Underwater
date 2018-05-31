@@ -57,7 +57,7 @@ namespace gazebo
 
     void Position::OnUpdate(){
         // Apply a small linear velocity to the model.
-        this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
+        //this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
         gazebo::math::Pose pose = this->model->GetWorldPose();
         math::Vector3 v(0, 0, 0);
         v = pose.pos;

@@ -3,3 +3,4 @@ build/
 *.swp
 configs.py
 *.bag
+*.pyc

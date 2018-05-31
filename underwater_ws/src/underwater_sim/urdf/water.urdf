@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<robot name="water_surface">
+  <link name="link">
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 1"/>
+          <geometry>
+              <mesh filename="package://underwater_sim/models/water/water.dae"/>
+          </geometry>
+      </visual>
+  </link>
+</robot>

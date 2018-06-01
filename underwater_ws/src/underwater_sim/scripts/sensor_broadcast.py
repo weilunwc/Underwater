@@ -20,7 +20,7 @@ class SensorBroadcast:
         if imu_version == 'euler':
             self.imu_broadcast = EulerBroadcast()
         else:
-            self.imu_broadcast = QuaternionBroadcasT()
+            self.imu_broadcast = QuaternionBroadcast()
         
         self.encoder_broadcast = EncoderBroadcast() 
         self.position_broadcast = PositionBroadcast()
@@ -132,6 +132,12 @@ class EulerBroadcast:
 class QuaternionBroadcast:
     def __init__(self):
         self.quat = Quaternion()
+        q = tf.transformations.quaternion_from_euler(0, 0, 0)
+        self.quat.x = q[0]
+        self.quat.y = q[1]
+        self.quat.z = q[2]
+        self.quat.w = q[3]
+        
         rospy.Subscriber('imu', Quaternion, self.listener)    
 
     def listener(self, msg):
@@ -141,10 +147,10 @@ class QuaternionBroadcast:
         self.quat.w = msg.w
 
     def quaternion(self):
-        return self.q
+        return self.quat
 
 if __name__ == '__main__':
-    sensor_broadcast = SensorBroadcast('euler')
+    sensor_broadcast = SensorBroadcast('quaternion')
     rospy.init_node('sensor_broadcast')
     #rospy.Subscriber('imu', Imu, imu_broadcast.listener)
     rate = rospy.Rate(100)

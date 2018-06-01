@@ -1,4 +1,4 @@
-cd ~/Underwater/Arduino
+cd ~/Arduino/libraries
 rm -rf ros_lib ros
 rosrun rosserial_arduino make_libraries.py .
 mv ros_lib ros

@@ -10,9 +10,9 @@
 #include "Underwater_Barometer.h"
 
 #include <ros.h>
-#include <underwater_msg/Cmd.h>
-#include <underwater_msg/Encoder.h>
-#include <underwater_msg/Baro.h>
+#include <underwater_msgs/Cmd.h>
+#include <underwater_msgs/Encoder.h>
+#include <underwater_msgs/Baro.h>
 
 /* Our actuators and senesor */
 Motor myMotor;
@@ -24,20 +24,20 @@ ros::NodeHandle nh;
 /* Set up motor */
 int mode, spinning_speed, flipping_angle, flipping_speed;
 /* Read the motor control command */
-void motor_command(const underwater_msg::Cmd& cmd_msg){
+void motor_command(const underwater_msgs::Cmd& cmd_msg){
     mode = cmd_msg.mode;
     spinning_speed = cmd_msg.spinning_speed;
     flipping_angle = cmd_msg.flipping_angle;
     flipping_speed = cmd_msg.flipping_speed;
 }
-ros::Subscriber<underwater_msg::Cmd> motor_sub("motor_3", motor_command);
+ros::Subscriber<underwater_msgs::Cmd> motor_sub("motor_3", motor_command);
 
 /* Set up Encoder */
-underwater_msg::Encoder encoder_msg;
+underwater_msgs::Encoder encoder_msg;
 ros::Publisher encoder_pub("encoder_3", &encoder_msg);
 
 /* Set up Barometer */
-underwater_msg::Baro baro_msg;
+underwater_msgs::Baro baro_msg;
 ros::Publisher baro_pub("barometer", &baro_msg);
 
 

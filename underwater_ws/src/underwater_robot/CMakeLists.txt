@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     sensor_msgs
     message_generation
-    underwater_msg
+    underwater_msgs
 )
 
 ## System dependencies are found with CMake's conventions

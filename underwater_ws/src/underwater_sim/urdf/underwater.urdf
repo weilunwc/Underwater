@@ -586,7 +586,8 @@
          	</plugin>
        	</sensor>
      </gazebo>
-
+    
+    <!--
   	<gazebo reference="imu_link">
     	<gravity>true</gravity>
     	<sensor name="imu_sensor" type="imu">
@@ -606,6 +607,13 @@
       		<pose>0 0 0 0 0 0</pose>
     	</sensor>
   	</gazebo>
+    -->
+    <gazebo>
+        <plugin name="fake_imu" filename="libfake_imu.so">
+            <orientationType>euler</orientationType>
+        </plugin>
+    </gazebo>
+    
     
     <gazebo>
         <plugin name="pose_sensor" filename="libposition.so">

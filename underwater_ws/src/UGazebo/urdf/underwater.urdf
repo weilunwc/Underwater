@@ -100,7 +100,14 @@
             </geometry>
             <material name="white"/>
         </visual>
-    </link> 
+    </link>
+
+    <link name="flipper1_link"/>
+    <link name="flipper2_link"/>
+    <link name="flipper3_link"/>
+    <link name="shaft1_link_fixed"/>
+    <link name="shaft2_link_fixed"/>
+    <link name="shaft3_link_fixed"/>
 
     <link name="cylinder1_link">
         <collision>
@@ -264,7 +271,7 @@
         <parent link="robot_base_link"/>
         <child link="shaft1_link"/>
         <origin xyz="0 0.245 0" rpy="0 0 0"/>
-        <axis xyz="0 1.5708 0"/>
+        <axis xyz="0 1 0"/>
         <dynamics damping="0.2"/>
     </joint>  
 
@@ -282,7 +289,53 @@
         <origin xyz=".21223 -0.1224 0" rpy="0 0 -2.094"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.2"/>
+    </joint>
+
+
+
+    <joint name="motor1_fixed" type="fixed">
+        <parent link="robot_base_link"/>
+        <child link="shaft1_link_fixed"/>
+        <origin xyz="0 0.245 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <joint name="motor2_fixed" type="fixed">
+        <parent link="robot_base_link"/>
+        <child link="shaft2_link_fixed"/>
+        <origin xyz="-.21223 -0.1224 0" rpy="0 0 2.094"/>
+        <axis xyz="0 1 0 "/>
     </joint>  
+    <joint name="motor3_fixed" type="fixed">
+        <parent link="robot_base_link"/>
+        <child link="shaft3_link_fixed"/>
+        <origin xyz=".21223 -0.1224 0" rpy="0 0 -2.094"/>
+        <axis xyz="0 1 0"/>
+    </joint>    
+
+
+
+    <joint name="flipper1_joint" type="fixed">
+        <parent link="shaft1_link"/>
+        <child link="flipper1_link"/>
+        <origin xyz="0 .0475 0" rpy="0 0 0"/>
+        <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
+        <axis xyz="0 1 0"/>
+   </joint>
+   <joint name="flipper2_joint" type="fixed">
+        <parent link="shaft2_link"/>
+        <child link="flipper2_link"/>
+        <origin xyz="0 .0475 0" rpy="0 0 0"/>
+        <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
+        <axis xyz="0 1 0"/>
+   </joint>
+   <joint name="flipper3_joint" type="fixed">
+        <parent link="shaft3_link"/>
+        <child link="flipper3_link"/>
+        <origin xyz="0 .0475 0" rpy="0 0 0"/>
+        <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
+        <axis xyz="0 1 0"/>
+   </joint>
+
 
     <joint name="wheel1_joint" type="fixed">
         <parent link="shaft1_link"/>
@@ -291,8 +344,7 @@
         <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
         <axis xyz="0 1 0"/>
    </joint>
-
-         
+ 
     <joint name="wheel2_joint" type="fixed">
         <parent link="shaft2_link"/>
         <child link="wheel2_link"/>
@@ -384,11 +436,8 @@
         </joint>
     </transmission>
 
-    <gazebo>
-     <plugin name="thruster_plug" filename="libthruster_plug.so">
-     <BodyName>robot_base_link</BodyName>
-    </plugin>
-    </gazebo>
+
+
 
 
 
@@ -520,6 +569,17 @@
     <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
         <robotNamespace>/UGazebo</robotNamespace>
+    </plugin>
+    </gazebo>
+
+        <gazebo>
+     <plugin name="thruster_plug" filename="libthruster_plug.so">
+     <BodyName>robot_base_link</BodyName>
+    </plugin>
+    </gazebo>
+    <gazebo>
+     <plugin name="thruster_plug2" filename="libthruster_plug2.so">
+     <BodyName>shaft1_link_fixed</BodyName>
     </plugin>
     </gazebo>
 

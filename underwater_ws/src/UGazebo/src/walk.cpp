@@ -19,7 +19,8 @@ using namespace std;
 vector<bool> buttons;
 vector<bool> prev_buttons;
 vector<double> axis;
-
+bool start1 = false;
+bool start2 = false;
 void read_joystick(const sensor_msgs::Joy &joyInfo){
     for(int i = 0;i < 8;i++){
         axis[i] = joyInfo.axes[i];
@@ -45,6 +46,8 @@ int main(int argc ,char **argv){
     for(int i = 0;i < 8;i++){
         axis[i] = 0;
     }
+    axis[2] = 1;
+    axis[5] = 1;
     for(int i = 0;i < 11;i++){
         buttons[i] = 0;
         prev_buttons[i] = 0;
@@ -56,7 +59,7 @@ int main(int argc ,char **argv){
     mot1_pub = n.advertise<std_msgs::Float64>("UGazebo/motor1_torque_controller/command",10);
     mot2_pub = n.advertise<std_msgs::Float64>("UGazebo/motor2_torque_controller/command",10);
     mot3_pub = n.advertise<std_msgs::Float64>("UGazebo/motor3_torque_controller/command",10);
-    central_pub = n.advertise<std_msgs::Float32>("/for_cmd",10);
+    central_pub = n.advertise<std_msgs::Float32>("/robot_base_link/for_cmd",10);
     std_msgs::Float64 mot1;
     mot1.data = 0;
     std_msgs::Float64 mot2;
@@ -89,9 +92,9 @@ int main(int argc ,char **argv){
         mot1.data = 15*v(0);
         mot2.data = 15*v(1);
         mot3.data= 15*v(2);
-        central.data = (1-axis[5])*100;
-        cout << fx << ' '<< fy << ' ' << dtheta;
-        cout << mot1.data << ' ' << mot2.data << ' ' << mot3.data << ' ' << central.data << endl;
+        central.data = (1-axis[2])*100;
+        //cout << fx << ' '<< fy << ' ' << dtheta;
+        //cout << mot1.data << ' ' << mot2.data << ' ' << mot3.data << ' ' << central.data << endl;
         mot1_pub.publish(mot1);
         mot2_pub.publish(mot2);
         mot3_pub.publish(mot3);

@@ -123,17 +123,21 @@ include_directories(
   ${GAZEBO_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
+Message(${GAZEBO_INCLUDE_DIRS})
 
 ## Declare a C++ library
 
-add_library(encoder SHARED src/encoder.cc)
-target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+#add_library(encoder SHARED src/encoder.cc)
+#target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
-add_library(position SHARED src/position.cc)
-target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+#add_library(position SHARED src/position.cc)
+#target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
 add_library(thruster_plug SHARED src/thruster_plug.cc)
 target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+
+add_library(thruster_plug2 SHARED src/thruster_plug2.cc)
+target_link_libraries(thruster_plug2 ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
 
 ## Add cmake target dependencies of the library

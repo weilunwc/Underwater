@@ -4,8 +4,8 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/TransportTypes.hh>
-#include <ignition/math/Vector3.hh>
-
+#include <ignition/math/Vector3.hh>     
+#include <ignition/math/Pose3.hh>
 // ros
 #include <ros/ros.h>
 #include <geometry_msgs/Point32.h>
@@ -58,10 +58,10 @@ namespace gazebo
     void Position::OnUpdate(){
         // Apply a small linear velocity to the model.
         this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
-        gazebo::math::Pose pose = this->model->GetWorldPose();
-        math::Vector3 v(0, 0, 0);
+        ignition::math::Pose3<double> pose = this->model->GetWorldPose();
+        ignition::math::Vector3 v(0, 0, 0);
         v = pose.pos;
-        position_.x = v.x; 
+        position_.x = v.x; W
         position_.y = v.y; 
         position_.z = v.z; 
          

@@ -2,7 +2,6 @@
 <sdf version="1.4">
     <world name="underwater_world">
         <gravity>0 0 0</gravity>
-
             <grid>false</grid>
             <sky>
                 <clouds>
@@ -20,7 +19,6 @@
         <include>
             <uri>model://sun</uri>
         </include>
-        
-        
+                
     </world>
 </sdf>

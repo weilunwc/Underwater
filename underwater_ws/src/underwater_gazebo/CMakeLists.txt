@@ -136,10 +136,11 @@ Message(${GAZEBO_INCLUDE_DIRS})
 add_library(thruster_plug SHARED src/thruster_plug.cc)
 target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
-add_library(thruster_plug2 SHARED src/thruster_plug2.cc)
-target_link_libraries(thruster_plug2 ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+add_library(model_push SHARED src/model_push.cc)
+target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
-
+add_library(fake_imu SHARED src/fake_imu.cc)
+target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

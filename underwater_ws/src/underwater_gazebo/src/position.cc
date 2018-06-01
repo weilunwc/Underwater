@@ -57,14 +57,14 @@ namespace gazebo
 
     void Position::OnUpdate(){
         // Apply a small linear velocity to the model.
-        this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
-        ignition::math::Pose3<double> pose = this->model->GetWorldPose();
-        ignition::math::Vector3 v(0, 0, 0);
-        v = pose.pos;
-        position_.x = v.x; W
-        position_.y = v.y; 
-        position_.z = v.z; 
-         
+        //this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
+        
+        ignition::math::Pose3d pose = this->model->WorldPose();
+        ignition::math::Vector3d v(0, 0, 0);
+        v = pose.Pos();
+        position_.x = v.X(); 
+        position_.y = v.Y(); 
+        position_.z = v.Z(); 
         position_publisher_.publish(position_);
     }
 

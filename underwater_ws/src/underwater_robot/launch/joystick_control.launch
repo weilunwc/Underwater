@@ -4,6 +4,7 @@
     <arg name="rviz" default="False"/>
     <arg name="record" default="False"/>
     <arg name="bag_name" default="sensor"/>
+    <arg name="cam" default="false"/>
 
     <!--Set up the confiuration for experiment--> 
     <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
@@ -25,4 +26,7 @@
     <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)">
         <arg name="bag_name" value="$(arg bag_name)"/>
     </include>
+
+    <include file="$(find usb_cam)/launch/usb_cam-test.launch" if="$(arg cam)"/>
+
 </launch>

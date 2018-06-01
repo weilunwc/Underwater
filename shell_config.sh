@@ -16,4 +16,5 @@ source ~/Underwater/underwater_ws/devel/setup.bash
 alias killgazebo="killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient"
 alias killros="killall -9 roscore; kill all rosmaster" 
 
-
+# gazebo plugin reference
+export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/Underwater/underwater_ws/devel/lib

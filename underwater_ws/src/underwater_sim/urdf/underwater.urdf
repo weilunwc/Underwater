@@ -215,7 +215,7 @@
         
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0" />
+            <mass value="0.605" />
             <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -229,7 +229,7 @@
     <link name="wheel2_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0"/>
+            <mass value="0.605"/>
             <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -244,7 +244,7 @@
     <link name="wheel3_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0"/>
+            <mass value="0.605"/>
             <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -501,7 +501,7 @@
     
     <gazebo>
         <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
-            <fluid_density>1000</fluid_density>fluid_density>
+            <fluid_density>1000</fluid_density>
             <link name="robot_base_link">
                 <center_of_volume>0 0 0</center_of_volume>
                 <volume>0.00599</volume>
@@ -586,7 +586,8 @@
          	</plugin>
        	</sensor>
      </gazebo>
-
+    
+    <!--
   	<gazebo reference="imu_link">
     	<gravity>true</gravity>
     	<sensor name="imu_sensor" type="imu">
@@ -606,5 +607,39 @@
       		<pose>0 0 0 0 0 0</pose>
     	</sensor>
   	</gazebo>
+    -->
+    <gazebo>
+        <plugin name="fake_imu" filename="libfake_imu.so">
+            <orientationType>euler</orientationType>
+        </plugin>
+    </gazebo>
+    
+    
+    <gazebo>
+        <plugin name="pose_sensor" filename="libposition.so">
+            <robotNamespace>robot_base_link</robotNamespace>
+        </plugin>
+    </gazebo>
+    
+    <gazebo>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor1</jointName>
+            <topicName>encoder_1</topicName>
+        </plugin>
+    </gazebo>
+        
+    <gazebo>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor2</jointName>
+            <topicName>encoder_2</topicName>
+        </plugin>
+    </gazebo>
+    
+    <gazebo>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor3</jointName>
+            <topicName>encoder_3</topicName>
+        </plugin>
+    </gazebo>
 
 </robot> 

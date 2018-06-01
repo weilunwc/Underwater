@@ -13,6 +13,10 @@
 
 namespace gazebo
 {
+    double Rad2Deg(double rad){
+        return rad*180.0/3.1415926;    
+    }
+
     class Encoder : public ModelPlugin{
         public:
         Encoder();
@@ -26,11 +30,15 @@ namespace gazebo
         physics::ModelPtr model;
         // Pointer to the update event connection
         event::ConnectionPtr updateConnection;
+        physics::JointPtr joint;
+        
+        std::string topicName;
+        
         // ros
         ros::NodeHandle* node_handle_; 
         ros::Publisher encoder_publisher_;
         underwater_msg::Encoder enc_;
-        ignition::math::Pose3 pose<double>;
+
     };
 
     // Register this plugin with the simulator
@@ -48,18 +56,45 @@ namespace gazebo
 
     void Encoder::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
         this->model = _parent;
+        //std::cout << this->model->GetName() << std::endl;
+        
+        
+        // bind connection
         this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                std::bind(&Encoder::OnUpdate, this));
+        
+        // find joint encoder is mounted on 
+        if(!_sdf->HasElement("jointName")) gzerr << "Encoder missing jointName\n";
+        
+        this->joint = this->model->GetJoint(_sdf->GetElement("jointName")->Get<std::string>());
+        if(!this->joint) gzerr << "Unable to find joint[" << _sdf->GetElement("jointName")->Get<std::string>()
+            << "]\n";
+        
+        // find topic name to publish
+        if(!_sdf->HasElement("topicName")) gzerr << _sdf->GetElement("jointName")->Get<std::string>()
+            << " missing topic name\n";
+        topicName = _sdf->GetElement("topicName")->GetValue()->GetAsString(); 
+
+
+        /* ros */ 
         node_handle_ = new ros::NodeHandle();
-        encoder_publisher_ = node_handle_->advertise<underwater_msg::Encoder>("encoder", 10);
+        encoder_publisher_ = node_handle_->advertise<underwater_msg::Encoder>(topicName, 10);
+
     }
 
     void Encoder::OnUpdate(){
         // Apply a small linear velocity to the model.
-        this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
+        //this->model->SetLinearVel(ignition::math::Vector3d(.3, 0, 0));
+        
+        // read the joint angle
+        enc_.encoder_angle = Rad2Deg(this->joint->Position(0));
+         
+        // read the joint vel
+        enc_.encoder_speed = this->joint->GetVelocity(0);
+
+
         encoder_publisher_.publish(enc_);
-        pose = this->model->GetWorldPose();
-        std::cout << pose << "\n";
+     
     }
 
 

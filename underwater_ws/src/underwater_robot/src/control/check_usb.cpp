@@ -20,7 +20,6 @@ int main(int argc, char **argv){
 	usb2_speed.data = 0;
 	usb3_speed.data = 0;
 
-
 	/* Initialize the node */
 	ros::init(argc, argv, "check_usb");
 
@@ -38,11 +37,6 @@ int main(int argc, char **argv){
 	/* Set up frequency */
 	ros::Rate loop_rate(10);
 	
-	/* 
-	 * message type explained 
-	 * center_motor: Int16 speed
-	 * motor_x: Point32 mode, speed, angle
-	 */
 
 
 	while(ros::ok()){
@@ -66,7 +60,7 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-
+/* move motor based on joystick command to check the usb corrsespondence */
 void read_joystick(const sensor_msgs::Joy &joyInfo){
 	ROS_INFO("%d,%d,%d,%d",joyInfo.buttons[0],joyInfo.buttons[1],
 											   joyInfo.buttons[2],joyInfo.buttons[3]);

@@ -258,6 +258,7 @@
   <gazebo>
       <plugin name="encoder" filename="libencoder.so">
           <jointName>front_right_wheel_joint</jointName>
+          <topicName>diff_encoder</topicName>
       </plugin>
   </gazebo>
 

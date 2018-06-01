@@ -614,8 +614,24 @@
     </gazebo>
     
     <gazebo>
-        <plugin name="encoder_sensor" filename="libencoder.so"/>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor1</jointName>
+            <topicName>encoder_1</topicName>
+        </plugin>
     </gazebo>
         
+    <gazebo>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor2</jointName>
+            <topicName>encoder_2</topicName>
+        </plugin>
+    </gazebo>
+    
+    <gazebo>
+        <plugin name="encoder_sensor" filename="libencoder.so">
+            <jointName>motor3</jointName>
+            <topicName>encoder_3</topicName>
+        </plugin>
+    </gazebo>
 
 </robot> 

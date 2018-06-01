@@ -15,10 +15,10 @@ Robot::Robot(){
 
 /* Motors */
 void Robot::publish_motors(){
-    center_motor_pub = n.advertise<underwater_msg::Cmd>("center_motor",10);
-    motor_1_pub = n.advertise<underwater_msg::Cmd>("motor_1",10);
-    motor_2_pub = n.advertise<underwater_msg::Cmd>("motor_2",10);
-    motor_3_pub = n.advertise<underwater_msg::Cmd>("motor_3",10);
+    center_motor_pub = n.advertise<underwater_msgs::Cmd>("center_motor",10);
+    motor_1_pub = n.advertise<underwater_msgs::Cmd>("motor_1",10);
+    motor_2_pub = n.advertise<underwater_msgs::Cmd>("motor_2",10);
+    motor_3_pub = n.advertise<underwater_msgs::Cmd>("motor_3",10);
 }
 
 void Robot::send_motor_commands(){
@@ -55,7 +55,7 @@ void Robot::subscribe_imu(){
     imu_sub = n.subscribe("imu", 1000, &Robot::read_imu, this);
 }
 
-void Robot::read_imu(const underwater_msg::Imu &euler_info){
+void Robot::read_imu(const underwater_msgs::Imu &euler_info){
     roll = euler_info.roll;
     pitch = euler_info.pitch;
     yaw = euler_info.yaw;
@@ -72,7 +72,7 @@ void Robot::subscribe_baro(){
     baro_sub = n.subscribe("barometer", 100, &Robot::read_baro, this);
 }
 
-void Robot::read_baro(const underwater_msg::Baro &baro_info){
+void Robot::read_baro(const underwater_msgs::Baro &baro_info){
     depth = baro_info.depth;
     temp = baro_info.temp;
 }

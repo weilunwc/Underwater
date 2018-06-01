@@ -15,9 +15,9 @@
 #include "std_msgs/Int32.h"
 #include "sensor_msgs/Joy.h"
 #include "geometry_msgs/Point32.h"
-#include "underwater_msg/Cmd.h"
-#include "underwater_msg/Imu.h"
-#include "underwater_msg/Baro.h"
+#include "underwater_msgs/Cmd.h"
+#include "underwater_msgs/Imu.h"
+#include "underwater_msgs/Baro.h"
 
 using namespace std;
 
@@ -82,7 +82,7 @@ private:
 
 	/* motor publisher */
 	ros::Publisher center_motor_pub, motor_1_pub, motor_2_pub, motor_3_pub;
-    underwater_msg::Cmd center_cmd, motor1_cmd, motor2_cmd, motor3_cmd;
+    underwater_msgs::Cmd center_cmd, motor1_cmd, motor2_cmd, motor3_cmd;
 	
 	/* joystick subscriber */
 	ros::Subscriber joy_sub;
@@ -94,12 +94,12 @@ private:
 
 	/* IMU subscriber */
 	ros::Subscriber imu_sub;
-	void read_imu(const underwater_msg::Imu &euler_info);
+	void read_imu(const underwater_msgs::Imu &euler_info);
     double roll, pitch, yaw;
 	
 	/* barometer subscriber */
 	ros::Subscriber baro_sub;
-    void read_baro(const underwater_msg::Baro &baro_info);
+    void read_baro(const underwater_msgs::Baro &baro_info);
     float depth, temp;
     
     /* encoder calibration subscriber */

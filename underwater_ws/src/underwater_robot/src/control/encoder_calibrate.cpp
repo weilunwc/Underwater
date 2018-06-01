@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include <ros/ros.h>
 #include <std_msgs/Int32.h>
@@ -14,6 +15,15 @@ using namespace std;
 
 int encoder1, encoder2, encoder3;
 
+string GetEnv( const string & var ) {
+     const char * val = ::getenv( var.c_str() );
+     if ( val == 0 ) {
+         return "";
+     }
+     else {
+         return val;
+     }
+}
 
 void read_encoder1(const std_msgs::Int32 &msg){
     encoder1 = msg.data;
@@ -50,7 +60,10 @@ int main(int argc, char **argv){
 
     /* Move the flippers to the origin and save the calibrated value */
     ofstream myFile;
-    myFile.open("/home/william/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt");
+    string user = GetEnv("USER");
+    
+    string filePath = "/home/" + user  + "/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt";
+    myFile.open(filePath.c_str());
     myFile << encoder1 << "\n" << encoder2 << "\n" << encoder3;
     myFile.close();
     cout << "saved\n";

@@ -5,6 +5,16 @@
 #include <Eigen/Dense>
 using namespace std;
 
+string GetEnvVar( const string & var ) {
+     const char * val = ::getenv( var.c_str() );
+     if ( val == 0 ) {
+         return "";
+     }
+     else {
+         return val;
+     }
+}
+
 Robot::Robot(){
     start = false;
     start_straight = false;
@@ -22,7 +32,6 @@ void Robot::publish_motors(){
 }
 
 void Robot::send_motor_commands(){
-    
     
     center_motor_pub.publish(center_cmd);
     motor_1_pub.publish(motor1_cmd);
@@ -186,26 +195,21 @@ void Robot::print_encoder(){
     ROS_INFO("%d\t%d\t%d", encoder1_cal, encoder2_cal, encoder3_cal);
 }
 
-void Robot::save_encoder_calibrate(){
-    ofstream myfile;
-    //myfile.open(file_name.c_str());
-    myfile.open("/home/william/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt");
-    myfile << encoder1_cal << "\n" << encoder2_cal << "\n" << encoder3_cal;
-    myfile.close();
-    cout << "saved " << endl;
-}
 
 vector<int> Robot::load_encoder_calibrate(){
-    ifstream myfile;
-    string line;
-    myfile.open("/home/william/Underwater/underwater_ws/src/underwater_robot/utilites/encoder_calibrate.txt");
+    ifstream myFile;
+    
+    string user = GetEnvVar("USER");
+    
+    string filePath = "/home/" + user  + "/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt";
+    myFile.open(filePath.c_str());
     vector<int> offset;
-    if(myfile.is_open()){
+    if(myFile.is_open()){
         //getline(myfile, line);
         //cout << line << endl;
-        myfile >> encoder1_cal;
-        myfile >> encoder2_cal;
-        myfile >> encoder3_cal;
+        myFile >> encoder1_cal;
+        myFile >> encoder2_cal;
+        myFile >> encoder3_cal;
         /*
         cout << encoder1_cal << ", ";
         cout << encoder2_cal << ", ";
@@ -215,7 +219,7 @@ vector<int> Robot::load_encoder_calibrate(){
         offset.push_back(encoder2_cal);
         offset.push_back(encoder3_cal);
 
-        myfile.close();
+        myFile.close();
         return offset;
     }
     else{
@@ -734,6 +738,9 @@ void Robot::balance_roll(){
 
 void Robot::balance_pitch(){
 }
+
+
+
 /* PID reference 
 void Robot::basic_pid(int target){
 

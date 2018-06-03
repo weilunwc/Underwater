@@ -209,7 +209,6 @@ add_executable(check_usb src/control/check_usb.cpp)
 target_link_libraries(check_usb ${catkin_LIBRARIES})
 add_dependencies(check_usb ${catkin_EXPORTED_TARGETS})
 
-
 add_executable(imu_yaw_control src/control/imu_yaw_control.cpp src/control/Robot.cpp)
 target_link_libraries(imu_yaw_control  ${catkin_LIBRARIES})
 add_dependencies(imu_yaw_control ${catkin_EXPORTED_TARGETS})
@@ -225,8 +224,4 @@ add_dependencies(joystick_control ${catkin_EXPORTED_TARGETS})
 add_executable(imu_calibrate src/control/imu_calibrate.cpp src/control/Robot.cpp)
 target_link_libraries(imu_calibrate  ${catkin_LIBRARIES})
 add_dependencies(imu_calibrate ${catkin_EXPORTED_TARGETS})
-
-add_executable(baro_calibrate src/control/baro_calibrate.cpp src/control/Robot.cpp)
-target_link_libraries(baro_calibrate  ${catkin_LIBRARIES})
-add_dependencies(baro_calibrate ${catkin_EXPORTED_TARGETS})
 

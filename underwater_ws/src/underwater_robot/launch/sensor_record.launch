@@ -4,7 +4,7 @@
     
     <!-- This launch file is inteded to record a bag file for important sensor data -->
     <node pkg="rosbag" name="sensor_record" type="record" 
-    args="-o /home/william/Underwater/$(arg bag_name) /imu /position /encoder1 /encoder2 /encoder3"/>
+    args="-o /home/cerlab/Underwater/experiments/$(arg bag_name) /imu /position /encoder1 /encoder2 /encoder3 /usb_cam/image_raw"/>
     
 
 </launch>

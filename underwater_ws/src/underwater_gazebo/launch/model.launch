@@ -5,7 +5,6 @@
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
-    <arg name="world_name" default="plugin.world"/>
 
     <!--launch an empty gazebo world-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -14,7 +13,10 @@
         <arg name="gui" value="$(arg gui)"/>
         <arg name="headless" value="$(arg headless)"/>
         <arg name="debug" value="$(arg debug)"/>
-        <arg name="world_name" value="$(find underwater_gazebo)/worlds/$(arg world_name)"/>
     </include>
+    
+    <!--spawn underwater urdf into gazebo-->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" 
+        respawn="false" output="screen" args="-file $(find underwater_gazebo)/urdf/diff_wheeled_robot.urdf -urdf -z 0 -model ddrobot"/>
     
 </launch>

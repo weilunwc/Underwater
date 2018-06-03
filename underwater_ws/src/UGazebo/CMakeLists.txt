@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(underwater_gazebo)
+project(UGazebo)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,16 +8,13 @@ project(underwater_gazebo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-    roscpp    
-    underwater_msg
+  controller_manager
+  joint_state_controller
+  robot_state_publisher
 )
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(gazebo REQUIRED)
-link_directories(${GAZEBO_LIBRARY_DIRS})
-list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -35,10 +32,10 @@ list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 ##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
 ## * In the file package.xml:
 ##   * add a build_depend tag for "message_generation"
-##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
+##   * add a build_depend and a exec_depend tag for each package in MSG_DEP_SET
 ##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
 ##     but can be declared for certainty nonetheless:
-##     * add a run_depend tag for "message_runtime"
+##     * add a exec_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 ##     find_package(catkin REQUIRED COMPONENTS ...)
@@ -83,7 +80,7 @@ list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 ## To declare and build dynamic reconfigure parameters within this
 ## package, follow these steps:
 ## * In the file package.xml:
-##   * add a build_depend and a run_depend tag for "dynamic_reconfigure"
+##   * add a build_depend and a exec_depend tag for "dynamic_reconfigure"
 ## * In this file (CMakeLists.txt):
 ##   * add "dynamic_reconfigure" to
 ##     find_package(catkin REQUIRED COMPONENTS ...)
@@ -107,8 +104,8 @@ list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES underwater_gazebo
-#  CATKIN_DEPENDS other_catkin_pkg
+#  LIBRARIES UGazebo
+#  CATKIN_DEPENDS controller_manager joint_state_controller robot_state_publisher
 #  DEPENDS system_lib
 )
 
@@ -119,28 +116,15 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-    #include
-  ${GAZEBO_INCLUDE_DIRS}
+# include
   ${catkin_INCLUDE_DIRS}
 )
-Message(${GAZEBO_INCLUDE_DIRS})
 
 ## Declare a C++ library
+# add_library(${PROJECT_NAME}
+#   src/${PROJECT_NAME}/UGazebo.cpp
+# )
 
-#add_library(encoder SHARED src/encoder.cc)
-#target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-#add_library(position SHARED src/position.cc)
-#target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(thruster_plug SHARED src/thruster_plug.cc)
-target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(model_push SHARED src/model_push.cc)
-target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(fake_imu SHARED src/fake_imu.cc)
-target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -149,7 +133,7 @@ target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/underwater_gazebo_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/UGazebo_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -206,10 +190,14 @@ target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_underwater_gazebo.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_UGazebo.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(walk src/walk.cpp)
+target_link_libraries(walk  ${catkin_LIBRARIES})
+add_dependencies(walk ${catkin_EXPORTED_TARGETS})

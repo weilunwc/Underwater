@@ -10,6 +10,7 @@ Robot::Robot(){
     start_straight = false;
     cumulate_error = 0;
     last_error = 1;
+    mode = 0;
 }
 
 /* Motors */
@@ -21,6 +22,8 @@ void Robot::publish_motors(){
 }
 
 void Robot::send_motor_commands(){
+    
+    
     center_motor_pub.publish(center_cmd);
     motor_1_pub.publish(motor1_cmd);
     motor_2_pub.publish(motor2_cmd);
@@ -121,6 +124,12 @@ void Robot::read_joystick(const sensor_msgs::Joy &joyInfo){
         cout << "suspend system" << endl;
     }
     
+    if(buttons[7] == 1){
+        mode = 1;
+    }
+    if(buttons[5] == 1){
+        mode = 0;
+    }
     /* determine head leg */
     if(buttons[3] == 1) head_leg = 1; // Y
     if(buttons[2] == 1) head_leg = 2; // X
@@ -427,29 +436,29 @@ void Robot::process_joystick(){
         // flip left clockwise
         motor1_cmd.mode = 2;
         motor1_cmd.flipping_angle = 90;
-        motor1_cmd.flipping_speed = 30;
+        motor1_cmd.flipping_speed = 40;
 
         motor2_cmd.mode = 2;
         motor2_cmd.flipping_angle = 90;
-        motor2_cmd.flipping_speed = 30;
+        motor2_cmd.flipping_speed = 40;
 
         motor3_cmd.mode = 2;
         motor3_cmd.flipping_angle = 90;
-        motor3_cmd.flipping_speed = 30;
+        motor3_cmd.flipping_speed = 40;
 
     }
     else if(axis[0] < -0.5){
         motor1_cmd.mode = 2;
         motor1_cmd.flipping_angle = -90;
-        motor1_cmd.flipping_speed = 30;
+        motor1_cmd.flipping_speed = 40;
 
         motor2_cmd.mode = 2;
         motor2_cmd.flipping_angle = -90;
-        motor2_cmd.flipping_speed = 30;
+        motor2_cmd.flipping_speed = 40;
 
         motor3_cmd.mode = 2;
         motor3_cmd.flipping_angle = -90;
-        motor3_cmd.flipping_speed = 30;
+        motor3_cmd.flipping_speed = 40;
     }
 
     else if(axis[1] > 0.5){
@@ -459,9 +468,9 @@ void Robot::process_joystick(){
         motor2_cmd.mode = 2;
         motor3_cmd.mode = 2;
 
-        motor1_cmd.flipping_speed = 30;
-        motor2_cmd.flipping_speed = 30;
-        motor3_cmd.flipping_speed = 30;
+        motor1_cmd.flipping_speed = 40;
+        motor2_cmd.flipping_speed = 40;
+        motor3_cmd.flipping_speed = 40;
 
         int angle = -180;
         motor1_cmd.flipping_angle = angle * (head_leg==1);
@@ -476,9 +485,9 @@ void Robot::process_joystick(){
         motor2_cmd.mode = 2;
         motor3_cmd.mode = 2;
 
-        motor1_cmd.flipping_speed = 30;
-        motor2_cmd.flipping_speed = 30;
-        motor3_cmd.flipping_speed = 30;
+        motor1_cmd.flipping_speed = 40;
+        motor2_cmd.flipping_speed = 40;
+        motor3_cmd.flipping_speed = 40;
 
         int angle = -180;
         motor1_cmd.flipping_angle = angle * (head_leg!=1);
@@ -498,9 +507,9 @@ void Robot::process_joystick(){
         motor2_cmd.mode = 2;
         motor3_cmd.mode = 2;
 
-        motor1_cmd.flipping_speed = 30;
-        motor2_cmd.flipping_speed = 30;
-        motor3_cmd.flipping_speed = 30;
+        motor1_cmd.flipping_speed = 40;
+        motor2_cmd.flipping_speed = 40;
+        motor3_cmd.flipping_speed = 40;
 
         switch(head_leg){
             case 1:

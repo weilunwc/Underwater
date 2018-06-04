@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # Set up the configuration for underwater actuators and sensors
 import rospy
+import os
 
 if __name__ == '__main__':
     rospy.init_node('set_configuration')
     
     # Read encoder offset
     encoder_calibrate = []
-    calibrate_file = '/home/william/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt'
+    user_name = os.environ.get('USER')
+    calibrate_file = '/home/' + user_name + \
+            '/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt'
     try:
         f = open(calibrate_file, 'r')
         for line in f:

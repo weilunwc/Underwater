@@ -32,7 +32,6 @@ public:
 	void subscribe_joystick();
 	void subscribe_imu();
 	void subscribe_baro();
-    void subscribe_encoder();
     void subscribe_pos();
 
 	/* debug info */
@@ -40,7 +39,6 @@ public:
 	void print_imu();
 	void print_baro();
 	void print_joystick();	
-	void print_encoder();
 	void print_pos();
     
     /* set mode of the motors */
@@ -54,9 +52,6 @@ public:
 	/* start and stop command */
 	void check_suspend();	
     
-    /* Encoder calibrate */
-    void save_encoder_calibrate();
-    vector<int> load_encoder_calibrate();
     
     /* process data methods */
 	void process_joystick();
@@ -101,13 +96,6 @@ private:
 	ros::Subscriber baro_sub;
     void read_baro(const underwater_msgs::Baro &baro_info);
     float depth, temp;
-    
-    /* encoder calibration subscriber */
-    ros::Subscriber enc1_cal_sub, enc2_cal_sub, enc3_cal_sub;
-    void read_encoder1(const std_msgs::Int32 &encoder1_msg);
-    void read_encoder2(const std_msgs::Int32 &encoder2_msg);
-    void read_encoder3(const std_msgs::Int32 &encoder3_msg);
-    int encoder1_cal, encoder2_cal, encoder3_cal;
     
     /* position subscriber */
     ros::Subscriber pos_sub;

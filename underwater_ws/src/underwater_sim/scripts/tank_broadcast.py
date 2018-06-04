@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# robot_broadcast.py -- sends the tf of world to robot
+# ship_broadcast.py -- sends the tf of world to ship
 
 import rospy
 from geometry_msgs.msg import Point32, TransformStamped
@@ -10,30 +10,25 @@ import tf2_ros
 import numpy as np
 
 if __name__ == '__main__':
-    rospy.init_node("robot_broadcast")
+    rospy.init_node('tank_broadcast')
     
-    position = rospy.get_param("position")
-    orientation = rospy.get_param("orientation")
-    # Load pose from parameter server
-    x = position['x']
-    y = position['y']
-    z = position['z']
+    
+    x = 0
+    y = 0
+    z = -1.5
 
-    roll = orientation['roll']
-    pitch = orientation['pitch']
-    yaw = orientation['yaw']
      # set up transformation
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()
 
     t.header.stamp = rospy.Time.now()
     t.header.frame_id = "world"
-    t.child_frame_id = "robot_base_link"
+    t.child_frame_id = "tank_base_link"
     t.transform.translation.x = x
     t.transform.translation.y = y
     t.transform.translation.z = z
     
-    q = tf.transformations.quaternion_from_euler(roll , pitch, yaw)
+    q = tf.transformations.quaternion_from_euler(0, 0, 0)
     
     t.transform.rotation.x = q[0]
     t.transform.rotation.y = q[1]

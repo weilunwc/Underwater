@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 using namespace std;
 
+/* Get shell environment variable */
 string GetEnvVar( const string & var ) {
      const char * val = ::getenv( var.c_str() );
      if ( val == 0 ) {
@@ -25,10 +26,10 @@ Robot::Robot(){
 
 /* Motors */
 void Robot::publish_motors(){
-    center_motor_pub = n.advertise<underwater_msgs::Cmd>("center_motor",10);
-    motor_1_pub = n.advertise<underwater_msgs::Cmd>("motor_1",10);
-    motor_2_pub = n.advertise<underwater_msgs::Cmd>("motor_2",10);
-    motor_3_pub = n.advertise<underwater_msgs::Cmd>("motor_3",10);
+    center_motor_pub = n.advertise<underwater_msgs::Cmd>("center_motor", 10);
+    motor_1_pub = n.advertise<underwater_msgs::Cmd>("motor_1", 10);
+    motor_2_pub = n.advertise<underwater_msgs::Cmd>("motor_2", 10);
+    motor_3_pub = n.advertise<underwater_msgs::Cmd>("motor_3", 10);
 }
 
 void Robot::send_motor_commands(){
@@ -61,7 +62,7 @@ void Robot::print_motor_commands(){
 
 /* IMU */
 void Robot::subscribe_imu(){
-    imu_sub = n.subscribe("imu", 1000, &Robot::read_imu, this);
+    imu_sub = n.subscribe("imu", 100, &Robot::read_imu, this);
 }
 
 void Robot::read_imu(const underwater_msgs::Imu &euler_info){
@@ -168,68 +169,6 @@ void Robot::print_pos(){
     printf("Position x: %lf, y: %lf, z:%lf", position.x, position.y, position.z);    
 }
 
-/* Encoder Information */
-void Robot::subscribe_encoder(){
-    encoder1_cal = 0;
-    encoder2_cal = 0;
-    encoder3_cal = 0;
-
-    enc1_cal_sub = n.subscribe("encoder1_cal", 100, &Robot::read_encoder1, this);
-    enc2_cal_sub = n.subscribe("encoder2_cal", 100, &Robot::read_encoder2, this);
-    enc3_cal_sub = n.subscribe("encoder3_cal", 100, &Robot::read_encoder3, this);
-}
-
-void Robot::read_encoder1(const std_msgs::Int32 &encoder1_msg){
-    encoder1_cal = encoder1_msg.data;    
-}
-
-void Robot::read_encoder2(const std_msgs::Int32 &encoder2_msg){
-    encoder2_cal = encoder2_msg.data;    
-}
-
-void Robot::read_encoder3(const std_msgs::Int32 &encoder3_msg){
-    encoder3_cal = encoder3_msg.data;    
-}
-
-void Robot::print_encoder(){
-    ROS_INFO("%d\t%d\t%d", encoder1_cal, encoder2_cal, encoder3_cal);
-}
-
-
-vector<int> Robot::load_encoder_calibrate(){
-    ifstream myFile;
-    
-    string user = GetEnvVar("USER");
-    
-    string filePath = "/home/" + user  + "/Underwater/underwater_ws/src/underwater_robot/utilities/encoder_calibrate.txt";
-    myFile.open(filePath.c_str());
-    vector<int> offset;
-    if(myFile.is_open()){
-        //getline(myfile, line);
-        //cout << line << endl;
-        myFile >> encoder1_cal;
-        myFile >> encoder2_cal;
-        myFile >> encoder3_cal;
-        /*
-        cout << encoder1_cal << ", ";
-        cout << encoder2_cal << ", ";
-        cout << encoder3_cal << endl;
-        */
-        offset.push_back(encoder1_cal);
-        offset.push_back(encoder2_cal);
-        offset.push_back(encoder3_cal);
-
-        myFile.close();
-        return offset;
-    }
-    else{
-        cout << "No calibration file" << endl;
-        exit(0);
-    }
-
-    return offset;
-}
-
 /* Set a switch that activates and deactivates the system */
 void Robot::check_suspend(){
     if(!start){
@@ -243,7 +182,6 @@ void Robot::check_suspend(){
         }
     }
 }
-
 
 /* Set Mode of the motors */
 void Robot::set_spinning_mode(){

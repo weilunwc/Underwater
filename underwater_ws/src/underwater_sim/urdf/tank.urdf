@@ -6,7 +6,7 @@
         <color rgba="1 1 1 0.4"/>
     </material>
 
-    <link name="tank_link">
+    <link name="tank_base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -50,7 +50,7 @@
     
     <joint name="tank_joint" type="fixed">
         <origin xyz="0 0 0"/>
-        <parent link="tank_link"/>
+        <parent link="tank_base_link"/>
         <child link="tank_water_link"/>
     </joint>
 

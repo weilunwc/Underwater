@@ -46,8 +46,6 @@ ros::Publisher baro_pub("barometer", &baro_msg);
  */
 
 bool enable_baro, enable_encoder3;
-//int encoder_offset3;
-
 
 int total_error, last_error;
 void setup(){
@@ -106,10 +104,7 @@ void setup(){
 }
 
 void loop(){
-    float Kp, Ki, Kd;
-    Kp = 0.2;
-    Ki = 0.1;
-    Kd = 0;
+
     int error, del_error;
     switch(mode){
         case 0:
@@ -118,9 +113,14 @@ void loop(){
             break;
         case 1:
             // Spinning Mode
+            /* PID spinning 
             int motor_cmd;
             if(enable_encoder3){
                 // PID    
+                float Kp, Ki, Kd;
+                Kp = 0.2;
+                Ki = 0.1;
+                Kd = 0;
                 error = spinning_speed - encoder_msg.encoder_speed;
                 total_error += error;
                 del_error = error - del_error;
@@ -132,30 +132,36 @@ void loop(){
                 // Use experimental correlation
                 motor_cmd = 0.3*(spinning_speed + 10);
             }
+            */
             myMotor.set_speed(float(spinning_speed)/1.2);
             break;
         case 2:
+            // Flipping Mode, don't flip if no encoder info
             if(enable_encoder3){
+                /*
                 int motor_cmd;
                 motor_cmd = 0.3*(flipping_speed + 10);
-                myMotor.flip(flipping_angle, float(flipping_speed)/1.2, myEncoder);
+                */
+                float adjust_ratio = 1.2; // adjust all motors to same scale
+                myMotor.flip(flipping_angle, float(flipping_speed)/adjust_ratio, myEncoder);
             }
             else myMotor.brake();
             break;
         default:
-            /* unknown command type */
+            /* Unknown command type */
             myMotor.brake();
     }
     nh.spinOnce();
+    
     if(enable_encoder3){
         encoder_msg.encoder_angle = myEncoder.read_angle();
         encoder_msg.encoder_speed = myEncoder.read_speed();
         encoder_pub.publish(&encoder_msg);
     }
-    // prevent ros node from timing out
-    nh.spinOnce(); 
+    
+    nh.spinOnce(); // prevent ros node from timing out
     if(enable_baro){
-        /* read baro data */
+        /* Read baro data */
         myBarometer.display_data();
         float depth = myBarometer.depth();
         float temp = myBarometer.temperature();
@@ -163,8 +169,9 @@ void loop(){
         baro_msg.depth = depth;
         baro_msg.temp = temp;
         baro_pub.publish(&baro_msg);
-    }
 
+    }
+    
 
     nh.spinOnce();
     delay(1);

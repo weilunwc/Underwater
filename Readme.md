@@ -91,5 +91,10 @@ Connect the computer to the usb-camera, and download the ros package `sudo apt-g
 
 Test if its working with `roslaunch usb_cam usb_cam-test.launch`
 
+**11. Connect to Blue robotics locator**
+
+Connect computer to the locator ethernet cable and follow the connection settings below
+
+
 
 Now We're all set!

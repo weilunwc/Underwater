@@ -5,7 +5,7 @@
     <param name="robot_description" command="cat $(arg model)"/>
 
     <!--send joint states-->
-    <node name="encoder_joint_state" pkg="underwater_sim" type="sensor_broadcast.py"/>
+    <node name="sensor_broadcast" pkg="underwater_sim" type="sensor_broadcast.py"/>
 
     <!-- joint values subscribers to myencoder joint_states-->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

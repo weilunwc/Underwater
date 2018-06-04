@@ -3,7 +3,7 @@
 # Topics include Imu, Barometer, Locator and Encoder
 
 import rospy
-from underwater_msg.msg import Encoder, Baro, Imu, Cmd
+from underwater_msgs.msg import Encoder, Baro, Imu, Cmd
 from geometry_msgs.msg import Point32
 
 from collections import deque

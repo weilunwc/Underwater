@@ -11,6 +11,9 @@
     <!--arduino node -->
     <include file="$(find underwater_robot)/launch/arduino_nodes.launch"/>
     
+    <!--position locator-->
+    <node pkg="underwater_robot" type="position_localization.py" name="position_localization"/>
+
     <!--joystick node -->
 	<node pkg="joy" type="joy_node" name="joy">
 	</node>

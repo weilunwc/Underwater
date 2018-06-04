@@ -93,20 +93,22 @@ void setup(){
 }
 
 void loop(){
-    float Kp, Ki, Kd;
-    Kp = 0.15;
-    Ki = 0.01;
-    Kd = 0.00028;
-    float error, del_error;
+
     switch(mode){
         case 0:
             myMotor.brake();
             break;
         case 1:
             // Spinning Mode
+
             int motor_cmd;
             if(enable_encoder1){
                 // PID
+                float Kp, Ki, Kd;
+                Kp = 0.15;
+                Ki = 0.01;
+                Kd = 0.00028;
+                float error, del_error;
                 error = spinning_speed - encoder_msg.encoder_speed;
                 total_error += error;
                 del_error = error - del_error;
@@ -139,7 +141,9 @@ void loop(){
         encoder_msg.encoder_angle = myEncoder.read_angle();
         encoder_msg.encoder_speed = myEncoder.read_speed();
         encoder_pub.publish(&encoder_msg);
+
     }
+
 
     nh.spinOnce();
     delay(1);

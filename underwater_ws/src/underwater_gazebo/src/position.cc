@@ -4,8 +4,8 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/TransportTypes.hh>
-#include <ignition/math/Vector3.hh>
-
+#include <ignition/math/Vector3.hh>     
+#include <ignition/math/Pose3.hh>
 // ros
 #include <ros/ros.h>
 #include <geometry_msgs/Point32.h>

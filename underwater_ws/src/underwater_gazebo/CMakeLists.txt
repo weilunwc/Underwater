@@ -123,13 +123,13 @@ include_directories(
   ${GAZEBO_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
+Message(${GAZEBO_INCLUDE_DIRS})
 
 ## Declare a C++ library
 
 add_library(encoder SHARED src/encoder.cc)
 target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
-
 
 add_library(position SHARED src/position.cc)
 target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})

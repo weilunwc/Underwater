@@ -5,7 +5,7 @@
 #include <gazebo/common/common.hh>
 #include <gazebo/transport/TransportTypes.hh>
 #include <ignition/math/Vector3.hh>
-
+#include <ignition/math/Pose3.hh>
 // ros
 #include <ros/ros.h>
 #include <underwater_msgs/Encoder.h>
@@ -38,6 +38,7 @@ namespace gazebo
         ros::NodeHandle* node_handle_; 
         ros::Publisher encoder_publisher_;
         underwater_msgs::Encoder enc_;
+
     };
 
     // Register this plugin with the simulator

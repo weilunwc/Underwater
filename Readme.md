@@ -94,7 +94,11 @@ Test if its working with `roslaunch usb_cam usb_cam-test.launch`
 **11. Connect to Blue robotics locator**
 
 Connect computer to the locator ethernet cable and follow the connection settings below
-
-
+<p align="center">
+  <img src="https://github.com/weilunwc/Underwater/blob/master/Images/edit_connection.png"/>
+</p>
+<p align="center">
+  <img src="https://github.com/weilunwc/Underwater/blob/master/Images/settings.png"/>
+</p>
 
 Now We're all set!

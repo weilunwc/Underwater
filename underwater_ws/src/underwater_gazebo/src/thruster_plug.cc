@@ -9,6 +9,7 @@
 #include "ros/callback_queue.h"
 #include "ros/subscribe_options.h"
 #include "std_msgs/Float32.h"
+#include "underwater_msg/Cmd.h"
 #include <boost/bind.hpp>
 
 namespace gazebo
@@ -17,7 +18,7 @@ namespace gazebo
   {
   	public: SamplePlug(){};
 
-private: std::unique_ptr<ros::NodeHandle> rosNode;
+  private: std::unique_ptr<ros::NodeHandle> rosNode;
   ros::NodeHandle n;
   //ros::Publisher central_pub;
 /// \brief A ROS subscriber
@@ -29,7 +30,10 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
 /// \brief A thread the keeps running the rosQueue
   private: std::thread rosQueueThread;
 
-  private: double force = 0;
+  private: double force = 0;\
+  private: physics::JointController ConPos;
+  private: physics::JointController ConVel;
+  
   public: ~SamplePlug()
    {
       updateConnection.reset();
@@ -37,6 +41,7 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
     }
   	/// \brief A node use for ROS transport
 	
+  
 
 	public: void SetForce(const double &_for)
 	{
@@ -44,10 +49,14 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
   	  force = _for;
 	}
 
-	public: void OnRosMsg(const std_msgs::Float32ConstPtr &_msg)
+	public: void OnRosMsg(const underwater_msg::CmdConstPtr &_msg)
 	{
-  		this->SetForce(_msg->data);
+  		this->mode = _msg->mode;
+      this->spinSpeed = _msg->spinning_speed;
+      this->flippAngle = _msg->flipping_angle;
+      this->flippSpeed = _msg->flipping_speed;
   		//std::cout << "woop" << std::endl;
+      
 	}
 
 /// \brief ROS helper function that processes messages
@@ -61,66 +70,77 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
 	}
 
 
-    protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+  protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+  {
+    // Store the pointer to the model
+    this->model = _parent;
+    if (!_sdf->HasElement("linkName"))
     {
-      // Store the pointer to the model
-      this->model = _parent;
-      if (!_sdf->HasElement("linkName"))
-      {
-         ROS_FATAL_NAMED("force", "force plugin missing <bodyName>, cannot proceed");
-         return;
-      }
-      this->link_name = _sdf->Get<std::string>("linkName"); 
-      std::cout << "///////////////////////////////////////////////////////////////////" << std::endl;
-      std::cout << this->link_name << std::endl;
-      std::cout << "*******************************************************************" << std::endl;
-      this->link = this->model->GetLink(this->link_name);
-       // printf("%d\n",link->GetId());
-      if(!ros::isInitialized())
-      {
-        return;
-      }
-      ros::Duration gazebo_period(model->GetWorld()->Physics()->GetMaxStepSize());
-      // Listen to the update event. This event is broadcast every
-      // simulation iteration.
+       ROS_FATAL_NAMED("force", "force plugin missing <bodyName>, cannot proceed");
+       return;
+    }
+    mode = 0;
+    spinSpeed = 0;
+    flippAngle = 0;
+    flippSpeed = 0;
+    this->link_name = _sdf->Get<std::string>("linkName");
+    this->joint_name = _sdf->Get<std::string>("jointName"); 
+    std::cout << this->link_name << std::endl; 
+    std::cout << this->joint_name << std::endl;
+    std::cout << "///////////////////////////////////////////////////////////////////" << std::endl;
+    std::vector<physics::LinkPtr> Link_V = this->model->GetLinks();
+    std::cout << Link_V.size();
+    for(int i = 0; i < Link_V.size(); i++){
+      std::cout << Link_V[i]->GetName() << std::endl;
+    }
+    std::cout << "*******************************************************************" << std::endl;
+    this->link = this->model->GetLink(link_name);
+    this->joint = this->model->GetJoint(joint_name);
 
-      this->rosNode.reset(new ros::NodeHandle(link_name));
-    
-      // central_pub = n.advertise<std_msgs::Float32>("force_node_out",10);
-      ros::SubscribeOptions so =
-          ros::SubscribeOptions::create<std_msgs::Float32>(
-            "/" + link_name + "/for_cmd",
-            1,
-           boost::bind(&SamplePlug::OnRosMsg, this, _1),
-           ros::VoidPtr(), &this->rosQueue);
-       this->rosSub = this->rosNode->subscribe(so);
+    this->ConPos.AddJoint(this->joint);
+    this->ConVel.AddJoint(this->joint);
+
+    if(!ros::isInitialized())
+    {
+      return;
+    }
+    ros::Duration gazebo_period(model->GetWorld()->Physics()->GetMaxStepSize());
+    this->rosNode.reset(new ros::NodeHandle(link_name));
+    ros::SubscribeOptions so =
+        ros::SubscribeOptions::create<underwater_msg::Cmd>(
+          "/" + joint_name + "/cmd",
+          1,
+         boost::bind(&SamplePlug::OnRosMsg, this, _1),
+         ros::VoidPtr(), &this->rosQueue);
+
+    this->rosSub = this->rosNode->subscribe(so);
+
 
       // Spin up the queue helper thread.
       this->rosQueueThread =
       std::thread(boost::bind(&SamplePlug::QueueThread, this));
 
-
+  
       this->updateConnection = event::Events::ConnectWorldUpdateEnd(
           boost::bind(&SamplePlug::OnUpdate, this));
-
+      
 
 	  }
     // Called by the world update start event
     protected:  virtual void OnUpdate()
     {	//std::cout << "what" << std::endl;
       // Apply a small linear velocity to the model.
-      this->link->AddRelativeForce(ignition::math::Vector3d(0,0,force));
-      //printf("%d\n",link->GetId());
-      std_msgs::Float32 central;
-      central.data = force;
-      //central_pub.publish(central);
     }
 
     // Pointer to the model
     protected: std::string link_name;
+    protected: std::string joint_name;
     private: physics::ModelPtr model;
     private: physics::LinkPtr link;
+    private: physics::JointPtr joint;
 
+
+    private: int mode, spinSpeed, flippAngle, flippSpeed;
     // Pointer to the update event connection
     private: event::ConnectionPtr updateConnection;
     /// \brief A PID controller for the joint.

@@ -31,6 +31,7 @@
     <!-- * * * Link Definitions * * * -->
 
     <!-- mesh files -->
+    
     <link name="robot_base_link">
         
         <inertial>
@@ -42,7 +43,7 @@
         <collision>
             <origin xyz="0 0 .01" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.25" length="0.11"/>
+                <cylinder radius=".25" length="0.11"/>
             </geometry>
         </collision>
 
@@ -53,7 +54,6 @@
             </geometry>
             <material name="white"/>
         </visual>
-        <plugin name="thruster_plug" filename="libthruster_plug.so"/>
     </link> 
 
     <link name="center_link">
@@ -69,7 +69,9 @@
             </geometry>
             <material name="black"/>
         </visual>
+
     </link> 
+    
 
 
     <link name="shaft1_link">
@@ -105,9 +107,12 @@
     <link name="flipper1_link"/>
     <link name="flipper2_link"/>
     <link name="flipper3_link"/>
-    <link name="shaft1_link_fixed"/>
-    <link name="shaft2_link_fixed"/>
-    <link name="shaft3_link_fixed"/>
+    <link name="shaft1_link_fixed">
+    </link>
+    <link name="shaft2_link_fixed">
+    </link>
+    <link name="shaft3_link_fixed">
+    </link>
 
     <link name="cylinder1_link">
         <collision>
@@ -260,7 +265,7 @@
     
     <!-- * * * Joint Definitions * * * -->
 
-    <joint name="center_motor" type="continuous">
+    <joint name="center_motor" type="fixed">
         <parent link="robot_base_link"/>
         <child link="center_link"/>
         <origin xyz="0.000 0 0.0000" rpy="0 0 0"/>
@@ -571,16 +576,13 @@
         <robotNamespace>/UGazebo</robotNamespace>
     </plugin>
     </gazebo>
-
-        <gazebo>
-     <plugin name="thruster_plug" filename="libthruster_plug.so">
-     <BodyName>robot_base_link</BodyName>
-    </plugin>
-    </gazebo>
     <gazebo>
-     <plugin name="thruster_plug2" filename="libthruster_plug2.so">
-     <BodyName>shaft1_link_fixed</BodyName>
-    </plugin>
+        <plugin name="thruster_plug" filename="libthruster_plug.so">
+            <linkName>center_link</linkName>
+            <velocity>10</velocity>
+        </plugin>
     </gazebo>
+
+ 
 
 </robot> 

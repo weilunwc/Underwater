@@ -59,7 +59,7 @@ int main(int argc ,char **argv){
     mot1_pub = n.advertise<std_msgs::Float64>("UGazebo/motor1_torque_controller/command",10);
     mot2_pub = n.advertise<std_msgs::Float64>("UGazebo/motor2_torque_controller/command",10);
     mot3_pub = n.advertise<std_msgs::Float64>("UGazebo/motor3_torque_controller/command",10);
-    central_pub = n.advertise<std_msgs::Float32>("/robot_base_link/for_cmd",10);
+    //central_pub = n.advertise<std_msgs::Float32>("/robot_base_link/for_cmd",10);
     std_msgs::Float64 mot1;
     mot1.data = 0;
     std_msgs::Float64 mot2;
@@ -99,7 +99,7 @@ int main(int argc ,char **argv){
         mot2_pub.publish(mot2);
         mot3_pub.publish(mot3);
         
-        central_pub.publish(central);
+        //central_pub.publish(central);
         ros::spinOnce();
         loop_rate.sleep();
     }

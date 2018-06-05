@@ -13,9 +13,9 @@
 
 namespace gazebo
 {
-  class ModelPush : public ModelPlugin
+  class SamplePlug : public ModelPlugin
   {
-  	public: ModelPush(){};
+  	public: SamplePlug(){};
 
 private: std::unique_ptr<ros::NodeHandle> rosNode;
   ros::NodeHandle n;
@@ -30,7 +30,7 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
   private: std::thread rosQueueThread;
 
   private: double force = 0;
-  public: ~ModelPush()
+  public: ~SamplePlug()
    {
       updateConnection.reset();
 
@@ -61,13 +61,21 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
 	}
 
 
-    public: virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+    protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     {
       // Store the pointer to the model
       this->model = _parent;
-      this->link_name = _sdf->GetElement("BodyName")->Get<std::string>();
-      this->link = model->GetLink(this->link_name);
-
+      if (!_sdf->HasElement("linkName"))
+      {
+         ROS_FATAL_NAMED("force", "force plugin missing <bodyName>, cannot proceed");
+         return;
+      }
+      this->link_name = _sdf->Get<std::string>("linkName"); 
+      std::cout << "///////////////////////////////////////////////////////////////////" << std::endl;
+      std::cout << this->link_name << std::endl;
+      std::cout << "*******************************************************************" << std::endl;
+      this->link = this->model->GetLink(this->link_name);
+       // printf("%d\n",link->GetId());
       if(!ros::isInitialized())
       {
         return;
@@ -79,46 +87,42 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
       this->rosNode.reset(new ros::NodeHandle(link_name));
     
       // central_pub = n.advertise<std_msgs::Float32>("force_node_out",10);
-      // Create a named topic, and subscribe to it.
       ros::SubscribeOptions so =
           ros::SubscribeOptions::create<std_msgs::Float32>(
             "/" + link_name + "/for_cmd",
             1,
-           boost::bind(&ModelPush::OnRosMsg, this, _1),
+           boost::bind(&SamplePlug::OnRosMsg, this, _1),
            ros::VoidPtr(), &this->rosQueue);
        this->rosSub = this->rosNode->subscribe(so);
 
       // Spin up the queue helper thread.
       this->rosQueueThread =
-      std::thread(boost::bind(&ModelPush::QueueThread, this));
+      std::thread(boost::bind(&SamplePlug::QueueThread, this));
 
 
       this->updateConnection = event::Events::ConnectWorldUpdateEnd(
-          boost::bind(&ModelPush::OnUpdate, this));
-      // Initialize ros, if it has not already bee initialized.
+          boost::bind(&SamplePlug::OnUpdate, this));
 
-	   // Create our ROS node. This acts in a similar manner to
-	   // the Gazebo node
-		
 
 	  }
     // Called by the world update start event
-    public:  void OnUpdate()
+    protected:  virtual void OnUpdate()
     {	//std::cout << "what" << std::endl;
       // Apply a small linear velocity to the model.
-      this->link->AddForce(ignition::math::Vector3d(0,0,force));
+      this->link->AddRelativeForce(ignition::math::Vector3d(0,0,force));
+      //printf("%d\n",link->GetId());
       std_msgs::Float32 central;
       central.data = force;
       //central_pub.publish(central);
     }
 
     // Pointer to the model
-    private: std::string link_name;
+    protected: std::string link_name;
     private: physics::ModelPtr model;
-    protected: physics::LinkPtr link;
+    private: physics::LinkPtr link;
 
     // Pointer to the update event connection
-    protected: event::ConnectionPtr updateConnection;
+    private: event::ConnectionPtr updateConnection;
     /// \brief A PID controller for the joint.
     private: common::PID pid;
 
@@ -130,5 +134,5 @@ private: std::unique_ptr<ros::NodeHandle> rosNode;
   };
 
   // Register this plugin with the simulator
-  GZ_REGISTER_MODEL_PLUGIN(ModelPush);
+  GZ_REGISTER_MODEL_PLUGIN(SamplePlug);
 }

@@ -7,8 +7,8 @@
 #include <SPI.h>
 
 #include <ros.h>
-#include <underwater_msg/Cmd.h>
-#include <underwater_msg/Encoder.h>
+#include <underwater_msgs/Cmd.h>
+#include <underwater_msgs/Encoder.h>
 
 /* Our actuators and senesor */
 Motor myMotor;
@@ -19,16 +19,16 @@ ros::NodeHandle nh;
 /* Set up motor */
 int mode, spinning_speed, flipping_angle, flipping_speed;
 /* Read the motor control command */
-void motor_command(const underwater_msg::Cmd& cmd_msg){
+void motor_command(const underwater_msgs::Cmd& cmd_msg){
     mode = cmd_msg.mode;
     spinning_speed = cmd_msg.spinning_speed;
     flipping_angle = cmd_msg.flipping_angle;
     flipping_speed = cmd_msg.flipping_speed;
 }
-ros::Subscriber<underwater_msg::Cmd> motor_sub("motor_1", motor_command);
+ros::Subscriber<underwater_msgs::Cmd> motor_sub("motor_1", motor_command);
 
 /* Set up Encoder */
-underwater_msg::Encoder encoder_msg;
+underwater_msgs::Encoder encoder_msg;
 ros::Publisher encoder_pub("encoder_1", &encoder_msg);
 
 /* Set up Config 
@@ -93,20 +93,22 @@ void setup(){
 }
 
 void loop(){
-    float Kp, Ki, Kd;
-    Kp = 0.15;
-    Ki = 0.01;
-    Kd = 0.00028;
-    float error, del_error;
+
     switch(mode){
         case 0:
             myMotor.brake();
             break;
         case 1:
             // Spinning Mode
+
             int motor_cmd;
             if(enable_encoder1){
                 // PID
+                float Kp, Ki, Kd;
+                Kp = 0.15;
+                Ki = 0.01;
+                Kd = 0.00028;
+                float error, del_error;
                 error = spinning_speed - encoder_msg.encoder_speed;
                 total_error += error;
                 del_error = error - del_error;
@@ -139,7 +141,9 @@ void loop(){
         encoder_msg.encoder_angle = myEncoder.read_angle();
         encoder_msg.encoder_speed = myEncoder.read_speed();
         encoder_pub.publish(&encoder_msg);
+
     }
+
 
     nh.spinOnce();
     delay(1);

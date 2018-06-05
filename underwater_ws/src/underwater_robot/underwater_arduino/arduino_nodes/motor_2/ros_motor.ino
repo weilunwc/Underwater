@@ -7,8 +7,8 @@
 #include <SPI.h>
 
 #include <ros.h>
-#include <underwater_msg/Cmd.h>
-#include <underwater_msg/Encoder.h>
+#include <underwater_msgs/Cmd.h>
+#include <underwater_msgs/Encoder.h>
 
 /* Our actuators and senesor */
 Motor myMotor;
@@ -19,16 +19,16 @@ ros::NodeHandle nh;
 /* Set up motor */
 int mode, spinning_speed, flipping_angle, flipping_speed;
 /* Read the motor control command */
-void motor_command(const underwater_msg::Cmd& cmd_msg){
+void motor_command(const underwater_msgs::Cmd& cmd_msg){
     mode = cmd_msg.mode;
     spinning_speed = cmd_msg.spinning_speed;
     flipping_angle = cmd_msg.flipping_angle;
     flipping_speed = cmd_msg.flipping_speed;
 }
-ros::Subscriber<underwater_msg::Cmd> motor_sub("motor_2", motor_command);
+ros::Subscriber<underwater_msgs::Cmd> motor_sub("motor_2", motor_command);
 
 /* Set up Encoder */
-underwater_msg::Encoder encoder_msg;
+underwater_msgs::Encoder encoder_msg;
 ros::Publisher encoder_pub("encoder_2", &encoder_msg);
 
 /* Set up Config 
@@ -96,11 +96,8 @@ void setup(){
 }
 
 void loop(){
-    float Kp, Ki, Kd;
-    Kp = 0.25;
-    Ki = 0.01;
-    Kd = 0.0002;
-    float error, del_error;
+
+
     switch(mode){
         case 0:
             // Brake
@@ -108,13 +105,18 @@ void loop(){
             break;
         case 1:
             // Spinning Mode
+            /*
             int motor_cmd;
             if(enable_encoder2){
                 // PID
+                float error, del_error;
+                float Kp, Ki, Kd;
+                Kp = 0.25;
+                Ki = 0.01;
+                Kd = 0.0002;
                 error = float(spinning_speed - encoder_msg.encoder_speed);
                 total_error += error;
                 del_error = error - del_error;
-
                 motor_cmd = Kp*error + Ki*total_error + Kd*del_error;
                 last_error = error;
             }
@@ -122,13 +124,15 @@ void loop(){
                 motor_cmd = 0.3*(spinning_speed + 10);
             }
             //motor_cmd = 0.3*(spinning_speed + 10);
+            */
             myMotor.set_speed(spinning_speed);
-            
             break;
         case 2:
             if(enable_encoder2){
+                /*
                 int motor_cmd;
                 //motor_cmd = 0.3*(flipping_speed + 10);
+                */
                 myMotor.flip(flipping_angle, flipping_speed, myEncoder);
             }
             else myMotor.brake();
@@ -142,6 +146,7 @@ void loop(){
         encoder_msg.encoder_speed = myEncoder.read_speed();
         encoder_pub.publish(&encoder_msg);
     }
+
 
     nh.spinOnce();
     delay(1);

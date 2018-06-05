@@ -33,9 +33,6 @@ class Locator:
         # Can set external depth for fusion
         self.baseurl = baseurl
         self.external_depth = external_depth
-        self.delay_time = 1
-        
-        
         
     def set_depth(self, depth, temp):
         # Send depth and temp info to the locator server for sensor fusion
@@ -51,26 +48,37 @@ class Locator:
         url = '{}/api/v1/external/depth'.format(self.baseurl)
 
         payload = dict(depth=depth, temp=temp)
-        r = requests.put(url, json=payload, timeout=10)
+        
+        try:
+            r = requests.put(url, json=payload, timeout=10)
+            if r.status_code != 200:
+                print("Error setting depth: {} {}".format(r.status_code, r.text))
+        except:
+            pass
+            # print("server not open")
 
-        if r.status_code != 200:
-            print("Error setting depth: {} {}".format(r.status_code, r.text))
-
-    def get_acoustic_position(self):
+    def get_3d_acoustic_position(self):
         # get local coordinates from acoustic locator
         # return x,y,z TODO check units and format
         data = get_data("{}/api/v1/position/acoustic/filtered".format(self.baseurl))
         if data:
-            if self.external_depth:
-                x = data["x"]
-                y = data["y"]
-                # Since this is depth, we want it negative
-                z = -data["z"]
-                return x, y, z
-            else:
-                x = data["x"]
-                y = data["y"]
-                return x, y
+            x = data["x"]
+            y = data["y"]
+            z = -data["z"] # Since its depth, we want it to be negative
+            return x, y, z
+        else:
+            print("error getting 3d position data")
+            return 0, 0, 0
+    
+    def get_2d_acoustic_position(self):
+        data = get_data("{}/api/v1/position/acoustic/filtered".format(self.baseurl))
+        if data:
+            x = data["x"]
+            y = data["y"]
+            return x, y
+        else:
+            print("error getting 2d position data")
+            return 0, 0
     
     def get_global_position(self):
         # get latitude and longitude from GPS 

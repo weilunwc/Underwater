@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="url" default="http://192.168.2.94"/>
+    <arg name="external_depth" default="true"/>
+
+    <!-- launch the acoustic locator--> 
+    <node pkg="underwater_robot" type="position_localization.py" name="position_localization" output="screen">
+        <param name="url" value="$(arg url)"/>
+        <param name="external_depth" value="$(arg external_depth)"/>
+	</node>
+	
+</launch>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# ship_broadcast.py -- sends the tf of world to ship
+# robot_broadcast.py -- sends the tf of world to robot
 
 import rospy
 from geometry_msgs.msg import Point32, TransformStamped

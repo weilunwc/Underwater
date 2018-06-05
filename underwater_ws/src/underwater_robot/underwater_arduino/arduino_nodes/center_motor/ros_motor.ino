@@ -12,9 +12,9 @@
 #include "Underwater_IMU.h"
 
 #include <ros.h>
-#include <underwater_msg/Cmd.h>
-#include <underwater_msg/Imu.h>
-
+#include <underwater_msgs/Cmd.h>
+//#include <underwater_msgs/Imu.h>
+#include <geometry_msgs/Quaternion.h>
 
 /* Our actuators and senesor */
 Motor myMotor;
@@ -25,16 +25,17 @@ ros::NodeHandle nh;
 /* Set up motor */
 int mode, spinning_speed, flipping_angle, flipping_speed;
 /* Read the motor control command */
-void motor_command(const underwater_msg::Cmd& cmd_msg){
+void motor_command(const underwater_msgs::Cmd& cmd_msg){
     mode = cmd_msg.mode;
     spinning_speed = cmd_msg.spinning_speed;
     flipping_angle = cmd_msg.flipping_angle;
     flipping_speed = cmd_msg.flipping_speed;
 }
-ros::Subscriber<underwater_msg::Cmd> motor_sub("center_motor", motor_command);
+ros::Subscriber<underwater_msgs::Cmd> motor_sub("center_motor", motor_command);
 
 /* Set up Imu */
-underwater_msg::Imu imu_msg;
+//underwater_msgs::Imu imu_msg;
+geometry_msgs::Quaternion imu_msg;
 ros::Publisher imu_pub("imu", &imu_msg);
 
 /* Set up Config 
@@ -105,16 +106,23 @@ void loop(){
     
     /* Read IMU */
     if(enable_imu){
+        /*
         euler_data euler;
         euler = myIMU.get_euler_data();
 
-        /* adjust euler data to robot frame */
         imu_msg.roll = -euler.yaw;
         imu_msg.pitch = euler.pitch;
         imu_msg.yaw = 360.0 - euler.roll;
+        */
+        imu::Quaternion quat = myIMU.get_quaternion_data();
+        imu_msg.x = quat.x(); 
+        imu_msg.y = quat.y(); 
+        imu_msg.z = quat.z(); 
+        imu_msg.w = quat.w(); 
 
         imu_pub.publish(&imu_msg);
     }
+
 
     nh.spinOnce();
     delay(1);

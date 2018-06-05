@@ -10,7 +10,7 @@
 // ros
 #include <ros/ros.h>
 #include <geometry_msgs/Quaternion.h>
-#include <underwater_msg/Imu.h>
+#include <underwater_msgs/Imu.h>
 #include <tf/transform_broadcaster.h>
 
 namespace gazebo
@@ -35,7 +35,7 @@ namespace gazebo
         ros::NodeHandle* node_handle_; 
         ros::Publisher imu_publisher_;
         geometry_msgs::Quaternion imu_quat_;
-        underwater_msg::Imu imu_euler_; 
+        underwater_msgs::Imu imu_euler_; 
     };
 
     // Register this plugin with the simulator
@@ -72,7 +72,7 @@ namespace gazebo
         if(orientationType == "quaternion")
             imu_publisher_ = node_handle_->advertise<geometry_msgs::Quaternion>("imu", 10);
         else
-            imu_publisher_ = node_handle_->advertise<underwater_msg::Imu>("imu", 10);
+            imu_publisher_ = node_handle_->advertise<underwater_msgs::Imu>("imu", 10);
     }
 
     void FakeImu::OnUpdate(){

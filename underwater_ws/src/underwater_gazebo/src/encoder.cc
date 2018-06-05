@@ -8,7 +8,7 @@
 #include <ignition/math/Pose3.hh>
 // ros
 #include <ros/ros.h>
-#include <underwater_msg/Encoder.h>
+#include <underwater_msgs/Encoder.h>
 #include <geometry_msgs/Point32.h>
 
 namespace gazebo
@@ -37,7 +37,7 @@ namespace gazebo
         // ros
         ros::NodeHandle* node_handle_; 
         ros::Publisher encoder_publisher_;
-        underwater_msg::Encoder enc_;
+        underwater_msgs::Encoder enc_;
 
     };
 
@@ -78,7 +78,7 @@ namespace gazebo
 
         /* ros */ 
         node_handle_ = new ros::NodeHandle();
-        encoder_publisher_ = node_handle_->advertise<underwater_msg::Encoder>(topicName, 10);
+        encoder_publisher_ = node_handle_->advertise<underwater_msgs::Encoder>(topicName, 10);
 
     }
 

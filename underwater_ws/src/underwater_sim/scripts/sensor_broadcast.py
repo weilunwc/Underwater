@@ -11,16 +11,16 @@ import tf
 import tf2_ros
 
 from sensor_msgs.msg import JointState
-from underwater_msg.msg import Imu, Encoder
+from underwater_msgs.msg import Imu, Encoder
 import numpy as np
 
 
 class SensorBroadcast:
-    def __init__(self, imu_version='euler'):
+    def __init__(self, imu_version='quaternion'):
         if imu_version == 'euler':
             self.imu_broadcast = EulerBroadcast()
         else:
-            self.imu_broadcast = QuaternionBroadcasT()
+            self.imu_broadcast = QuaternionBroadcast()
         
         self.encoder_broadcast = EncoderBroadcast() 
         self.position_broadcast = PositionBroadcast()
@@ -132,19 +132,40 @@ class EulerBroadcast:
 class QuaternionBroadcast:
     def __init__(self):
         self.quat = Quaternion()
+        q = tf.transformations.quaternion_from_euler(0, 0, 0)
+        self.quat.x = q[0]
+        self.quat.y = q[1]
+        self.quat.z = q[2]
+        self.quat.w = q[3]
+        
         rospy.Subscriber('imu', Quaternion, self.listener)    
 
     def listener(self, msg):
-        self.quat.x = msg.x
-        self.quat.y = msg.y
-        self.quat.z = msg.z
-        self.quat.w = msg.w
+        
+        # note that the imu yaw should be adjusted 120 degrees
+        q_rot = tf.transformations.quaternion_from_euler(0, 0, np.deg2rad(120))
+        
+        q_imu = np.arange(4, dtype=float)
+        q_imu[0] = msg.x
+        q_imu[1] = msg.y
+        q_imu[2] = msg.z
+        q_imu[3] = msg.w
+        
+        q_new = tf.transformations.quaternion_multiply(q_rot, q_imu)
+        print(q_new)
+        print(q_imu)
+        #q_new = q_imu
+        self.quat.x = q_new[0]
+        self.quat.y = q_new[1]
+        self.quat.z = q_new[2]
+        self.quat.w = q_new[3]
+
 
     def quaternion(self):
-        return self.q
+        return self.quat
 
 if __name__ == '__main__':
-    sensor_broadcast = SensorBroadcast('euler')
+    sensor_broadcast = SensorBroadcast('quaternion')
     rospy.init_node('sensor_broadcast')
     #rospy.Subscriber('imu', Imu, imu_broadcast.listener)
     rate = rospy.Rate(100)

@@ -255,6 +255,18 @@
         </collision>
     </link>  
 
+    <link name="cerlab_logo_link">
+
+        <visual>
+            <origin rpy="0 0 3.1415" xyz="0 0.15 0.065"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/robot/cerlabLogo.dae" scale="0.00075 0.00075 0.00075"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+    </link> 
+
+
 	
 <!-- * * * Joint Definitions * * * -->
 
@@ -372,6 +384,14 @@
     <joint name="motorcylinder3_joint" type="fixed">
         <parent link="robot_base_link"/>
         <child link="motorcylinder3_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="cerlab_logo_joint" type="fixed">
+        <parent link="robot_base_link"/>
+        <child link="cerlab_logo_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <limit lower="-1" upper="1" effort="0.0" velocity="0.00"/>
         <axis xyz="0 1 0"/>

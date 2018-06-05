@@ -10,12 +10,15 @@
     <group ns="robot">
         <include file="$(find underwater_sim)/launch/robot_rviz.launch">
             <arg name="model" value="$(arg robot_model)"/>
+            <arg name="rviz" value="false"/>
+            <arg name="read_sensor" value="false"/>
         </include>
     </group> 
     
     <group ns="ship">
         <include file="$(find underwater_sim)/launch/ship_rviz.launch">
             <arg name="model" value="$(arg ship_model)"/>
+            <arg name="rviz" value="false"/>
         </include>
     </group> 
     

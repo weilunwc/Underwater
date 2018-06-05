@@ -13,9 +13,15 @@ if __name__ == '__main__':
     rospy.init_node('ship_broadcast')
     
     # Load pose from parameter server
-    position = rospy.get_param("position")
-    orientation = rospy.get_param("orientation")
+    try:
+        position = rospy.get_param("position")
+    except:
+        position = {'x':0, 'y':0, 'z':0}
     
+    try:
+        orientation = rospy.get_param("orientation")
+    except:
+        orientation = {'roll':0, 'pitch':0, 'yaw':0}
     # Load pose from parameter server
     x = position['x']
     y = position['y']

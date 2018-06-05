@@ -1,10 +1,11 @@
 <launch>
-
+    <arg name="rviz" default="true"/>
     <!-- visaulize the underwater urdf robot model-->
     <arg name="model" default="$(find underwater_sim)/urdf/ship.urdf"/>
 
     <param name="robot_description" command="cat $(arg model)" />
     
+    <!--send the transform form world to ship base link-->
     <node name="ship_broadcast" pkg="underwater_sim" type="ship_broadcast.py"/> 
 
     <!-- send fake joint values -->
@@ -14,5 +15,7 @@
 
     <!-- Combine joint values -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/ship.rviz" if="$(arg rviz)"/>
 
 </launch>

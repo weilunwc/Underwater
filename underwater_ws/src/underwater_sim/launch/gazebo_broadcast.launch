@@ -1,5 +1,5 @@
 <launch>
-
+    <!--visualize gazebo in rviz-->
     <!-- visaulize the underwater urdf robot model-->
     <arg name="model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="use_gui" default="false"/>

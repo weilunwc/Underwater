@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launch>
-    <include file="$(find underwater_robot)/launch/spawn_underwater.launch"/>
-    <include file="$(find underwater_robot)/launch/underwater_control.launch"/>
-</launch>

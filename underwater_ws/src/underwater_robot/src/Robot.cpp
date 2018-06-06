@@ -75,21 +75,6 @@ void Robot::print_imu(){
     ROS_INFO("roll, pitch, yaw: %lf,\t%lf,\t%lf",roll,pitch,yaw);
 }
 
-/* Barometer */
-void Robot::subscribe_baro(){
-    depth = 0;
-    temp = 0;
-    baro_sub = n.subscribe("barometer", 100, &Robot::read_baro, this);
-}
-
-void Robot::read_baro(const underwater_msgs::Baro &baro_info){
-    depth = baro_info.depth;
-    temp = baro_info.temp;
-}
-
-void Robot::print_baro(){
-    ROS_INFO("depth: %lf, temp = %lf\n", depth, temp);
-}
 
 /* Joystick */
 void Robot::subscribe_joystick(){

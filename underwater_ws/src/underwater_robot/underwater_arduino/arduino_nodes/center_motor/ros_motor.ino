@@ -115,6 +115,8 @@ void loop(){
         imu_msg.yaw = 360.0 - euler.roll;
         */
         imu::Quaternion quat = myIMU.get_quaternion_data();
+        
+        // rotate around yaw
         imu_msg.x = quat.x(); 
         imu_msg.y = quat.y(); 
         imu_msg.z = quat.z(); 

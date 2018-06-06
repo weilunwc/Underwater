@@ -205,23 +205,19 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(check_usb src/control/check_usb.cpp)
+add_executable(check_usb src/check_usb.cpp)
 target_link_libraries(check_usb ${catkin_LIBRARIES})
 add_dependencies(check_usb ${catkin_EXPORTED_TARGETS})
 
-add_executable(imu_yaw_control src/control/imu_yaw_control.cpp src/control/Robot.cpp)
+add_executable(imu_yaw_control src/imu_yaw_control.cpp src/Robot.cpp)
 target_link_libraries(imu_yaw_control  ${catkin_LIBRARIES})
 add_dependencies(imu_yaw_control ${catkin_EXPORTED_TARGETS})
 
-add_executable(encoder_calibrate src/control/encoder_calibrate.cpp src/control/Robot.cpp)
+add_executable(encoder_calibrate src/encoder_calibrate.cpp)
 target_link_libraries(encoder_calibrate  ${catkin_LIBRARIES})
 add_dependencies(encoder_calibrate ${catkin_EXPORTED_TARGETS})
 
-add_executable(joystick_control src/control/joystick_control.cpp src/control/Robot.cpp)
+add_executable(joystick_control src/joystick_control.cpp src/Robot.cpp)
 target_link_libraries(joystick_control  ${catkin_LIBRARIES})
 add_dependencies(joystick_control ${catkin_EXPORTED_TARGETS})
-
-add_executable(imu_calibrate src/control/imu_calibrate.cpp src/control/Robot.cpp)
-target_link_libraries(imu_calibrate  ${catkin_LIBRARIES})
-add_dependencies(imu_calibrate ${catkin_EXPORTED_TARGETS})
 

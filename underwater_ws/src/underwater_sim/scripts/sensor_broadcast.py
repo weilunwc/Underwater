@@ -152,9 +152,22 @@ class QuaternionBroadcast:
         q_imu[3] = msg.w
         
         q_new = tf.transformations.quaternion_multiply(q_rot, q_imu)
-        print(q_new)
-        print(q_imu)
-        #q_new = q_imu
+
+        e_imu = np.rad2deg(tf.transformations.euler_from_quaternion(q_imu))
+        e_rot = np.rad2deg(tf.transformations.euler_from_quaternion(q_rot))
+        e_new = np.rad2deg(tf.transformations.euler_from_quaternion(q_new))
+       
+        """
+        print('q_imu', q_imu)
+        print('q_rot', q_rot)
+        print('q_new', q_new)
+        print('e_imu', e_imu)
+        print('e_rot', e_rot)
+        print('e_new', e_new)
+        print('###############################')
+        """
+
+        q_new = q_imu
         self.quat.x = q_new[0]
         self.quat.y = q_new[1]
         self.quat.z = q_new[2]

@@ -23,13 +23,15 @@
     <node pkg="underwater_robot" type="sensor_visualize.py" name="sensor_visualize" if="$(arg visualize)"/>
 
     <!-- rviz visualize robot state -->
-    <include file="$(find underwater_sim)/launch/sensor_broadcast.launch" if="$(arg rviz)"/>
+    <include file="$(find underwater_sim)/launch/robot_rviz.launch" if="$(arg rviz)"/>
     
     <!-- record bag file -->
     <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)">
         <arg name="bag_name" value="$(arg bag_name)"/>
     </include>
 
-    <include file="$(find usb_cam)/launch/usb_cam-test.launch" if="$(arg cam)"/>
+    <include file="$(find underwater_robot)/launch/video_recorder.launch" if="$(arg cam)">
+        <arg name="display" value="false"/>
+    </include>
 
 </launch>

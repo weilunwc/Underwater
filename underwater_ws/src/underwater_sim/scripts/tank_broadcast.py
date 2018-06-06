@@ -15,7 +15,7 @@ if __name__ == '__main__':
     
     x = 0
     y = 0
-    z = -1.5
+    z = -0.92
 
      # set up transformation
     br = tf2_ros.TransformBroadcaster()

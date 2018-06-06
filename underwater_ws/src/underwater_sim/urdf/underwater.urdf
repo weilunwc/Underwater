@@ -46,7 +46,7 @@
         </collision>
 
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 -.0976"/>
+            <origin rpy="0 0 -2.094" xyz="0 0 -.0976"/>
             <geometry>
                 <mesh filename="package://underwater_sim/models/meshes/robot/MainBody.dae" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -340,14 +340,14 @@
     </joint>
 
     <joint name="camera_joint" type="fixed">
-        <parent link="cylinder3_link"/>
+        <parent link="cylinder2_link"/>
         <child link="camera_link"/>
         <origin rpy="0 0 -1.5708" xyz="0 -0.03 0.1"/>
         <axis xyz="0 1 0"/>
     </joint>
     
     <joint name="imu_joint" type="fixed">
-        <parent link="cylinder3_link"/>
+        <parent link="cylinder2_link"/>
         <child link="imu_link"/>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <axis xyz="0 1 0"/>

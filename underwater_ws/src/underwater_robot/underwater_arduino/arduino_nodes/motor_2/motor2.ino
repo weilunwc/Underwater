@@ -1,4 +1,4 @@
-/* Motor2 : Motors and Encoder */
+/* Motor2 : Motors, Encoder and Barometer*/
 
 #include <Servo.h>
 #include "Underwater_Motor.h"
@@ -6,13 +6,18 @@
 #include "Underwater_Encoder.h"
 #include <SPI.h>
 
+#include <Wire.h>
+#include "Underwater_Barometer.h"
+
 #include <ros.h>
 #include <underwater_msgs/Cmd.h>
 #include <underwater_msgs/Encoder.h>
+#include <underwater_msgs/Baro.h>
 
 /* Our actuators and senesor */
 Motor myMotor;
 Encoder myEncoder;
+Barometer myBarometer;
 
 ros::NodeHandle nh;
 
@@ -31,19 +36,25 @@ ros::Subscriber<underwater_msgs::Cmd> motor_sub("motor_2", motor_command);
 underwater_msgs::Encoder encoder_msg;
 ros::Publisher encoder_pub("encoder_2", &encoder_msg);
 
+/* Set up Barometer */
+underwater_msgs::Baro baro_msg;
+ros::Publisher baro_pub("barometer", &baro_msg);
+
+
 /* Set up Config 
  * Imu Baro Enc1 Enc2 Enc3 Enc1_off Enc2_off Enc3_off 
  */
 
-bool enable_encoder2;
-int encoder_offset2;
+bool enable_baro, enable_encoder2;
 
-void read_configs(){
-    /* Set up configsuration from reading ros parameters */
-    bool enable_imu, enable_baro, enable_encoder1,  enable_encoder3;
-    int encoder_offset1, encoder_offset3;
+int total_error, last_error;
+void setup(){
+    nh.initNode();
+    nh.advertise(encoder_pub);
+    nh.advertise(baro_pub);
+    nh.subscribe(motor_sub);
     
-    
+    //read_configs();
     int configs[8];
     configs[0] = 0;
     configs[1] = 0;
@@ -58,25 +69,18 @@ void read_configs(){
         delay(10);
         nh.spinOnce();
     }
-
-    enable_imu = configs[0];
+    int encoder_offset2;
+    //enable_imu = configs[0];
     enable_baro = configs[1];
-    enable_encoder1 = configs[2];
-    enable_encoder2 = configs[3];
-    enable_encoder3 = configs[4];
-    encoder_offset1 = configs[5];
-    encoder_offset2 = configs[6];
-    encoder_offset3 = configs[7];
-}
-
-float total_error, last_error;
-void setup(){
-    nh.initNode();
-    nh.advertise(encoder_pub);
-    nh.subscribe(motor_sub);
+    //enable_encoder1 = configs[2];
+    //enable_encoder2 = configs[3];
+    enable_encoder2 = configs[4];
+    //encoder_offset1 = configs[5];
+    //encoder_offset2 = configs[6];
+    encoder_offset2 = configs[7];
     
-    read_configs();
-
+    nh.spinOnce();
+    
     /* Motor settings */
     myMotor.attach(3);
     mode = 0;
@@ -92,12 +96,16 @@ void setup(){
         myEncoder.set_offset(encoder_offset2);
         myEncoder.initialize_speed();
     } 
-
+    
+    /* Barometer settings */
+    if(enable_baro){
+        myBarometer.setup();
+    }
 }
 
 void loop(){
 
-
+    int error, del_error;
     switch(mode){
         case 0:
             // Brake
@@ -105,48 +113,65 @@ void loop(){
             break;
         case 1:
             // Spinning Mode
-            /*
+            /* PID spinning 
             int motor_cmd;
             if(enable_encoder2){
-                // PID
-                float error, del_error;
+                // PID    
                 float Kp, Ki, Kd;
-                Kp = 0.25;
-                Ki = 0.01;
-                Kd = 0.0002;
-                error = float(spinning_speed - encoder_msg.encoder_speed);
+                Kp = 0.2;
+                Ki = 0.1;
+                Kd = 0;
+                error = spinning_speed - encoder_msg.encoder_speed;
                 total_error += error;
                 del_error = error - del_error;
+                
                 motor_cmd = Kp*error + Ki*total_error + Kd*del_error;
                 last_error = error;
             }
             else{
+                // Use experimental correlation
                 motor_cmd = 0.3*(spinning_speed + 10);
             }
-            //motor_cmd = 0.3*(spinning_speed + 10);
             */
-            myMotor.set_speed(spinning_speed);
+            myMotor.set_speed(float(spinning_speed)/1.2);
             break;
         case 2:
+            // Flipping Mode, don't flip if no encoder info
             if(enable_encoder2){
                 /*
                 int motor_cmd;
-                //motor_cmd = 0.3*(flipping_speed + 10);
+                motor_cmd = 0.3*(flipping_speed + 10);
                 */
-                myMotor.flip(flipping_angle, flipping_speed, myEncoder);
+                float adjust_ratio = 1.2; // adjust all motors to same scale
+                myMotor.flip(flipping_angle, float(flipping_speed)/adjust_ratio, myEncoder);
             }
             else myMotor.brake();
             break;
         default:
-            /* unknown command type */
+            /* Unknown command type */
             myMotor.brake();
     }
+    nh.spinOnce();
+    
     if(enable_encoder2){
         encoder_msg.encoder_angle = myEncoder.read_angle();
         encoder_msg.encoder_speed = myEncoder.read_speed();
         encoder_pub.publish(&encoder_msg);
     }
+    
+    nh.spinOnce(); // prevent ros node from timing out
+    if(enable_baro){
+        /* Read baro data */
+        myBarometer.display_data();
+        float depth = myBarometer.depth();
+        float temp = myBarometer.temperature();
+        
+        baro_msg.depth = depth;
+        baro_msg.temp = temp;
+        baro_pub.publish(&baro_msg);
 
+    }
+    
 
     nh.spinOnce();
     delay(1);

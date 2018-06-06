@@ -2,8 +2,8 @@
     
     <arg name="setting_file" default="example.yaml"/>
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
-    <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.urdf"/>
-
+    <arg name="tank_model" default="$(find underwater_sim)/urdf/tank_depth.urdf"/>
+    <arg name="water_depth" default="0.5"/>
     <!-- load initial pose of robot and shift to params -->
     <rosparam command="load" file="$(find underwater_sim)/setting/$(arg setting_file)"/>
     
@@ -14,6 +14,7 @@
     <group ns="tank">
         <include file="$(find underwater_sim)/launch/tank_rviz.launch">
             <arg name="model" value="$(arg tank_model)"/>
+            <arg name="water_depth" value="$(arg water_depth)"/>
         </include>
     </group> 
     

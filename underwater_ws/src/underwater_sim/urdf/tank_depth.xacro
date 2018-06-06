@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
-<robot name="ship" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="tank" xmlns:xacro="http://ros.org/wiki/xacro">
 
-    
+    <xacro:property name="$(arg water_depth)" default="1"/>
+
     <material name="transparent">
         <color rgba="1 1 1 0.4"/>
     </material>
@@ -31,14 +32,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
             </geometry>
             <material name="transparent"/>
         </visual>
         <collision name="base_link_collision">
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
             </geometry>
         </collision>
     
@@ -47,7 +48,7 @@
             <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
         </inertial>
     </link>
-    
+
     <joint name="tank_joint" type="fixed">
         <origin xyz="0 0 0"/>
         <parent link="tank_base_link"/>
@@ -74,7 +75,5 @@
         <transparency>0.7</transparency>
         </visual>
     </gazebo>
-
-
 </robot>
 

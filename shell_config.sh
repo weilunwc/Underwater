@@ -14,7 +14,10 @@ source ~/Underwater/underwater_ws/devel/setup.bash
 
 # clean up resources
 alias killgazebo="killall -9 gazebo & killall -9 gzserver  & killall -9 gzclient"
-alias killros="killall -9 roscore; kill all rosmaster" 
+alias killros="killall -9 roscore; killall -9 rosmaster" 
 
 # gazebo plugin reference
 export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/Underwater/underwater_ws/devel/lib
+
+# experiments alias
+alias tank_experiment='f(){~/Underwater/Experiments/tank_experiment.sh $1}; f'

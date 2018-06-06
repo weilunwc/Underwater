@@ -5,3 +5,4 @@ configs.py
 *.bag
 *.pyc
 *.avi
+*.yaml

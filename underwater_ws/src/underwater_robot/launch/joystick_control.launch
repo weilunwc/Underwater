@@ -3,9 +3,10 @@
     <arg name="visualize" default="False"/>
     <arg name="rviz" default="False"/>
     <arg name="record" default="False"/>
-    <arg name="bag_name" default="sensor"/>
     <arg name="cam" default="true"/>
-
+    <arg name="bag_name" default="sensor"/>
+    <arg name="video_name" default="video"/>
+        
     <!--Set up the confiuration for experiment--> 
     <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
     <!--arduino node -->
@@ -33,6 +34,7 @@
     <include file="$(find underwater_robot)/launch/video_recorder.launch" if="$(arg cam)">
         <arg name="display" value="false"/>
         <arg name="record" value="$(arg record)"/>
+        <arg name="video_name" value="$(arg video_name)"/>
     </include>
 
 </launch>

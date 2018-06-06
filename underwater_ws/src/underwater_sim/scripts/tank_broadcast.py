@@ -12,10 +12,14 @@ import numpy as np
 if __name__ == '__main__':
     rospy.init_node('tank_broadcast')
     
-    
+    try:
+        water_depth = ropy.get_param('water_depth')
+    except:
+        water_depth = 1.5
+
     x = 0
     y = 0
-    z = -0.92
+    z = -water_depth
 
      # set up transformation
     br = tf2_ros.TransformBroadcaster()

@@ -1,5 +1,5 @@
 <launch>
-  <arg name="timestamp" default="sample" />
+  <arg name="video_name" default="vidoe" />
   <arg name="record" default="false"/>
   <arg name="display" default="true"/>    
 
@@ -18,8 +18,7 @@
   
   <node name="video_recorder" pkg="image_view" type="video_recorder" respawn="false" output="screen"
   if="$(arg record)">
-    <param name="filename" value="/home/$(env USER)/Underwater/Experiments/$(arg timestamp).avi" />
-    <param name="stamped_filename" value="true"/>
+    <param name="filename" value="/home/$(env USER)/Underwater/Experiments/$(arg video_name).avi" />
     <remap from="image" to="/usb_cam/image_raw"/>
   </node>
 </launch>

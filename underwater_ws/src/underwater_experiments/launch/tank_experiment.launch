@@ -1,15 +1,24 @@
 <launch>
-    <!--replays the sensor info in the tank test-->    
+    <!-- replays the sensor info in the tank test-->    
 
-    <arg name="control" default="false"/>
     <arg name="record" default="false"/>
+    <arg name="water_depth" default="1.5"/>
+    <arg name="bag_name" default="sensor"/>
+    <arg name="video_name" default="video"/>
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.urdf"/>
+    
+    <!-- set the water depth-->
+    <param name="/experiment/water_depth" type="double" value="$(arg water_depth)"/>
 
+    <!-- launch the controller-->
     <include file="$(find underwater_robot)/launch/joystick_control.launch">
         <arg name="record" value="$(arg record)"/>
+        <arg name="bag_name" value="$(arg bag_name)"/>
+        <arg name="video_name" value="$(arg video_name)"/>
     </include>
-
+    
+    <!-- set up rviz tf from world to base link -->
     <include file="$(find underwater_sim)/launch/robot_rviz.launch">
         <arg name="rviz" value="false"/>
     </include>
@@ -21,7 +30,10 @@
         </include>
     </group> 
     
-    <!-- Show in Rviz   -->
+    <!--show in Rviz-->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment.rviz"/>
+    
+    <!--save the experiment parameters-->
+    <rosparam command="dump" file="/home/william/test.yaml"/>
 
 </launch>

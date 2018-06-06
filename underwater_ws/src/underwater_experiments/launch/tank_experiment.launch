@@ -9,7 +9,7 @@
     <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.urdf"/>
     
     <!-- set the water depth-->
-    <param name="/experiment/water_depth" type="double" value="$(arg water_depth)"/>
+    <param name="water_depth" type="double" value="$(arg water_depth)"/>
 
     <!-- launch the controller-->
     <include file="$(find underwater_robot)/launch/joystick_control.launch">
@@ -33,7 +33,5 @@
     <!--show in Rviz-->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment.rviz"/>
     
-    <!--save the experiment parameters-->
-    <rosparam command="dump" file="/home/william/test.yaml"/>
 
 </launch>

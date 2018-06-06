@@ -20,4 +20,4 @@ alias killros="killall -9 roscore; killall -9 rosmaster"
 export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/Underwater/underwater_ws/devel/lib
 
 # experiments alias
-alias tank_experiment='f(){~/Underwater/Experiments/tank_experiment.sh $1}; f'
+alias tank_experiment='f(){~/Underwater/Experiments/tank_experiment.sh $1}; cd ~/Underwater/Experiments;f'

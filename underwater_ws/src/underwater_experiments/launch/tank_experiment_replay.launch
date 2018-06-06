@@ -1,7 +1,9 @@
 <launch>
     <!--replays the sensor info in the tank test-->    
+    <arg name="bagfile"/> 
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.urdf"/>
+    
 
     <include file="$(find underwater_sim)/launch/robot_rviz.launch">
         <arg name="rviz" value="false"/>
@@ -14,6 +16,11 @@
         </include>
     </group> 
     
+    
+    <node pkg="rosbag" type="play" name="rosbag_replay" 
+        args="/home/$(env USER)/Underwater/Experiments/$(arg bagfile) -q --pause"/>
+
+
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment.rviz"/>
 

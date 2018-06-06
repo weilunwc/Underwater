@@ -39,6 +39,5 @@
 
    <node pkg="joy" type="joy_node" name="joy">
     </node>
-
     <node name="motor_effort_node" pkg="UGazebo" type="walk" respawn="true"  output="screen"/>
 </launch>

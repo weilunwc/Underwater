@@ -1,33 +1,23 @@
 <?xml version="1.0" ?>
-<robot name="ship" xmlns:xacro="http://ros.org/wiki/xacro">
-
+<robot name="tank" xmlns:xacro="http://ros.org/wiki/xacro">
     
+    <arg name="water_depth" default="1.5"/>"
+    <xacro:property name="water_depth" value="$(arg water_depth)"/>
+
     <material name="transparent">
         <color rgba="1 1 1 0.4"/>
     </material>
 
     <link name="tank_base_link">
         <visual>
-<<<<<<< HEAD
-            <origin rpy="0 0 0" xyz="1.4 1.1 0"/>
-||||||| merged common ancestors
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-=======
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
->>>>>>> 78817c856e85a2263623373220bf2198340566b2
             <geometry>
                 <mesh filename="package://underwater_sim/models/meshes/tank/tank.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
         <collision name="base_link_collision">
-<<<<<<< HEAD
-            <origin rpy="0 0 0" xyz="1.4 1.1 0"/>
-||||||| merged common ancestors
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-=======
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
->>>>>>> 78817c856e85a2263623373220bf2198340566b2
             <geometry>
                 <mesh filename="package://underwater_sim/models/meshes/tank/tank.dae" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -41,28 +31,16 @@
 
     <link name="tank_water_link">
         <visual>
-<<<<<<< HEAD
-            <origin rpy="0 0 0" xyz="1.4 1.1 0"/>
-||||||| merged common ancestors
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-=======
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
->>>>>>> 78817c856e85a2263623373220bf2198340566b2
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
             </geometry>
             <material name="transparent"/>
         </visual>
         <collision name="base_link_collision">
-<<<<<<< HEAD
-            <origin rpy="0 0 0" xyz="1.4 1.1 0"/>
-||||||| merged common ancestors
-            <origin rpy="0 0 0" xyz="0 0 0"/>
-=======
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
->>>>>>> 78817c856e85a2263623373220bf2198340566b2
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
             </geometry>
         </collision>
     
@@ -71,7 +49,7 @@
             <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
         </inertial>
     </link>
-    
+
     <joint name="tank_joint" type="fixed">
         <origin xyz="0 0 0"/>
         <parent link="tank_base_link"/>
@@ -98,7 +76,5 @@
         <transparency>0.7</transparency>
         </visual>
     </gazebo>
-
-
 </robot>
 

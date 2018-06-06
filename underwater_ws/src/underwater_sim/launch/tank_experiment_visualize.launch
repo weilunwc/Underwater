@@ -3,7 +3,7 @@
 
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="tank_model" default="$(find underwater_sim)/urdf/tank_depth.urdf"/>
-    <arg name="water_depth" default="0.5"/>
+    <arg name="water_depth" default="1.5"/>
 
     
     <include file="$(find underwater_sim)/launch/robot_rviz.launch">

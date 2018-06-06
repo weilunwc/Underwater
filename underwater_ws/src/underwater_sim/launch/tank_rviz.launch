@@ -6,7 +6,7 @@
     <arg name="water_depth" default="1.5"/>
 
     <!-- Convert a xacro and put on parameter server -->
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find underwater_sim)/urdf/tank_depth.xacro water_depth:=$(arg water_depth)"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find underwater_sim)/urdf/tank.xacro water_depth:=$(arg water_depth)"/>
     
     <node name="tank_broadcast" pkg="underwater_sim" type="tank_broadcast.py"/> 
 

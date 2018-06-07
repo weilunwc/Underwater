@@ -9,7 +9,7 @@
 #include "ros/callback_queue.h"
 #include "ros/subscribe_options.h"
 #include "std_msgs/Float32.h"
-#include "underwater_msg/Cmd.h"
+#include "underwater_msgs/Cmd.h"
 #include <boost/bind.hpp>
 
 namespace gazebo
@@ -49,7 +49,7 @@ namespace gazebo
   	  force = _for;
 	}
 
-	public: void OnRosMsg(const underwater_msg::CmdConstPtr &_msg)
+	public: void OnRosMsg(const underwater_msgs::CmdConstPtr &_msg)
 	{
   		this->mode = _msg->mode;
       this->spinSpeed = _msg->spinning_speed;
@@ -107,7 +107,7 @@ namespace gazebo
     ros::Duration gazebo_period(model->GetWorld()->Physics()->GetMaxStepSize());
     this->rosNode.reset(new ros::NodeHandle(link_name));
     ros::SubscribeOptions so =
-        ros::SubscribeOptions::create<underwater_msg::Cmd>(
+        ros::SubscribeOptions::create<underwater_msgs::Cmd>(
           "/" + joint_name + "/cmd",
           1,
          boost::bind(&SamplePlug::OnRosMsg, this, _1),

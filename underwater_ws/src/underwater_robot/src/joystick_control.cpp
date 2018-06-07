@@ -95,7 +95,6 @@ int main(int argc, char **argv){
         //robot.joystick_flip_pid();
         
         mode = robot.mode;
-        cout << mode << endl; 
         /* robot surface motion */
         if(mode == 1) robot.process_Ground();
         else robot.process_joystick();

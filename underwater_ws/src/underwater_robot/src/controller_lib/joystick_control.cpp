@@ -11,7 +11,6 @@
 #include <std_msgs/Int32.h>
 #include <Eigen/Dense>
 
-
 using namespace std;
 
 enum
@@ -27,13 +26,14 @@ class JoyRobot: public Robot{
         void process_joystick();
         void process_ground();
         void check_suspend();
-        int mode;
+        inline int robot_mode(){return mode;};
     protected:
         // override the joystick reading with more complex behavior
         void read_joystick(const sensor_msgs::Joy &joyInfo);
-
+        
         int head_leg;
         bool start;
+        int mode;
 };
 
 JoyRobot::JoyRobot(){
@@ -154,9 +154,9 @@ void JoyRobot::process_joystick(){
         motor3_cmd.flipping_speed = 40;
 
         int angle = -180;
-        motor1_cmd.flipping_angle = angle * (head_leg == MOTOR1);
-        motor2_cmd.flipping_angle = angle * (head_leg == MOTOR2);
-        motor3_cmd.flipping_angle = angle * (head_leg == MOTOR3);
+        motor1_cmd.flipping_angle = angle * (head_leg == MOTOR_1);
+        motor2_cmd.flipping_angle = angle * (head_leg == MOTOR_2);
+        motor3_cmd.flipping_angle = angle * (head_leg == MOTOR_3);
 
     }
 
@@ -194,17 +194,17 @@ void JoyRobot::process_joystick(){
         motor3_cmd.flipping_speed = 40;
 
         switch(head_leg){
-            case MOTOR1:
+            case MOTOR_1:
                 motor1_cmd.flipping_speed = 0;
                 motor2_cmd.flipping_angle = -90;
                 motor3_cmd.flipping_angle = 90;
                 break;
-            case MOTOR2:
+            case MOTOR_2:
                 motor1_cmd.flipping_angle = 90;
                 motor2_cmd.flipping_speed = 0;
                 motor3_cmd.flipping_angle = -90;
                 break;
-            case MOTOR3:
+            case MOTOR_3:
                 motor1_cmd.flipping_angle = -90;
                 motor2_cmd.flipping_angle = 90;
                 motor3_cmd.flipping_speed = 0;
@@ -279,30 +279,20 @@ int main(int argc, char **argv){
 
     ros::NodeHandle nh;
     
-    int mode = robot.mode;
-
+    int mode = robot.robot_mode();
     
     /* Set up frequency */
     ros::Rate loop_rate(100);
-
-    /* time */
-    clock_t t0, t;
-    double dt;
-    int cum_time = 0;
-    t0 = clock();
-
 
     while(ros::ok()){
         /* suspend the robot and wait for start command */
         // comment if no joystick
         robot.check_suspend();
 
-
-
         /* Controllers */
 
-        mode = robot.mode;
-        cout << mode << endl; 
+        mode = robot.robot_mode();
+        //cout << mode << endl; 
         /* robot surface motion */
         if(mode == 1) robot.process_ground();
         else robot.process_joystick();

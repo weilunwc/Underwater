@@ -20,6 +20,7 @@ enum
     MODE_GROUND
 };
 
+
 class JoyRobot: public Robot{
     public:
         JoyRobot();
@@ -153,12 +154,12 @@ void JoyRobot::process_joystick(){
         motor3_cmd.flipping_speed = 40;
 
         int angle = -180;
-        motor1_cmd.flipping_angle = angle * (head_leg==1);
-        motor2_cmd.flipping_angle = angle * (head_leg==2);
-        motor3_cmd.flipping_angle = angle * (head_leg==3);
-
+        motor1_cmd.flipping_angle = angle * (head_leg == MOTOR1);
+        motor2_cmd.flipping_angle = angle * (head_leg == MOTOR2);
+        motor3_cmd.flipping_angle = angle * (head_leg == MOTOR3);
 
     }
+
     else if(axis[1] < -0.5){
         // pitch down 
         motor1_cmd.mode = MOTOR_FLIP;;
@@ -176,6 +177,7 @@ void JoyRobot::process_joystick(){
 
     }
     else{
+        // do nothing
         motor1_cmd.flipping_speed = 0;
         motor2_cmd.flipping_speed = 0;
         motor3_cmd.flipping_speed = 0;
@@ -192,17 +194,17 @@ void JoyRobot::process_joystick(){
         motor3_cmd.flipping_speed = 40;
 
         switch(head_leg){
-            case 1:
+            case MOTOR1:
                 motor1_cmd.flipping_speed = 0;
                 motor2_cmd.flipping_angle = -90;
                 motor3_cmd.flipping_angle = 90;
                 break;
-            case 2:
+            case MOTOR2:
                 motor1_cmd.flipping_angle = 90;
                 motor2_cmd.flipping_speed = 0;
                 motor3_cmd.flipping_angle = -90;
                 break;
-            case 3:
+            case MOTOR3:
                 motor1_cmd.flipping_angle = -90;
                 motor2_cmd.flipping_angle = 90;
                 motor3_cmd.flipping_speed = 0;
@@ -231,6 +233,7 @@ void JoyRobot::process_joystick(){
 }
 
 
+/* motion on fixed surface such as ground and walls */
 void JoyRobot::process_ground(){
     center_cmd.mode = MOTOR_SPIN;
     center_cmd.spinning_speed = 80;
@@ -274,12 +277,7 @@ int main(int argc, char **argv){
     ros::init(argc, argv, "joystick_control");
     JoyRobot robot;
 
-    map<string, bool> control_config;
-    map<string, bool>::iterator it;
-
     ros::NodeHandle nh;
-    
-    nh.getParam("control_configs", control_config);
     
     int mode = robot.mode;
 
@@ -303,52 +301,12 @@ int main(int argc, char **argv){
 
         /* Controllers */
 
-        /* openloop with joystick to do openloop control (basic yaw, pitch) */
-        //robot.process_joystick();
-
-        /* tune the motor spinning pid which reacts to the joystick commands */ 
-        //robot.joystick_spin_pid();
-
-        /* tune the motor flipping pid which reacts to the joystick commands */ 
-        //robot.joystick_flip_pid();
-        
         mode = robot.mode;
         cout << mode << endl; 
         /* robot surface motion */
         if(mode == 1) robot.process_ground();
         else robot.process_joystick();
 
-        /* test imu feedback yaw control*/
-        // robot.imu_yaw_control();
-
-        /* robot goes straigt and use joystick to calibrate */
-        //int max_straight_speed = 50;
-        //int max_adjust_speed = 30;
-        //robot.joystick_openloop_straight(max_straight_speed, max_adjust_speed);
-
-        /* robot goes straight and uses Imu to calibrate */
-        // robot.joysrick_closedloop_straight();
-
-
-        /* Z motion */
-        /*
-           robot.constant_z(60);
-           robot.joystick_z();
-
-           t = clock();
-           dt = (double)(t -t0)/CLOCKS_PER_SEC;
-           if(dt > 1){
-           cum_time += dt;
-           t0 = clock();
-           }
-
-           if(cum_time % 20 > 10){
-           robot.balance_roll();
-           }
-           else{
-           robot.balance_pitch();
-           }
-           */
 
         /* Don't change anything below */
         robot.send_motor_commands();		

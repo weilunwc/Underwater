@@ -21,3 +21,4 @@ export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/Underwater/underwater_ws/devel
 
 # experiments alias
 alias tank_experiment='f(){~/Underwater/Experiments/tank_experiment.sh $1}; cd ~/Underwater/Experiments;f'
+alias harbor_experiment='f(){~/Underwater/Experiments/harbor_experiment.sh};cd ~/Underwater/Experiments;f'

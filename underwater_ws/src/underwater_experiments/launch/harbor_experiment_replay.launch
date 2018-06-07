@@ -9,14 +9,14 @@
         <arg name="rviz" value="false"/>
     </include>
     
-    <group ns="tank">
+    <group ns="ship">
         <include file="$(find underwater_sim)/launch/ship_rviz.launch">
             <arg name="model" value="$(arg ship_model)"/>
             <arg name="rviz" value="false"/>
         </include>
     </group> 
     
-    <group ns="tank">
+    <group ns="ocean">
         <include file="$(find underwater_sim)/launch/ocean_rviz.launch">
             <arg name="model" value="$(arg ocean_model)"/>
             <arg name="rviz" value="false"/>
@@ -28,6 +28,6 @@
 
 
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/ocean_experiment.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment.rviz"/>
 
 </launch>

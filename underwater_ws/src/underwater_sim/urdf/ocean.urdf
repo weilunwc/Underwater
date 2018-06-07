@@ -6,18 +6,18 @@
         <color rgba="1 1 1 0.5"/>
     </material>
 
-    <link name="ocean_surface_link">
+    <link name="ocean_base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_layer.dae" scale="1 1 1"/>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_layer.dae" scale="0.1 0.1 -10"/>
             </geometry>
             <material name="transparent"/>
         </visual>
         <collision name="ocean_surface_link_collision">
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_layer.dae" scale="1 1 1"/>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_layer.dae" scale="0.1 0.1 -10"/>
             </geometry>
         </collision>
         <inertial>
@@ -30,7 +30,7 @@
     
     <joint name="dummy_joint" type="fixed">
         <origin xyz="0 0 0"/>
-        <parent link="ocean_surface_link"/>
+        <parent link="ocean_base_link"/>
         <child link="dummy_link"/>
     </joint>
 

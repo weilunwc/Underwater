@@ -3,8 +3,8 @@
 
     <arg name="record" default="false"/>
     <arg name="water_depth" default="1.5"/>
-    <arg name="bag_name" default="sensor"/>
-    <arg name="video_name" default="video"/>
+    <arg name="bag_name" default="tank"/>
+    <arg name="video_name" default="tank"/>
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.xacro"/>
     

@@ -93,10 +93,10 @@ void setup(){
 void loop(){
     /* Send motor commands */
     switch(mode){
-        case 0:
+        case MOTOR_STOP:
             myMotor.brake();
             break;
-        case 1:
+        case MOTOR_SPIN:
             myMotor.set_speed(spinning_speed);
             break;
         default:

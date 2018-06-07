@@ -107,11 +107,11 @@ void loop(){
 
     int error, del_error;
     switch(mode){
-        case 0:
+        case MOTOR_STOP:
             // Brake
             myMotor.brake();
             break;
-        case 1:
+        case MOTOR_SPIN:
             // Spinning Mode
             /* PID spinning 
             int motor_cmd;
@@ -135,7 +135,7 @@ void loop(){
             */
             myMotor.set_speed(float(spinning_speed)/1.2);
             break;
-        case 2:
+        case MOTOR_FLIP:
             // Flipping Mode, don't flip if no encoder info
             if(enable_encoder2){
                 /*

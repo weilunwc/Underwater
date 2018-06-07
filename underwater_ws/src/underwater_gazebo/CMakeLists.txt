@@ -134,8 +134,9 @@ add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
 add_library(position SHARED src/position.cc)
 target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
-add_library(thruster_plug SHARED src/thruster_plug.cc)
-target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+#add_library(thruster_plug SHARED src/thruster_plug.cc)
+#target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+#add_dependencies(thruster plug ${catkin_EXPORTED_TARGETS})
 
 add_library(model_push SHARED src/model_push.cc)
 target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})

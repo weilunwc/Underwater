@@ -12,7 +12,7 @@
     <param name="water_depth" type="double" value="$(arg water_depth)"/>
 
     <!-- launch the controller-->
-    <include file="$(find underwater_robot)/launch/joystick_control.launch">
+    <include file="$(find underwater_robot)/launch/robot_control.launch">
         <arg name="record" value="$(arg record)"/>
         <arg name="bag_name" value="$(arg bag_name)"/>
         <arg name="video_name" value="$(arg video_name)"/>

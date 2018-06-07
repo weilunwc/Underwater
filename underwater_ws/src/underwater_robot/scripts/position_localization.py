@@ -9,7 +9,7 @@ from __future__ import print_function
 # ros libraries
 import rospy
 
-from geometry_msgs.msg import Point32
+from geometry_msgs.msg import Point
 from underwater_msgs.msg import Baro
 
 import numpy as np
@@ -25,8 +25,8 @@ from Locator import Locator
 class Localization:
     def __init__(self, url="http://192.168.2.94", external_depth=True):
 
-        self.pos_pub = rospy.Publisher('position', Point32, queue_size=10) 
-        self.position_data = Point32()
+        self.pos_pub = rospy.Publisher('position', Point, queue_size=10) 
+        self.position_data = Point()
         self.position_data.x = 0
         self.position_data.y = 0
         self.position_data.z = 0

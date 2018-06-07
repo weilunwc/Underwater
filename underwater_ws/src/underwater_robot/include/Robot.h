@@ -14,13 +14,21 @@
 
 #include "ros/ros.h"
 #include "sensor_msgs/Joy.h"
-#include "geometry_msgs/Point32.h"
+#include "geometry_msgs/Point.h"
 #include "geometry_msgs/Quaternion.h"
 #include "underwater_msgs/Cmd.h"
 #include "underwater_msgs/Imu.h"
 #include "underwater_msgs/Encoder.h"
+#include "underwater_msgs/Euler.h"
 
 using namespace std;
+
+#define DEBUG
+#ifdef DEBUG
+#define dbg_printf(...) printf(__VA_ARGS__)
+#else
+#define dbg_printf(...) 
+#endif
 
 // motor mode
 enum
@@ -41,8 +49,6 @@ enum
 class Robot{
     public:
         Robot();
-        
-        int mode;
 
         /* debug info */
         void print_motor_commands();
@@ -54,11 +60,9 @@ class Robot{
         void send_motor_commands();
         void stop_motors();
 
-        /* start and stop command */
-        void check_suspend();	
-        
     protected:
         ros::NodeHandle n;
+        void setup(); // set up subscribers and publishers
 
         /* motor publisher */
         ros::Publisher center_motor_pub, motor_1_pub, motor_2_pub, motor_3_pub;
@@ -66,8 +70,8 @@ class Robot{
         
         /* joystick subscriber */
         ros::Subscriber joy_sub;
-
         void read_joystick(const sensor_msgs::Joy &joy_info);
+        
         vector<bool> buttons;
         vector<bool> prev_buttons;
         vector<double> axis;
@@ -76,16 +80,20 @@ class Robot{
         ros::Subscriber imu_sub;
         //void read_imu(const underwater_msgs::Imu &euler_info);
         void read_imu(const geometry_msgs::Quaternion &imu_info);
-        double roll, pitch, yaw;
+        underwater_msgs::Euler euler;
         geometry_msgs::Quaternion quat;
-
+                
         /* position subscriber */
         ros::Subscriber pos_sub;
-        geometry_msgs::Point32 position; 
-        void read_pos(const geometry_msgs::Point32 &pos_msg);
-        
-        int head_leg;
-        bool start;
+        geometry_msgs::Point position; 
+        void read_pos(const geometry_msgs::Point &pos_msg);
+         
+        /* encoder subscriber */
+        ros::Subscriber enc1_sub, enc2_sub, enc3_sub;
+        underwater_msgs::Encoder enc1, enc2, enc3;
+        void read_encoder1(const underwater_msgs::Encoder &enc_info);
+        void read_encoder2(const underwater_msgs::Encoder &enc_info);
+        void read_encoder3(const underwater_msgs::Encoder &enc_info);
 };
 
 #endif

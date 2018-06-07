@@ -55,6 +55,7 @@ add_message_files(
    Baro.msg
    Imu.msg
    Encoder.msg
+   Euler.msg
  )
 
 ## Generate services in the 'srv' folder

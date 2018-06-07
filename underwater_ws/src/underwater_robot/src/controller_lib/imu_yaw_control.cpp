@@ -29,7 +29,7 @@ void ImuRobot::process_imu_yaw(double set_yaw){
     // Give dummy height and set height
     // Eventually height will be read form barometer
 
-    double diff=(double)set_yaw-yaw;
+    double diff=(double)set_yaw-euler.yaw;
 
     if (fabs(diff)<=thresh){
 
@@ -45,7 +45,7 @@ void ImuRobot::process_imu_yaw(double set_yaw){
         double K_d=0.5;
         double K_i=0.1;
 
-        diff=(double)set_yaw-yaw;
+        diff=(double)set_yaw-euler.yaw;
         if(diff > 180){
             diff = diff - 360;
         }

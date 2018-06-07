@@ -97,11 +97,11 @@ void JoyRobot::read_joystick(const sensor_msgs::Joy &joyInfo){
 
 void JoyRobot::process_joystick(){
     /* center motor */    
-    center_cmd.mode = MOTOR_SPIN;
+    center_cmd.mode = 1;
     if(axis[2] != 1){
         center_cmd.spinning_speed = 85*(1-axis[2])/2;
     }
-    else if(axis[5] != 1){
+    else if(axis[5]!=1){
         center_cmd.spinning_speed = -85*(1-axis[5])/2;
     }
     else{
@@ -114,29 +114,29 @@ void JoyRobot::process_joystick(){
     /* Change pitch and yaw */
     if(axis[0] > 0.5){
         // flip left clockwise
-        motor1_cmd.mode = MOTOR_FLIP;
+        motor1_cmd.mode = 2;
         motor1_cmd.flipping_angle = 90;
         motor1_cmd.flipping_speed = 40;
 
-        motor2_cmd.mode = MOTOR_FLIP;
+        motor2_cmd.mode = 2;
         motor2_cmd.flipping_angle = 90;
         motor2_cmd.flipping_speed = 40;
 
-        motor3_cmd.mode = MOTOR_FLIP;
+        motor3_cmd.mode = 2;
         motor3_cmd.flipping_angle = 90;
         motor3_cmd.flipping_speed = 40;
 
     }
     else if(axis[0] < -0.5){
-        motor1_cmd.mode = MOTOR_FLIP;
+        motor1_cmd.mode = 2;
         motor1_cmd.flipping_angle = -90;
         motor1_cmd.flipping_speed = 40;
 
-        motor2_cmd.mode = MOTOR_FLIP;;
+        motor2_cmd.mode = 2;
         motor2_cmd.flipping_angle = -90;
         motor2_cmd.flipping_speed = 40;
 
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor3_cmd.mode = 2;
         motor3_cmd.flipping_angle = -90;
         motor3_cmd.flipping_speed = 40;
     }
@@ -144,9 +144,9 @@ void JoyRobot::process_joystick(){
     else if(axis[1] > 0.5){
         // pitch up
 
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = 2;
+        motor2_cmd.mode = 2;
+        motor3_cmd.mode = 2;
 
         motor1_cmd.flipping_speed = 40;
         motor2_cmd.flipping_speed = 40;
@@ -161,9 +161,9 @@ void JoyRobot::process_joystick(){
     }
     else if(axis[1] < -0.5){
         // pitch down 
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = 2;
+        motor2_cmd.mode = 2;
+        motor3_cmd.mode = 2;
 
         motor1_cmd.flipping_speed = 40;
         motor2_cmd.flipping_speed = 40;
@@ -183,9 +183,9 @@ void JoyRobot::process_joystick(){
 
     /* Go ahead by flipping */
     if(axis[4] > 0.5){
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = 2;
+        motor2_cmd.mode = 2;
+        motor3_cmd.mode = 2;
 
         motor1_cmd.flipping_speed = 40;
         motor2_cmd.flipping_speed = 40;
@@ -213,9 +213,9 @@ void JoyRobot::process_joystick(){
 
     if(axis[4] < -0.5){
         /* spinning mode */
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = 1;
+        motor2_cmd.mode = 1;
+        motor3_cmd.mode = 1;
         int speed = 80;
         
         motor1_cmd.spinning_speed = speed * ( head_leg == 1                     || (head_leg == 2 && buttons[5] == 1) || (head_leg == 3 && buttons[4] == 1));
@@ -232,7 +232,7 @@ void JoyRobot::process_joystick(){
 
 
 void JoyRobot::process_ground(){
-    center_cmd.mode = MOTOR_SPIN;
+    center_cmd.mode = 1;
     center_cmd.spinning_speed = 80;
 
     double l = 1.0;
@@ -251,17 +251,18 @@ void JoyRobot::process_ground(){
     m(2,2) = 1.0/(3.0*l);
     Eigen::VectorXd v(3);
 
+    center_cmd.mode = 1;
     double fx = -1*axis[0];
     double fy = axis[1];
     double dtheta = -1*axis[3];
 
     v << fx, fy, dtheta;
     v = m*v;
-    motor1_cmd.mode = MOTOR_SPIN;
+    motor1_cmd.mode = 1;
     motor1_cmd.spinning_speed = 80*v(0);
-    motor2_cmd.mode = MOTOR_SPIN;
+    motor2_cmd.mode = 1;
     motor2_cmd.spinning_speed = 80*v(1);
-    motor3_cmd.mode = MOTOR_SPIN;
+    motor3_cmd.mode = 1;
     motor3_cmd.spinning_speed = 80*v(2)/1.8;
     cout << v << endl;
 

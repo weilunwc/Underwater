@@ -28,6 +28,6 @@
 
 
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/harbor_experiment.rviz"/>
 
 </launch>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# ship_broadcast.py -- sends the tf of world to ship
+# ocean_broadcast.py -- sends the tf of world to ocean
 
 import rospy
 from geometry_msgs.msg import Point32, TransformStamped
@@ -11,32 +11,14 @@ import numpy as np
 
 if __name__ == '__main__':
     rospy.init_node('ship_broadcast')
-    
-    # Load pose from parameter server
-    try:
-        position = rospy.get_param("position")
-    except:
-        position = {'x':20, 'y':20, 'z':0}
-    
-    try:
-        orientation = rospy.get_param("orientation")
-    except:
-        orientation = {'roll':0, 'pitch':0, 'yaw':0}
-    # Load pose from parameter server
-    x = position['x']
-    y = position['y']
-    z = position['z']
-
-    roll = orientation['roll']
-    pitch = orientation['pitch']
-    yaw = orientation['yaw']
+    x, y, z, roll, pitch, yaw = (0, 0, 0, 0, 0, 0)
      # set up transformation
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()
 
     t.header.stamp = rospy.Time.now()
     t.header.frame_id = "world"
-    t.child_frame_id = "ship_base_link"
+    t.child_frame_id = "ocean_base_link"
     t.transform.translation.x = x
     t.transform.translation.y = y
     t.transform.translation.z = z

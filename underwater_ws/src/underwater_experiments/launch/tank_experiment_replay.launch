@@ -16,6 +16,7 @@
         <include file="$(find underwater_sim)/launch/tank_rviz.launch">
             <arg name="model" value="$(arg tank_model)"/>
             <arg name="rviz" value="false"/>
+            <arg name="water_depth" value="$(arg water_depth)"/>
         </include>
     </group> 
     

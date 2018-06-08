@@ -1,20 +1,13 @@
 <launch>
-    
-    <arg name="setting_file" default="example.yaml"/>
+    <!--replays the sensor info in the tank test-->    
+    <arg name="bagfile"/>
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
     <arg name="ship_model" default="$(find underwater_sim)/urdf/ship.urdf"/>
     <arg name="ocean_model" default="$(find underwater_sim)/urdf/ocean.urdf"/>
-
-    <!-- load initial pose of robot and shift to params -->
-    <rosparam command="load" file="$(find underwater_sim)/setting/$(arg setting_file)"/>
     
-    <group ns="robot">
-        <include file="$(find underwater_sim)/launch/robot_rviz.launch">
-            <arg name="model" value="$(arg robot_model)"/>
-            <arg name="rviz" value="false"/>
-            <arg name="read_sensor" value="false"/>
-        </include>
-    </group> 
+    <include file="$(find underwater_sim)/launch/robot_rviz.launch">
+        <arg name="rviz" value="false"/>
+    </include>
     
     <group ns="ship">
         <include file="$(find underwater_sim)/launch/ship_rviz.launch">
@@ -28,8 +21,13 @@
             <arg name="model" value="$(arg ocean_model)"/>
             <arg name="rviz" value="false"/>
         </include>
-    </group>
+    </group> 
+    
+    <node pkg="rosbag" type="play" name="rosbag_replay" 
+        args="$(arg bagfile) -q --pause"/>
+
+
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/sea_surface.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/harbor_experiment.rviz"/>
 
 </launch>

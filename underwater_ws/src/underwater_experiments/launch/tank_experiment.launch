@@ -3,10 +3,10 @@
 
     <arg name="record" default="false"/>
     <arg name="water_depth" default="1.5"/>
-    <arg name="bag_name" default="sensor"/>
-    <arg name="video_name" default="video"/>
+    <arg name="bag_name" default="tank"/>
+    <arg name="video_name" default="tank"/>
     <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
-    <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.urdf"/>
+    <arg name="tank_model" default="$(find underwater_sim)/urdf/tank.xacro"/>
     
     <!-- set the water depth-->
     <param name="water_depth" type="double" value="$(arg water_depth)"/>
@@ -26,6 +26,7 @@
     <group ns="tank">
         <include file="$(find underwater_sim)/launch/tank_rviz.launch">
             <arg name="model" value="$(arg tank_model)"/>
+            <arg name="water_depth" value="$(arg water_depth)"/>
             <arg name="rviz" value="false"/>
         </include>
     </group> 

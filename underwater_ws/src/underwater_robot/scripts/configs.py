@@ -28,8 +28,8 @@ if __name__ == '__main__':
     
     # Set up Arduino configuration
     # IMU Baro Enc1 Enc2 Enc3 Enc1_off Enc2_off Enc3_off
-    imu = 1
-    baro = 1
+    imu = 0
+    baro = 0
     enc1 = 1
     enc2 = 1
     enc3 = 1

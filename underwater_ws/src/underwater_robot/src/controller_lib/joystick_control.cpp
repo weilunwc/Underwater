@@ -8,7 +8,6 @@
 #include <string>
 #include "Robot.h"
 #include "time.h"
-#include <std_msgs/Int32.h>
 #include <Eigen/Dense>
 
 using namespace std;
@@ -25,8 +24,10 @@ enum
     YAW_COUNTER,
     PITCH_UP,
     PITCH_DOWN,
+    ROLL_UP,
+    ROLL_DOWN,
     THRUST_UP,
-    THRUSR_DOWN
+    THRUST_DOWN
 };
 
 class JoyRobot: public Robot{
@@ -40,17 +41,20 @@ class JoyRobot: public Robot{
         
         void yaw_motion(int dir);
         void pitch_motion(int dir);
+        void roll_motion(int dir);
         void planar_straight();
         void joystick_adjust_heading();
         void imu_adjust_heading(int target_yaw);
         void spin_motor();
-
-        void thrust(int speed);
+         
+        void spin_test(int speed);
+        void flip_test(int speed);
+        void thrust(int dir);
+        void adjust_planar_pitch();
+        void adjust_planar_roll();    
     protected:
         // override the joystick reading with more complex behavior
 
-         
-        int head_leg;
         bool start; // suspend system
         int mode; // water and surface mode
 
@@ -64,11 +68,10 @@ class JoyRobot: public Robot{
 
 JoyRobot::JoyRobot(){
     setup();
-    head_leg = MOTOR_1;
     start = false;
     mode = MODE_WATER;
-    max_flipping_speed = 40;
-    max_spinning_speed = 80;
+    max_flipping_speed = 90;
+    max_spinning_speed = 90;
 
     start_straight = false;
     
@@ -107,10 +110,6 @@ void JoyRobot::check_joystick(){
     if(buttons[5] == 1){
         mode = MODE_WATER;
     }
-    /* determine head leg */
-    if(buttons[3] == 1) head_leg = MOTOR_1; // Y
-    if(buttons[2] == 1) head_leg = MOTOR_2; // X
-    if(buttons[1] == 1) head_leg = MOTOR_3; // B
 
 }
 
@@ -145,16 +144,39 @@ void JoyRobot::pitch_motion(int dir){
     int angle = -180;
     
     if(dir == PITCH_UP){
-        motor1_cmd.flipping_angle = angle * (head_leg == MOTOR_1);
-        motor2_cmd.flipping_angle = angle * (head_leg == MOTOR_2);
-        motor3_cmd.flipping_angle = angle * (head_leg == MOTOR_3);
+        motor1_cmd.flipping_angle = -180;
+        motor2_cmd.flipping_angle = 0;
+        motor3_cmd.flipping_angle = 0;
     }
     else{ 
-        motor1_cmd.flipping_angle = angle * (head_leg != MOTOR_1);
-        motor2_cmd.flipping_angle = angle * (head_leg != MOTOR_2);
-        motor3_cmd.flipping_angle = angle * (head_leg != MOTOR_3);
+        motor1_cmd.flipping_angle = 0;
+        motor2_cmd.flipping_angle = -180;
+        motor3_cmd.flipping_angle = -180;
     }
 }
+
+void JoyRobot::roll_motion(int dir){
+    motor1_cmd.mode = MOTOR_FLIP;
+    motor2_cmd.mode = MOTOR_FLIP;
+    motor3_cmd.mode = MOTOR_FLIP;
+
+    motor1_cmd.flipping_speed = 0;
+    motor2_cmd.flipping_speed = max_flipping_speed;
+    motor3_cmd.flipping_speed = max_flipping_speed;
+
+    int angle = -180;
+    
+    if(dir == ROLL_UP){
+        motor2_cmd.flipping_angle = -180;
+        motor3_cmd.flipping_angle = 0;
+    }
+    else{ 
+        motor2_cmd.flipping_angle = 0;
+        motor3_cmd.flipping_angle = -180;
+    }
+  
+}
+
 
 void JoyRobot::planar_straight(){
     motor1_cmd.mode = MOTOR_FLIP;;
@@ -165,27 +187,9 @@ void JoyRobot::planar_straight(){
     motor2_cmd.flipping_speed = max_flipping_speed;
     motor3_cmd.flipping_speed = max_flipping_speed;
 
-    switch(head_leg){
-        case MOTOR_1:
-            motor1_cmd.flipping_speed = 0;
-            motor2_cmd.flipping_angle = -90;
-            motor3_cmd.flipping_angle = 90;
-            break;
-        case MOTOR_2:
-            motor1_cmd.flipping_angle = 90;
-            motor2_cmd.flipping_speed = 0;
-            motor3_cmd.flipping_angle = -90;
-            break;
-        case MOTOR_3:
-            motor1_cmd.flipping_angle = -90;
-            motor2_cmd.flipping_angle = 90;
-            motor3_cmd.flipping_speed = 0;
-            break;
-        default:
-            cout << "unknown head leg" << endl;
-            stop_motors();
-            break;
-    }
+    motor1_cmd.flipping_speed = 0;
+    motor2_cmd.flipping_angle = -90;
+    motor3_cmd.flipping_angle = 90;
 }
 
 /* use the head leg to adjust heading angle */
@@ -196,27 +200,9 @@ void JoyRobot::joystick_adjust_heading(){
         if(axis[0] > 0) flipping_angle = 90;
         else flipping_angle = -90;
 
-        switch(head_leg){
-            case MOTOR_1:
-                motor1_cmd.mode = MOTOR_FLIP;
-                motor1_cmd.flipping_angle = flipping_angle;
-                motor1_cmd.flipping_speed = max_flipping_speed;
-                break;
-            case MOTOR_2:
-                motor2_cmd.mode = MOTOR_FLIP;
-                motor2_cmd.flipping_angle = flipping_angle;
-                motor2_cmd.flipping_speed = max_flipping_speed;
-                break;
-            case MOTOR_3:
-                motor3_cmd.mode = MOTOR_FLIP;
-                motor3_cmd.flipping_angle = flipping_angle;
-                motor3_cmd.flipping_speed = max_flipping_speed;
-                break;
-            default:
-                cout << "unknown head leg" << endl;
-                stop_motors();
-                break;
-        }
+        motor1_cmd.mode = MOTOR_FLIP;
+        motor1_cmd.flipping_angle = flipping_angle;
+        motor1_cmd.flipping_speed = max_flipping_speed;
     }
 }
 
@@ -235,48 +221,14 @@ void JoyRobot::imu_adjust_heading(int target_yaw){
         if(error > 0) flipping_angle = -90;
         else flipping_angle = 90;
         
-        switch(head_leg){
-            case MOTOR_1:
-                motor1_cmd.mode = MOTOR_FLIP;
-                motor1_cmd.flipping_angle = flipping_angle;
-                motor1_cmd.flipping_speed = max_flipping_speed;
-                break;
-            case MOTOR_2:
-                motor2_cmd.mode = MOTOR_FLIP;
-                motor2_cmd.flipping_angle = flipping_angle;
-                motor2_cmd.flipping_speed = max_flipping_speed;
-                break;
-            case MOTOR_3:
-                motor3_cmd.mode = MOTOR_FLIP;
-                motor3_cmd.flipping_angle = flipping_angle;
-                motor3_cmd.flipping_speed = max_flipping_speed;
-                break;
-            default:
-                cout << "unknown head leg" << endl;
-                stop_motors();
-                break;
-        }
+        motor1_cmd.mode = MOTOR_FLIP;
+        motor1_cmd.flipping_angle = flipping_angle;
+        motor1_cmd.flipping_speed = max_flipping_speed;
             
     }
 
     else{
-        // stop 
-        switch(head_leg){
-            case MOTOR_1:
-                motor1_cmd.mode = MOTOR_STOP;
-                break;
-            case MOTOR_2:
-                motor2_cmd.mode = MOTOR_STOP;
-                break;
-            case MOTOR_3:
-                motor3_cmd.mode = MOTOR_STOP;
-                break;
-            default:
-                cout << "unknown head leg" << endl;
-                stop_motors();
-                break;
-        }
-        
+        motor1_cmd.mode = MOTOR_STOP;
     }
 }
 
@@ -286,30 +238,104 @@ void JoyRobot::spin_motor(){
     motor2_cmd.mode = MOTOR_SPIN;
     motor3_cmd.mode = MOTOR_SPIN;
     
-    motor1_cmd.spinning_speed = max_spinning_speed * ( head_leg == 1                     || (head_leg == 2 && buttons[5] == 1) || (head_leg == 3 && buttons[4] == 1));
-    motor2_cmd.spinning_speed = max_spinning_speed * ((head_leg == 1 && buttons[4] == 1) ||  head_leg == 2                     || (head_leg == 3 && buttons[5] == 1));
-    motor3_cmd.spinning_speed = max_spinning_speed * ((head_leg == 1 && buttons[5] == 1) || (head_leg == 2 && buttons[4] == 1) ||  head_leg == 3);
+    motor1_cmd.spinning_speed = max_spinning_speed;
+    motor2_cmd.spinning_speed = max_spinning_speed * (buttons[4] == 1);
+    motor3_cmd.spinning_speed = max_spinning_speed * (buttons[5] == 1);
 
 }
 
-void JoyRobot::thrust(int speed){
+void JoyRobot::spin_test(int speed){
+    motor1_cmd.mode = MOTOR_SPIN;
+    motor2_cmd.mode = MOTOR_SPIN;
+    motor3_cmd.mode = MOTOR_SPIN;
+    
+    motor1_cmd.spinning_speed = speed;
+    motor2_cmd.spinning_speed = speed;
+    motor3_cmd.spinning_speed = speed;
+}
+
+
+void JoyRobot::flip_test(int speed){
+    motor1_cmd.mode = MOTOR_FLIP;
+    motor2_cmd.mode = MOTOR_FLIP;
+    motor3_cmd.mode = MOTOR_FLIP;
+   
+    motor1_cmd.flipping_angle = 0;
+    motor2_cmd.flipping_angle = 0;
+    motor3_cmd.flipping_angle = 0;
+
+    motor1_cmd.flipping_speed = speed;
+    motor2_cmd.flipping_speed = speed;
+    motor3_cmd.flipping_speed = speed;
+}
+
+void JoyRobot::thrust(int dir){
     center_cmd.mode = MOTOR_SPIN;
-    center_cmd.spinning_speed = speed;
+    if(dir == THRUST_UP) center_cmd.spinning_speed = max_spinning_speed;
+    else center_cmd.spinning_speed = -max_spinning_speed;
 }
+
+
+// try to maintain pitch 0
+void JoyRobot::adjust_planar_pitch(){
+    motor1_cmd.mode = MOTOR_FLIP; 
+    motor2_cmd.mode = MOTOR_FLIP; 
+    motor3_cmd.mode = MOTOR_FLIP; 
+    
+    // target pitch 0
+    print_imu();
+    int tolerance = 5;
+    int error = euler.pitch - 0;
+    if(abs(error) > tolerance){
+        
+        if(error > 0) pitch_motion(PITCH_DOWN);
+        else pitch_motion(PITCH_UP);
+    }
+    else{
+        motor1_cmd.flipping_speed = 0;
+        motor2_cmd.flipping_speed = 0;
+        motor3_cmd.flipping_speed = 0;
+    }
+
+}
+
+// try to maintain roll 0
+void JoyRobot::adjust_planar_roll(){
+    motor1_cmd.mode = MOTOR_FLIP; 
+    motor2_cmd.mode = MOTOR_FLIP; 
+    motor3_cmd.mode = MOTOR_FLIP; 
+    
+    // target pitch 0
+    print_imu();
+    int tolerance = 5;
+    int error = euler.roll - 0;
+    if(abs(error) > tolerance){
+        
+        if(error > 0) roll_motion(ROLL_DOWN);
+        else roll_motion(ROLL_UP);
+    }
+    else{
+        motor1_cmd.flipping_speed = 0;
+        motor2_cmd.flipping_speed = 0;
+        motor3_cmd.flipping_speed = 0;
+    }
+
+}
+
+
 
 void JoyRobot::process_joystick(){
     
     // recheck parameters
     if(axis[4] <= 0.5) start_straight = false;
     
-    
     /* center motor */  
     center_cmd.mode = MOTOR_SPIN;
     if(axis[2] != 1){
-        center_cmd.spinning_speed = 85*(1-axis[2])/2;
+        thrust(THRUST_UP);
     }
     else if(axis[5] != 1){
-        center_cmd.spinning_speed = -85*(1-axis[5])/2;
+        thrust(THRUST_DOWN);
     }
     else{
         center_cmd.spinning_speed = 0;
@@ -322,12 +348,16 @@ void JoyRobot::process_joystick(){
 
     if(axis[4] > 0.5){
         planar_straight();
-        //joystick_adjust_heading();
+
+        // adjust the heading angle 
+        joystick_adjust_heading();
+        /*
         if(start_straight == false){
             straight_yaw = euler.yaw;
             start_straight = true;
         }
         imu_adjust_heading(straight_yaw);
+        */
     }
     else if(fabs(axis[0]) > 0.5){
         int yaw_dir;
@@ -384,15 +414,14 @@ void JoyRobot::process_ground(){
     double fy = axis[1];
     double dtheta = -1*axis[3];
 
-    //v << fx, fy, dtheta;
+    v << fx, fy, dtheta;
     v = m*v;
     motor1_cmd.mode = MOTOR_SPIN;
     motor1_cmd.spinning_speed = 80*v(0);
     motor2_cmd.mode = MOTOR_SPIN;
     motor2_cmd.spinning_speed = 80*v(1);
     motor3_cmd.mode = MOTOR_SPIN;
-    motor3_cmd.spinning_speed = 80*v(2)/1.8;
-    //cout << v << endl;
+    motor3_cmd.spinning_speed = 80*v(2);
 
 }  
 
@@ -413,16 +442,19 @@ int main(int argc, char **argv){
     while(ros::ok()){
         /* suspend the robot and wait for start command */
         // comment if no joystick
-        robot.check_suspend();
+        //robot.check_suspend();
         
+        // read the joystick values to deterimine mode
         robot.check_joystick();
         /* Controllers */
 
         mode = robot.robot_mode();
         
-        if(mode == MODE_GROUND) robot.process_ground(); 
-        else robot.process_joystick();
-
+        //if(mode == MODE_GROUND) robot.process_ground(); 
+        //else robot.process_joystick();
+        
+        //robot.spin_test(20);
+        robot.flip_test(10);
         /* Don't change anything below */
         robot.send_motor_commands();		
 

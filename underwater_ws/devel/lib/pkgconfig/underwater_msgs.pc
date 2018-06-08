@@ -1,0 +1,8 @@
+prefix=/home/cerlab/Underwater/underwater_ws/devel
+
+Name: underwater_msgs
+Description: Description of underwater_msgs
+Version: 0.0.0
+Cflags: -I/home/cerlab/Underwater/underwater_ws/devel/include
+Libs: -L/home/cerlab/Underwater/underwater_ws/devel/lib 
+Requires: geometry_msgs message_runtime roscpp rospy std_msgs

@@ -1,0 +1,8 @@
+prefix=/home/cerlab/Underwater/underwater_ws/devel
+
+Name: underwater_visualize
+Description: Description of underwater_visualize
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/cerlab/Underwater/underwater_ws/devel/lib 
+Requires: 

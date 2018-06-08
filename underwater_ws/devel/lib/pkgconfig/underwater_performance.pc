@@ -1,0 +1,8 @@
+prefix=/home/cerlab/Underwater/underwater_ws/devel
+
+Name: underwater_performance
+Description: Description of underwater_performance
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/cerlab/Underwater/underwater_ws/devel/lib 
+Requires: 

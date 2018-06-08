@@ -1,0 +1,2 @@
+underwater_description:underwater_experiments:underwater_gazebo:underwater_msgs:underwater_robot:underwater_sim:underwater_visualize
+-DCATKIN_DEVEL_PREFIX=/home/cerlab/Underwater/underwater_ws/devel -DCMAKE_INSTALL_PREFIX=/home/cerlab/Underwater/underwater_ws/install -G Unix Makefiles

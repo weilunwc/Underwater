@@ -1,0 +1,8 @@
+prefix=/home/cerlab/Underwater/underwater_ws/install
+
+Name: UGazebo
+Description: Description of UGazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/cerlab/Underwater/underwater_ws/install/lib 
+Requires: 

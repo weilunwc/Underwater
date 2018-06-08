@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/CMakeFiles/ARToolkit"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/CMakeFiles/ARToolkit.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/CMakeFiles/ARToolkit-complete.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-install.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-mkdir.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-download.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-update.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-patch.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-configure.rule"
+		},
+		{
+			"file" : "/home/cerlab/Underwater/underwater_ws/build/ar_tools/artoolkit/ARToolkit-prefix/src/ARToolkit-stamp/ARToolkit-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"ARToolkit"
+		],
+		"name" : "ARToolkit"
+	}
+}

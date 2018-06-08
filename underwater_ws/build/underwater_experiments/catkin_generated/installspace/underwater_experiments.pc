@@ -1,0 +1,8 @@
+prefix=/home/cerlab/Underwater/underwater_ws/install
+
+Name: underwater_experiments
+Description: Description of underwater_experiments
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/cerlab/Underwater/underwater_ws/install/lib 
+Requires: 

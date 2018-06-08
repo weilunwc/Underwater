@@ -19,6 +19,13 @@ enum
     MODE_GROUND
 };
 
+enum
+{
+    YAW_CLOCKWISE,
+    YAw_COUNTERCLOCKWISE,
+    PITCH_UP,
+    PITCH_DOWN
+};
 
 class JoyRobot: public Robot{
     public:
@@ -26,14 +33,23 @@ class JoyRobot: public Robot{
         void process_joystick();
         void process_ground();
         void check_suspend();
+        void check_joystick();
         inline int robot_mode(){return mode;};
+        
+        void yaw_motion(int dir);
+        void pitch_motion(int dir);
+        void planar_straight();
     protected:
         // override the joystick reading with more complex behavior
-        void read_joystick(const sensor_msgs::Joy &joyInfo);
-        
+
+         
         int head_leg;
-        bool start;
-        int mode;
+        bool start; // suspend system
+        int mode; // water and surface mode
+
+        // 
+        int max_flipping_speed;
+        int max_spinning_speed;
 };
 
 JoyRobot::JoyRobot(){
@@ -41,6 +57,8 @@ JoyRobot::JoyRobot(){
     head_leg = MOTOR_1;
     start = false;
     mode = MODE_WATER;
+    max_flipping_speed = 10;
+    max_spinning_speed = 80;
 }
 
 /* Set a switch that activates and deactivates the system */
@@ -51,6 +69,7 @@ void JoyRobot::check_suspend(){
             //ROS_INFO("suspend");
             stop_motors();
             ros::spinOnce();
+            check_joystick();
             loop_rate.sleep();
             if(start) break;
         }
@@ -58,20 +77,7 @@ void JoyRobot::check_suspend(){
 }
 
 /* override tha base read_joystick and add switch modes */
-void JoyRobot::read_joystick(const sensor_msgs::Joy &joyInfo){
-    for(int i = 0;i < 8;i++){
-        axis[i] = joyInfo.axes[i];
-    }
-    /* store the previous state of the buttons */
-    for(int i = 0;i < 11;i++){
-        prev_buttons[i] = buttons[i];
-    }
-    for(int i = 0;i < 11;i++){
-        buttons[i] = joyInfo.buttons[i];
-    }
-   
-    //print_joystick();
-
+void JoyRobot::check_joystick(){
     /* use these two buttons as a switch to activate robot*/
     if(buttons[8] == 1){
         start = true;
@@ -83,16 +89,81 @@ void JoyRobot::read_joystick(const sensor_msgs::Joy &joyInfo){
     }
     
     if(buttons[7] == 1){
-        mode = 1;
+        mode = MODE_GROUND;
     }
     if(buttons[5] == 1){
-        mode = 0;
+        mode = MODE_WATER;
     }
     /* determine head leg */
     if(buttons[3] == 1) head_leg = MOTOR_1; // Y
     if(buttons[2] == 1) head_leg = MOTOR_2; // X
     if(buttons[1] == 1) head_leg = MOTOR_3; // B
 
+}
+
+void JoyRobot::yaw_motion(int dir){
+    int flipping_angle = (dir == YAW_CLOCKWISE ? 90:-90); 
+
+    motor1_cmd.mode = MOTOR_FLIP;
+    motor1_cmd.flipping_angle = flipping_angle;
+    motor1_cmd.flipping_speed = max_flipping_speed;
+
+    motor2_cmd.mode = MOTOR_FLIP;
+    motor2_cmd.flipping_angle = flipping_angle;
+    motor2_cmd.flipping_speed = max_flipping_speed;
+
+    motor3_cmd.mode = MOTOR_FLIP;
+    motor3_cmd.flipping_angle = flipping_angle;
+    motor3_cmd.flipping_speed = max_flipping_speed;
+}
+
+void JoyRobot::pitch_motion(int dir){
+    bool pitch_dir = (dir == PITCH_UP ? 1 : 0);
+    
+    motor1_cmd.mode = MOTOR_FLIP;
+    motor2_cmd.mode = MOTOR_FLIP;
+    motor3_cmd.mode = MOTOR_FLIP;
+
+    motor1_cmd.flipping_speed = max_flipping_speed;
+    motor2_cmd.flipping_speed = max_flipping_speed;
+    motor3_cmd.flipping_speed = max_flipping_speed;
+
+    int angle = -180;
+    motor1_cmd.flipping_angle = angle * (head_leg == MOTOR_1) * pitch_dir;
+    motor2_cmd.flipping_angle = angle * (head_leg == MOTOR_2) * pitch_dir;
+    motor3_cmd.flipping_angle = angle * (head_leg == MOTOR_3) * pitch_dir;
+
+}
+
+void JoyRobot::planar_straight(){
+    motor1_cmd.mode = MOTOR_FLIP;;
+    motor2_cmd.mode = MOTOR_FLIP;;
+    motor3_cmd.mode = MOTOR_FLIP;;
+
+    motor1_cmd.flipping_speed = max_flipping_speed;
+    motor2_cmd.flipping_speed = max_flipping_speed;
+    motor3_cmd.flipping_speed = max_flipping_speed;
+
+    switch(head_leg){
+        case MOTOR_1:
+            motor1_cmd.flipping_speed = 0;
+            motor2_cmd.flipping_angle = -90;
+            motor3_cmd.flipping_angle = 90;
+            break;
+        case MOTOR_2:
+            motor1_cmd.flipping_angle = 90;
+            motor2_cmd.flipping_speed = 0;
+            motor3_cmd.flipping_angle = -90;
+            break;
+        case MOTOR_3:
+            motor1_cmd.flipping_angle = -90;
+            motor2_cmd.flipping_angle = 90;
+            motor3_cmd.flipping_speed = 0;
+        default:
+            cout << "unknown head leg" << endl;
+            stop_motors();
+            break;
+    }
 }
 
 
@@ -145,9 +216,9 @@ void JoyRobot::process_joystick(){
     else if(axis[1] > 0.5){
         // pitch up
 
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = MOTOR_FLIP;
+        motor2_cmd.mode = MOTOR_FLIP;
+        motor3_cmd.mode = MOTOR_FLIP;
 
         motor1_cmd.flipping_speed = 40;
         motor2_cmd.flipping_speed = 40;
@@ -162,29 +233,22 @@ void JoyRobot::process_joystick(){
 
     else if(axis[1] < -0.5){
         // pitch down 
-        motor1_cmd.mode = MOTOR_FLIP;;
-        motor2_cmd.mode = MOTOR_FLIP;;
-        motor3_cmd.mode = MOTOR_FLIP;;
+        motor1_cmd.mode = MOTOR_FLIP;
+        motor2_cmd.mode = MOTOR_FLIP;
+        motor3_cmd.mode = MOTOR_FLIP;
 
         motor1_cmd.flipping_speed = 40;
         motor2_cmd.flipping_speed = 40;
         motor3_cmd.flipping_speed = 40;
 
         int angle = -180;
-        motor1_cmd.flipping_angle = angle * (head_leg!=1);
-        motor2_cmd.flipping_angle = angle * (head_leg!=2);
-        motor3_cmd.flipping_angle = angle * (head_leg!=3);
+        motor1_cmd.flipping_angle = angle * (head_leg != MOTOR_1);
+        motor2_cmd.flipping_angle = angle * (head_leg != MOTOR_2);
+        motor3_cmd.flipping_angle = angle * (head_leg != MOTOR_3);
 
     }
-    else{
-        // do nothing
-        motor1_cmd.flipping_speed = 0;
-        motor2_cmd.flipping_speed = 0;
-        motor3_cmd.flipping_speed = 0;
-    }
-
     /* Go ahead by flipping */
-    if(axis[4] > 0.5){
+    else if(axis[4] > 0.5){
         motor1_cmd.mode = MOTOR_FLIP;;
         motor2_cmd.mode = MOTOR_FLIP;;
         motor3_cmd.mode = MOTOR_FLIP;;
@@ -213,7 +277,7 @@ void JoyRobot::process_joystick(){
         }
     }
 
-    if(axis[4] < -0.5){
+    else if(axis[4] < -0.5){
         /* spinning mode */
         motor1_cmd.mode = MOTOR_FLIP;;
         motor2_cmd.mode = MOTOR_FLIP;;
@@ -228,6 +292,10 @@ void JoyRobot::process_joystick(){
         motor1_cmd.spinning_speed = 0;
         motor2_cmd.spinning_speed = 0;
         motor3_cmd.spinning_speed = 0;
+        // do nothing
+        motor1_cmd.flipping_speed = 0;
+        motor2_cmd.flipping_speed = 0;
+        motor3_cmd.flipping_speed = 0;
     }
 
 }
@@ -258,7 +326,7 @@ void JoyRobot::process_ground(){
     double fy = axis[1];
     double dtheta = -1*axis[3];
 
-    v << fx, fy, dtheta;
+    //v << fx, fy, dtheta;
     v = m*v;
     motor1_cmd.mode = MOTOR_SPIN;
     motor1_cmd.spinning_speed = 80*v(0);
@@ -266,7 +334,7 @@ void JoyRobot::process_ground(){
     motor2_cmd.spinning_speed = 80*v(1);
     motor3_cmd.mode = MOTOR_SPIN;
     motor3_cmd.spinning_speed = 80*v(2)/1.8;
-    cout << v << endl;
+    //cout << v << endl;
 
 }  
 
@@ -288,13 +356,12 @@ int main(int argc, char **argv){
         /* suspend the robot and wait for start command */
         // comment if no joystick
         robot.check_suspend();
-
+        
+        robot.check_joystick();
         /* Controllers */
 
         mode = robot.robot_mode();
-        //cout << mode << endl; 
-        /* robot surface motion */
-        if(mode == 1) robot.process_ground();
+        if(mode == MODE_GROUND) robot.process_ground(); 
         else robot.process_joystick();
 
 

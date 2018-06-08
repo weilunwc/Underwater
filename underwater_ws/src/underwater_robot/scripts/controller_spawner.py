@@ -8,5 +8,5 @@ if __name__ == '__main__':
     controller_launch = rospy.get_param("controller", "joystick_control")
     controller_launch += ".launch"
 
-    controller = subprocess.Popen(["roslaunch", "underwater_robot", "joystick_control.launch"]) 
+    controller = subprocess.Popen(["roslaunch", "underwater_robot", controller_launch]) 
 

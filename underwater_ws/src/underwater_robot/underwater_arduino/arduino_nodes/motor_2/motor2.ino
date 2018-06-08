@@ -73,11 +73,11 @@ void setup(){
     //enable_imu = configs[0];
     enable_baro = configs[1];
     //enable_encoder1 = configs[2];
-    //enable_encoder2 = configs[3];
-    enable_encoder2 = configs[4];
+    enable_encoder2 = configs[3];
+    //enable_encoder3 = configs[4];
     //encoder_offset1 = configs[5];
-    //encoder_offset2 = configs[6];
-    encoder_offset2 = configs[7];
+    encoder_offset2 = configs[6];
+    //encoder_offset3 = configs[7];
     
     nh.spinOnce();
     
@@ -142,7 +142,7 @@ void loop(){
                 int motor_cmd;
                 motor_cmd = 0.3*(flipping_speed + 10);
                 */
-                float adjust_ratio = 1.2; // adjust all motors to same scale
+                float adjust_ratio = 1.8; // adjust all motors to same scale
                 myMotor.flip(flipping_angle, float(flipping_speed)/adjust_ratio, myEncoder);
             }
             else myMotor.brake();

@@ -10,8 +10,6 @@ if __name__ == '__main__':
     controller = 'joystick_control'
     rospy.set_param('controller', controller)
 
-
-
     # Read encoder offset
     encoder_calibrate = []
     user_name = os.environ.get('USER')

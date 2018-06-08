@@ -38,6 +38,13 @@
             <inertia ixx="0.08319857" ixy="0.0008657224" ixz="0.0009579166" iyy="0.08357262" iyz="0.0001832366" izz="0.12186"/>
         </inertial>
         
+        <buoyancy>
+            <compensation>1</compensation>
+            <origin xyz= "0 0 0"/>
+            <limit radius="0.2"/>
+            <damping xyz="60 100 100" rpy="20 50 50"/>
+        </buoyancy>
+
         <collision>
             <origin xyz="0 0 .01" rpy="0 0 0"/>
             <geometry>
@@ -215,7 +222,7 @@
         
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.605" />
+            <mass value="0" />
             <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -229,7 +236,7 @@
     <link name="wheel2_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.605"/>
+            <mass value="0"/>
             <inertia ixx="0.0007561942" ixy="0.00" ixz="0.00" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -244,7 +251,7 @@
     <link name="wheel3_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.605"/>
+            <mass value="0"/>
             <inertia ixx="0.0007561942" ixy="0.0" ixz="0.0" iyy="0.001441249" iyz="0.00" izz="0.0007561973"/>
         </inertial>
         <collision>
@@ -518,7 +525,7 @@
         <transparency>0.7</transparency>
         </visual>
     </gazebo>
-    
+ <!--   
     <gazebo>
         <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
             <fluid_density>1000</fluid_density>
@@ -527,13 +534,14 @@
                 <volume>0.00599</volume>
             </link>
         </plugin>
-    </gazebo>
+    </gazebo>-->
 <!--
     <gazebo>
         <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
             <fluid_density>1000</fluid_density>fluid_density>
             <link name="wheel1_link">
                 <center_of_volume>0 0 0</center_of_volume>
+                <volume>0.000308</volume>
             </link>
         </plugin>
     </gazebo>
@@ -543,6 +551,7 @@
             <fluid_density>1000</fluid_density>fluid_density>
             <link name="wheel2_link">
                 <center_of_volume>0 0 0</center_of_volume>
+                <volume>0.000308</volume>
             </link>
         </plugin>
     </gazebo>
@@ -551,7 +560,8 @@
             <fluid_density>1000</fluid_density>fluid_density>
             <link name="wheel3_link">
                 <center_of_volume>0 0 0</center_of_volume>
-            </link>ls
+                <volume>0.000308</volume>
+            </link>
         </plugin>
     </gazebo>
 -->
@@ -659,6 +669,15 @@
         <plugin name="encoder_sensor" filename="libencoder.so">
             <jointName>motor3</jointName>
             <topicName>encoder_3</topicName>
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <!-- Gazebo plugin listens to the body-->
+        <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
+            <switchService>switch</switchService>
+            <updateRate>100</updateRate>
+            <link>robot_base_link</link>
         </plugin>
     </gazebo>
 

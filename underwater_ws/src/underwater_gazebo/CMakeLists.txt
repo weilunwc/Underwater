@@ -127,22 +127,6 @@ Message(${GAZEBO_INCLUDE_DIRS})
 
 ## Declare a C++ library
 
-add_library(encoder SHARED src/encoder.cc)
-target_link_libraries(encoder ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
-
-add_library(position SHARED src/position.cc)
-target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(thruster_plug SHARED src/thruster_plug.cc)
-target_link_libraries(thruster_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(model_push SHARED src/model_push.cc)
-target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-
-add_library(fake_imu SHARED src/fake_imu.cc)
-target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
-add_dependencies(fake_imu ${catkin_EXPORTED_TARGETS})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

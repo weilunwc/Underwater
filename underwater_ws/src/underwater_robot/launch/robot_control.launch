@@ -7,20 +7,23 @@
     <arg name="bag_name" default="sensor"/>
     <arg name="video_name" default="video"/>
         
-    <!--Set up the confiuration for experiment--> 
+    <!-- set up the confiuration for experiment --> 
     <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
-    <!--arduino node -->
+    
+    <!-- arduino node -->
     <include file="$(find underwater_robot)/launch/arduino_nodes.launch"/>
     
-    <!--position locator-->
+    <!-- position locator -->
     <node pkg="underwater_robot" type="position_localization.py" name="position_localization"/>
 
-    <!--joystick node -->
-	<node pkg="joy" type="joy_node" name="joy">
-	</node>
-    <node pkg="underwater_robot" type="joystick_control" name="joystick_control"/>	
+    <!-- joystick node -->
+    <node pkg="joy" type="joy_node" name="joy"/>
+    
+    <!-- controller spawner -->
+    <node pkg="underwater_robot" type="joystick_control" name="joystick_control"/>
+    <!--<node pkg="underwater_robot" type="controller_spawner.py" name="controller_spawner"/>-->
 
-    <!-- visaulize -->
+    <!-- visaulize sensor info -->
     <node pkg="underwater_robot" type="sensor_visualize.py" name="sensor_visualize" if="$(arg visualize)"/>
 
     <!-- rviz visualize robot state -->

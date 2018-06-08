@@ -95,10 +95,10 @@ void setup(){
 void loop(){
 
     switch(mode){
-        case 0:
+        case MOTOR_STOP:
             myMotor.brake();
             break;
-        case 1:
+        case MOTOR_SPIN:
             // Spinning Mode
 
             int motor_cmd;
@@ -122,7 +122,7 @@ void loop(){
             myMotor.set_speed(spinning_speed);
             //myMotor.set_speed(motor_cmd);
             break;
-        case 2:
+        case MOTOR_FLIP:
             // Flipping Mode
             if(enable_encoder1){
                 //int motor_cmd;

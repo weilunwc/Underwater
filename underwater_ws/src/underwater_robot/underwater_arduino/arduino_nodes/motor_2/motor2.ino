@@ -107,11 +107,11 @@ void loop(){
 
     int error, del_error;
     switch(mode){
-        case 0:
+        case MOTOR_STOP:
             // Brake
             myMotor.brake();
             break;
-        case 1:
+        case MOTOR_SPIN:
             // Spinning Mode
             /* PID spinning 
             int motor_cmd;
@@ -135,14 +135,14 @@ void loop(){
             */
             myMotor.set_speed(float(spinning_speed)/1.8);
             break;
-        case 2:
+        case MOTOR_FLIP:
             // Flipping Mode, don't flip if no encoder info
             if(enable_encoder2){
                 /*
                 int motor_cmd;
                 motor_cmd = 0.3*(flipping_speed + 10);
                 */
-                float adjust_ratio = 1.2; // adjust all motors to same scale
+                float adjust_ratio = 1.8; // adjust all motors to same scale
                 myMotor.flip(flipping_angle, float(flipping_speed)/adjust_ratio, myEncoder);
             }
             else myMotor.brake();

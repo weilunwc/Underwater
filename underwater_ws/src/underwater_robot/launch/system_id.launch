@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+        
+    <!-- set up the confiuration for experiment --> 
+    <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
+    
+    <!-- arduino node -->
+    <include file="$(find underwater_robot)/launch/arduino_nodes.launch"/>
+    
+    <!-- joystick node -->
+    <node pkg="joy" type="joy_node" name="joy"/>
+    
+    <!-- controller spawner -->
+    <node pkg="underwater_robot" type="joystick_control" name="joystick_control"/>
+    <!--<node pkg="underwater_robot" type="controller_spawner.py" name="controller_spawner"/>-->
+
+    <!-- visaulize sensor info -->
+    <node pkg="underwater_robot" type="sensor_visualize.py" name="sensor_visualize"/>
+
+
+</launch>

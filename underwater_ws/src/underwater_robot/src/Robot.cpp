@@ -6,6 +6,10 @@
 #include <tf/transform_broadcaster.h>
 using namespace std;
 
+static float rad2deg(float rad){
+   return rad*180.0/3.1415926; 
+}
+
 Robot::Robot(){
     setup(); 
 }
@@ -89,16 +93,18 @@ void Robot::read_imu(const geometry_msgs::Quaternion &imu_info){
     tf::Quaternion quater(quat.x, quat.y, quat.z, quat.w);
     double roll, pitch, yaw;
     tf::Matrix3x3(quater).getRPY(roll, pitch, yaw);
-    euler.roll = roll;
-    euler.pitch = pitch;
-    euler.yaw = yaw;
+     
+    
+    euler.roll = rad2deg(roll);
+    euler.pitch = rad2deg(pitch);
+    euler.yaw = rad2deg(yaw);
 
 }
 
 
 void Robot::print_imu(){
     dbg_printf("roll pitch yaw: %lf,\t%lf,\t%lf\n", euler.roll, euler.pitch, euler.yaw);
-    dbg_printf("quaternion: %lf,\t%lf,\t%lf,\t%lf\n", quat.x, quat.y, quat.z, quat.w);
+    //dbg_printf("quaternion: %lf,\t%lf,\t%lf,\t%lf\n", quat.x, quat.y, quat.z, quat.w);
 }
 
 

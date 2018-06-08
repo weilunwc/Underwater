@@ -20,7 +20,8 @@
     <node pkg="joy" type="joy_node" name="joy"/>
     
     <!-- controller spawner -->
-    <node pkg="underwater_robot" type="controller_spawner.py" name="controller_spawner"/>	
+    <node pkg="underwater_robot" type="joystick_control" name="joystick_control"/>
+    <!--<node pkg="underwater_robot" type="controller_spawner.py" name="controller_spawner"/>-->
 
     <!-- visaulize sensor info -->
     <node pkg="underwater_robot" type="sensor_visualize.py" name="sensor_visualize" if="$(arg visualize)"/>

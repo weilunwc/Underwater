@@ -6,6 +6,6 @@
     <node pkg="rosbag" name="sensor_record" type="record" 
 
     args="-O /home/$(env USER)/Underwater/Experiments/$(arg bag_name) /imu /position /encoder_1 
-        /encoder_2 /encoder_3 /usb_cam/image_raw center_motor motor_1 motor_2 motor_3"/>
+        /encoder_2 /encoder_3 /usb_cam/image_raw /center_motor /motor_1 /motor_2 /motor_3"/>
 
 </launch>

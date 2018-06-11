@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="record" default="false"/>
+    <arg name="type"/>
+    <arg name="speed"/>
+    <param name="type" value="$(arg type)"/>
+    <param name="speed" value="$(arg speed)"/>
+
+    <!-- set up the confiuration for experiment --> 
+    <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
+    
+    <!-- arduino node -->
+    <include file="$(find underwater_robot)/launch/arduino_nodes.launch"/>
+    
+    <!-- joystick node -->
+    <node pkg="joy" type="joy_node" name="joy"/>
+    
+    <!-- controller spawner -->
+    <node pkg="underwater_robot" type="system_id" name="system_id"/>
+
+    <!-- record bag file -->
+    <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)">
+        <arg name="bag_name" value="$(arg type)$(arg speed)"/>
+    </include>
+
+
+</launch>

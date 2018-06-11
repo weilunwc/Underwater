@@ -6,7 +6,7 @@ sensor_broadcast.py -- this python script collects the sensor topics and broadca
 """
 
 import rospy
-from geometry_msgs.msg import TransformStamped, Quaternion, Point32
+from geometry_msgs.msg import TransformStamped, Quaternion, Point
 import tf
 import tf2_ros
 
@@ -57,7 +57,7 @@ class SensorBroadcast:
 
 class PositionBroadcast:
     def __init__(self):
-        self.pos = Point32() 
+        self.pos = Point() 
         self.sub = rospy.Subscriber('position', Point32, self.position_sub)
     
     def position_sub(self, msg):

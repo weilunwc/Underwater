@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 class SysRobot: public Robot{
     public:
         SysRobot();
@@ -89,6 +88,9 @@ int main(int argc, char **argv){
 
     /* Set up frequency */
     ros::Rate loop_rate(100);
+    
+    string type= "flip";
+    int speed = 10;
 
     while(ros::ok()){
         /* suspend the robot and wait for start command */
@@ -98,9 +100,9 @@ int main(int argc, char **argv){
         // read the joystick values to deterimine mode
         robot.check_joystick();
         
-        //robot.spin_test(20);
-        robot.flip_test(10);
-       
+        if(type == "flip") robot.flip_test(speed);
+        else if(type == "spin") robot.spin_test(speed);
+    
         /* Don't change anything below */
         robot.send_motor_commands();		
 

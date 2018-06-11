@@ -16,7 +16,8 @@ enum
 {
     MODE_USER,
     MODE_SURFACE,
-    MODE_SUBAUTONOMOUS
+    MODE_SUBAUTONOMOUS,
+    MODE_WATER_SURFACE
 };
 
 enum
@@ -37,7 +38,8 @@ class JoyRobot: public Robot{
         void user_joystick_control();
         void subautonomous_joystick_control();
         void surface_control();
-        
+        void water_surface_control();
+
         void check_suspend();
         void check_joystick();
         inline int robot_mode(){return mode;};
@@ -107,11 +109,22 @@ void JoyRobot::check_joystick(){
         cout << "suspend system" << endl;
     }
     
-    if(buttons[7] == 1){
-        mode = MODE_SURFACE;
-    }
-    if(buttons[5] == 1){
+    
+    if(buttons[0] == 1){
         mode = MODE_USER;
+        cout << "joystick user mode" << endl;
+    }
+    else if(buttons[1] == 1){
+        mode = MODE_SURFACE;
+        cout << "surface mode" << endl;
+    }
+    else if(buttons[2] == 1){
+        mode = MODE_SUBAUTONOMOUS;
+        cout << "subautonomous mode" << endl;
+    }
+    else if(buttons[3] == 1){
+        mode = MODE_WATER_SURFACE;
+        cout << "water surface mode" << endl;
     }
 
 }
@@ -470,6 +483,47 @@ void JoyRobot::surface_control(){
 
 }  
 
+/* motion on water surface holonomic using flippers*/
+void JoyRobot::water_surface_control(){
+    
+
+    double l = 1.0;
+    
+    Eigen::MatrixXd m(3,3);
+    m(0,0) = -2.0/3.0;
+    m(0,1) = 0;
+    m(0,2) = 1.0/(3.0*l);
+    
+    m(1,0) = 1.0/3.0;
+    m(1,1) = -sqrt(3)/3.0;
+    m(1,2) = 1.0/(3.0*l);
+
+    m(2,0) = 1.0/3.0;
+    m(2,1) = sqrt(3)/3.0;
+    m(2,2) = 1.0/(3.0*l);
+    Eigen::VectorXd v(3);
+
+    double fx = -1*axis[0];
+    double fy = axis[1];
+    double dtheta = -1*axis[3];
+
+    v << fx, fy, dtheta;
+    v = m*v;
+    
+    int flipping_angle = 90;
+    
+    motor1_cmd.mode = MOTOR_FLIP; 
+    motor1_cmd.flipping_angle = flipping_angle * (v(0) > 0 ? 1 : -1);
+    motor1_cmd.flipping_speed = max_flipping_speed*fabs(v(0));
+    
+    motor2_cmd.mode = MOTOR_FLIP;
+    motor2_cmd.flipping_angle = flipping_angle * (v(1) > 0 ? 1 : -1);
+    motor2_cmd.flipping_speed = max_flipping_speed*fabs(v(1));
+    
+    motor3_cmd.mode = MOTOR_FLIP;
+    motor3_cmd.flipping_angle = flipping_angle * (v(2) > 0 ? 1 : -1);
+    motor3_cmd.flipping_speed = max_flipping_speed*fabs(v(2));
+}  
 
 int main(int argc, char **argv){
 
@@ -487,12 +541,11 @@ int main(int argc, char **argv){
     while(ros::ok()){
         /* suspend the robot and wait for start command */
         // comment if no joystick
-        //robot.check_suspend();
+        robot.check_suspend();
         
         // read the joystick values to deterimine mode
         robot.check_joystick();
         /* Controllers */
-
         mode = robot.robot_mode();
         
         switch(mode){
@@ -503,13 +556,15 @@ int main(int argc, char **argv){
                 robot.surface_control();
                 break;
             case MODE_SUBAUTONOMOUS:
+                robot.subautonomous_joystick_control();
+                break;
+            case MODE_WATER_SURFACE:
+                robot.water_surface_control();
                 break;
             default:
                 robot.stop_motors();
                 break;
         }
-        //if(mode == MODE_SURFACE() robot.surface_control(); 
-        //else robot.user_joystick_control();
         
         /* Don't change anything below */
         robot.send_motor_commands();		

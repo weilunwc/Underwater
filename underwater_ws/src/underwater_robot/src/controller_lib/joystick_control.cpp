@@ -14,8 +14,9 @@ using namespace std;
 
 enum
 {
-    MODE_WATER,
-    MODE_GROUND
+    MODE_USER,
+    MODE_SURFACE,
+    MODE_SUBAUTONOMOUS
 };
 
 enum
@@ -33,8 +34,10 @@ enum
 class JoyRobot: public Robot{
     public:
         JoyRobot();
-        void process_joystick();
-        void process_ground();
+        void user_joystick_control();
+        void subautonomous_joystick_control();
+        void surface_control();
+        
         void check_suspend();
         void check_joystick();
         inline int robot_mode(){return mode;};
@@ -69,9 +72,9 @@ class JoyRobot: public Robot{
 JoyRobot::JoyRobot(){
     setup();
     start = false;
-    mode = MODE_WATER;
-    max_flipping_speed = 90;
-    max_spinning_speed = 90;
+    mode = MODE_USER;
+    max_flipping_speed = 20;
+    max_spinning_speed = 20;
 
     start_straight = false;
     
@@ -105,10 +108,10 @@ void JoyRobot::check_joystick(){
     }
     
     if(buttons[7] == 1){
-        mode = MODE_GROUND;
+        mode = MODE_SURFACE;
     }
     if(buttons[5] == 1){
-        mode = MODE_WATER;
+        mode = MODE_USER;
     }
 
 }
@@ -244,31 +247,6 @@ void JoyRobot::spin_motor(){
 
 }
 
-void JoyRobot::spin_test(int speed){
-    motor1_cmd.mode = MOTOR_SPIN;
-    motor2_cmd.mode = MOTOR_SPIN;
-    motor3_cmd.mode = MOTOR_SPIN;
-    
-    motor1_cmd.spinning_speed = speed;
-    motor2_cmd.spinning_speed = speed;
-    motor3_cmd.spinning_speed = speed;
-}
-
-
-void JoyRobot::flip_test(int speed){
-    motor1_cmd.mode = MOTOR_FLIP;
-    motor2_cmd.mode = MOTOR_FLIP;
-    motor3_cmd.mode = MOTOR_FLIP;
-   
-    motor1_cmd.flipping_angle = 0;
-    motor2_cmd.flipping_angle = 0;
-    motor3_cmd.flipping_angle = 0;
-
-    motor1_cmd.flipping_speed = speed;
-    motor2_cmd.flipping_speed = speed;
-    motor3_cmd.flipping_speed = speed;
-}
-
 void JoyRobot::thrust(int dir){
     center_cmd.mode = MOTOR_SPIN;
     if(dir == THRUST_UP) center_cmd.spinning_speed = max_spinning_speed;
@@ -324,7 +302,7 @@ void JoyRobot::adjust_planar_roll(){
 
 
 
-void JoyRobot::process_joystick(){
+void JoyRobot::user_joystick_control(){
     
     // recheck parameters
     if(axis[4] <= 0.5) start_straight = false;
@@ -341,11 +319,8 @@ void JoyRobot::process_joystick(){
         center_cmd.spinning_speed = 0;
     }
 
-    /* flipping mode */
-
-    /* Change pitch and yaw */
-
-
+    
+    /* leg motors */
     if(axis[4] > 0.5){
         planar_straight();
 
@@ -389,8 +364,78 @@ void JoyRobot::process_joystick(){
 }
 
 
+/* uses imu to support user control commands */
+void JoyRobot::subautonomous_joystick_control(){
+    
+    // recheck parameters
+    if(axis[4] <= 0.5) start_straight = false;
+    
+    /* center motor */  
+    center_cmd.mode = MOTOR_SPIN;
+    if(axis[2] != 1 || axis[5] != 1){
+        // center thrust mode
+        
+        if(axis[2] != 1){
+            thrust(THRUST_UP);
+        }
+        else if(axis[5] != 1){
+            thrust(THRUST_DOWN);
+        }
+        
+        if(euler.pitch > euler.roll) adjust_planar_pitch();
+        else adjust_planar_roll();
+
+        // center motor priority 
+        return;
+    }
+    else{
+        center_cmd.spinning_speed = 0;
+    }
+
+    
+    /* leg motors */
+    if(axis[4] > 0.5){
+        planar_straight();
+
+        // adjust the heading angle 
+        if(start_straight == false){
+            straight_yaw = euler.yaw;
+            start_straight = true;
+        }
+        imu_adjust_heading(straight_yaw);
+    }
+    else if(fabs(axis[0]) > 0.5){
+        int yaw_dir;
+        if(axis[0] > 0) yaw_dir = YAW_CLOCKWISE;
+        else yaw_dir = YAW_COUNTER;
+        yaw_motion(yaw_dir);
+    }
+    else if(fabs(axis[1]) > 0.5){
+        // pitch motion
+        int pitch_dir;
+        if(axis[1] > 0) pitch_dir = PITCH_UP;
+        else pitch_dir = PITCH_DOWN; 
+        pitch_motion(pitch_dir);
+    }
+    
+    else if(axis[4] < -0.5){
+        /* spinning mode */
+        spin_motor();
+    }
+    else{
+        //stop_motors();
+        motor1_cmd.mode = MOTOR_STOP; 
+        motor2_cmd.mode = MOTOR_STOP; 
+        motor3_cmd.mode = MOTOR_STOP;
+        
+    }
+
+}
+
+
+
 /* motion on fixed surface such as ground and walls */
-void JoyRobot::process_ground(){
+void JoyRobot::surface_control(){
     center_cmd.mode = MOTOR_SPIN;
     center_cmd.spinning_speed = 80;
 
@@ -450,11 +495,22 @@ int main(int argc, char **argv){
 
         mode = robot.robot_mode();
         
-        //if(mode == MODE_GROUND) robot.process_ground(); 
-        //else robot.process_joystick();
+        switch(mode){
+            case MODE_USER:
+                robot.user_joystick_control();
+                break;
+            case MODE_SURFACE:
+                robot.surface_control();
+                break;
+            case MODE_SUBAUTONOMOUS:
+                break;
+            default:
+                robot.stop_motors();
+                break;
+        }
+        //if(mode == MODE_SURFACE() robot.surface_control(); 
+        //else robot.user_joystick_control();
         
-        //robot.spin_test(20);
-        robot.flip_test(10);
         /* Don't change anything below */
         robot.send_motor_commands();		
 

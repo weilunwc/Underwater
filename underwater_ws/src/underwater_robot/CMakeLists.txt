@@ -221,3 +221,6 @@ add_executable(joystick_control src/controller_lib/joystick_control.cpp src/Robo
 target_link_libraries(joystick_control  ${catkin_LIBRARIES})
 add_dependencies(joystick_control ${catkin_EXPORTED_TARGETS})
 
+add_executable(system_id src/controller_lib/system_id.cpp src/Robot.cpp)
+target_link_libraries(system_id  ${catkin_LIBRARIES})
+add_dependencies(system_id ${catkin_EXPORTED_TARGETS})

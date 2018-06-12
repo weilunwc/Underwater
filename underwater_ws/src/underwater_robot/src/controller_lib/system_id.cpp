@@ -88,9 +88,18 @@ int main(int argc, char **argv){
 
     /* Set up frequency */
     ros::Rate loop_rate(100);
+    ros::NodeHandle nh; 
     
-    string type= "flip";
-    int speed = 10;
+    string type;
+    int speed;
+
+    if(!nh.getParam("type", type)){
+        cout << "no param type" << endl;
+    }
+    if(!nh.getParam("speed", speed)){
+        speed = 0;
+        cout << "no param speed" << endl;
+    }
 
     while(ros::ok()){
         /* suspend the robot and wait for start command */

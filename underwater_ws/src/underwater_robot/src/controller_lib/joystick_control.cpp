@@ -75,8 +75,8 @@ JoyRobot::JoyRobot(){
     setup();
     start = false;
     mode = MODE_USER;
-    max_flipping_speed = 20;
-    max_spinning_speed = 20;
+    max_flipping_speed = 90;
+    max_spinning_speed = 90;
 
     start_straight = false;
     
@@ -274,6 +274,7 @@ void JoyRobot::adjust_planar_pitch(){
     motor3_cmd.mode = MOTOR_FLIP; 
     
     // target pitch 0
+    cout << "adjust planar pitch" << endl;
     print_imu();
     int tolerance = 5;
     int error = euler.pitch - 0;
@@ -395,7 +396,7 @@ void JoyRobot::subautonomous_joystick_control(){
             thrust(THRUST_DOWN);
         }
         
-        if(euler.pitch > euler.roll) adjust_planar_pitch();
+        if(fabs(euler.pitch) > fabs(euler.roll)) adjust_planar_pitch();
         else adjust_planar_roll();
 
         // center motor priority 
@@ -436,10 +437,9 @@ void JoyRobot::subautonomous_joystick_control(){
         spin_motor();
     }
     else{
-        //stop_motors();
-        motor1_cmd.mode = MOTOR_STOP; 
-        motor2_cmd.mode = MOTOR_STOP; 
-        motor3_cmd.mode = MOTOR_STOP;
+        // maintain planar 
+        if(fabs(euler.pitch) > fabs(euler.roll)) adjust_planar_pitch();
+        else adjust_planar_roll();
         
     }
 
@@ -485,7 +485,6 @@ void JoyRobot::surface_control(){
 
 /* motion on water surface holonomic using flippers*/
 void JoyRobot::water_surface_control(){
-    
 
     double l = 1.0;
     
@@ -547,7 +546,6 @@ int main(int argc, char **argv){
         robot.check_joystick();
         /* Controllers */
         mode = robot.robot_mode();
-        
         switch(mode){
             case MODE_USER:
                 robot.user_joystick_control();
@@ -565,7 +563,6 @@ int main(int argc, char **argv){
                 robot.stop_motors();
                 break;
         }
-        
         /* Don't change anything below */
         robot.send_motor_commands();		
 

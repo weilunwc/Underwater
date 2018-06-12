@@ -13,7 +13,7 @@ import tf2_ros
 from sensor_msgs.msg import JointState
 from underwater_msgs.msg import Imu, Encoder
 import numpy as np
-
+from tf.transformations import quaternion_multiply
 
 class SensorBroadcast:
     def __init__(self, imu_version='quaternion'):
@@ -58,7 +58,7 @@ class SensorBroadcast:
 class PositionBroadcast:
     def __init__(self):
         self.pos = Point() 
-        self.sub = rospy.Subscriber('position', Point32, self.position_sub)
+        self.sub = rospy.Subscriber('position', Point, self.position_sub)
     
     def position_sub(self, msg):
         self.pos.x = msg.x
@@ -142,36 +142,29 @@ class QuaternionBroadcast:
 
     def listener(self, msg):
         
-        # note that the imu yaw should be adjusted 120 degrees
-        q_rot = tf.transformations.quaternion_from_euler(0, 0, np.deg2rad(120))
         
-        q_imu = np.arange(4, dtype=float)
-        q_imu[0] = msg.x
-        q_imu[1] = msg.y
-        q_imu[2] = msg.z
-        q_imu[3] = msg.w
+        self.quat.x = msg.x
+        self.quat.y = msg.y
+        self.quat.z = msg.z
+        self.quat.w = msg.w
         
-        q_new = tf.transformations.quaternion_multiply(q_rot, q_imu)
+        q = np.arange(4, dtype=float)
+        q[0] = msg.x
+        q[1] = msg.y
+        q[2] = msg.z
+        q[3] = msg.w
+        
+        # z axis
+        p = np.arange(4, dtype=float)
+        p[0] = 0
+        p[1] = 0
+        p[2] = 1
+        p[3] = 0
 
-        e_imu = np.rad2deg(tf.transformations.euler_from_quaternion(q_imu))
-        e_rot = np.rad2deg(tf.transformations.euler_from_quaternion(q_rot))
-        e_new = np.rad2deg(tf.transformations.euler_from_quaternion(q_new))
-       
-        """
-        print('q_imu', q_imu)
-        print('q_rot', q_rot)
-        print('q_new', q_new)
-        print('e_imu', e_imu)
-        print('e_rot', e_rot)
-        print('e_new', e_new)
-        print('###############################')
-        """
-
-        q_new = q_imu
-        self.quat.x = q_new[0]
-        self.quat.y = q_new[1]
-        self.quat.z = q_new[2]
-        self.quat.w = q_new[3]
+        q_inv = tf.transformations.quaternion_inverse(q)
+        
+        a = tf.transformations.quaternion_multiply(tf.transformations.quaternion_multiply(q, p), q_inv)
+        print(a) 
 
 
     def quaternion(self):

@@ -630,7 +630,7 @@
     -->
     <gazebo>
         <plugin name="fake_imu" filename="libfake_imu.so">
-            <orientationType>euler</orientationType>
+            <orientationType>quaternion</orientationType>
         </plugin>
     </gazebo>
     

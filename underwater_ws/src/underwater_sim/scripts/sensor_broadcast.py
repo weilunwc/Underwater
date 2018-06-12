@@ -148,25 +148,7 @@ class QuaternionBroadcast:
         self.quat.z = msg.z
         self.quat.w = msg.w
         
-        q = np.arange(4, dtype=float)
-        q[0] = msg.x
-        q[1] = msg.y
-        q[2] = msg.z
-        q[3] = msg.w
         
-        # z axis
-        p = np.arange(4, dtype=float)
-        p[0] = 0
-        p[1] = 0
-        p[2] = 1
-        p[3] = 0
-
-        q_inv = tf.transformations.quaternion_inverse(q)
-        
-        a = tf.transformations.quaternion_multiply(tf.transformations.quaternion_multiply(q, p), q_inv)
-        print(a) 
-
-
     def quaternion(self):
         return self.quat
 

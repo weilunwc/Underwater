@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<robot name="tank" xmlns:xacro="http://ros.org/wiki/xacro">
+    
+    <arg name="water_depth" default="1.5"/>"
+    <xacro:property name="water_depth" value="$(arg water_depth)"/>
+
+    <material name="transparent">
+        <color rgba="1 1 1 0.4"/>
+    </material>
+
+    <link name="tank_base_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="transparent"/>
+        </visual>
+        <collision name="base_link_collision">
+            <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
+
+    <link name="tank_water_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
+            </geometry>
+            <material name="transparent"/>
+        </visual>
+        <collision name="base_link_collision">
+            <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tank/tank_water.dae" scale="0.001 0.001 ${water_depth*0.001}"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
+
+    <link name="ar_tag_link">
+        <visual>
+            <origin rpy="0 1.57 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tags/ar_tag_0.dae" scale="1 1 1"/>
+            </geometry>
+        </visual>
+        <collision name="base_link_collision">
+            <origin rpy="0 1.57 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tags/ar_tag_0.dae" scale="1 1 1"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
+
+    <joint name="tank_joint" type="fixed">
+        <origin xyz="0 0 0"/>
+        <parent link="tank_base_link"/>
+        <child link="tank_water_link"/>
+    </joint>
+
+    <joint name="ar_tag_joint" type="fixed">
+        <origin xyz="3 0.75 0.5"/>
+        <parent link="tank_base_link"/>
+        <child link="ar_tag_link"/>
+    </joint>
+
+    <gazebo reference="tank_water_link">
+            <visual name='visual'>
+        <material>
+          <lighting>1</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+          <ambient>0.3 0.3 0.3 0.4</ambient>
+          <diffuse>0.7 0.7 0.7 0.4</diffuse>
+          <specular>0.01 0.01 0.01 0.4</specular>
+          <emissive>0 0 0 0.4</emissive>
+          <shader type='vertex'>
+            <normal_map>__default__</normal_map>
+          </shader>
+        </material>
+        <cast_shadows>1</cast_shadows>
+        <transparency>0.7</transparency>
+        </visual>
+    </gazebo>
+</robot>
+

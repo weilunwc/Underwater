@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<robot name="ar_tag" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <link name="ar_tag_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tags/ar_tag_0.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision name="base_link_collision">
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/tags/ar_tag_0.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
+    
+    <link name="dummy_link"/>
+    
+    <joint name="dummy_joint" type="fixed">
+        <origin xyz="0 0 0"/>
+        <parent link="ar_tag_link"/>
+        <child link="dummy_link"/>
+    </joint>
+
+</robot>
+

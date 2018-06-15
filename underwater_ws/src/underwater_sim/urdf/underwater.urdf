@@ -37,7 +37,6 @@
             <mass value="5.99" />
             <inertia ixx="0.08319857" ixy="0.0008657224" ixz="0.0009579166" iyy="0.08357262" iyz="0.0001832366" izz="0.12186"/>
         </inertial>
-
         <collision>
             <origin xyz="0 0 .01" rpy="0 0 0"/>
             <geometry>
@@ -583,6 +582,7 @@
             </link>
         </plugin>
     </gazebo>
+
 <!--
     <gazebo>
         <plugin name="LiftDragPlugin" filename="libLiftDragPlugin.so">

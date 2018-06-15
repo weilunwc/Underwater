@@ -87,7 +87,7 @@ namespace gazebo
 
 
   protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-  { this->pidV= common::PID(3,0,0);
+  { this->pidV= common::PID(2,0,0);
     this->pidP= common::PID(.2, .01, .1);
     // Store the pointer to the model
     this->model = _parent;

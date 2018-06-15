@@ -48,19 +48,12 @@ namespace gazebo
 
     }
   	/// \brief A node use for ROS transport
-	
+
 
   protected: void setReset(){
-  }
-  protected: void setPostion(){
-    this->model->GetJointController()->SetPositionPID(
-          this->joint->GetScopedName(), this->pidP);
-  }
-  protected: void setVelocity(){
-    this->model->GetJointController()->SetVelocityPID(
-          this->joint->GetScopedName(), this->pidV);
-  }
+    this->model->GetJointController()->Reset();
 
+  }
 
 	public: void OnRosMsg(const underwater_msgs::CmdConstPtr &_msg)
 	{   int oldmode = this->mode;
@@ -70,11 +63,11 @@ namespace gazebo
       this->flippAngle = _msg->flipping_angle;
       this->flippSpeed = _msg->flipping_speed;
       this->force = -1*100*(((double)flippSpeed)/90);
-      if(this->mode == 2 && oldmode != 2){
-        setVelocity();
+      if(this->mode == 1 && oldmode != 1){
+        setReset();
       }
-      else if(this->mode == 1 && oldmode != 1){
-        setPostion();
+      else if(this->mode == 2 && oldmode != 2){
+        setReset();
       }
       else if(this->mode == 0 && oldmode != 0){
         setReset();
@@ -94,7 +87,7 @@ namespace gazebo
 
 
   protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-  { this->pidV= common::PID(0.1, 0, 0);
+  { this->pidV= common::PID(3,0,0);
     this->pidP= common::PID(.2, .01, .1);
     // Store the pointer to the model
     this->model = _parent;
@@ -134,6 +127,10 @@ namespace gazebo
     std::thread(boost::bind(&TestPlug::QueueThread, this));
     this->updateConnection = event::Events::ConnectWorldUpdateEnd(
           boost::bind(&TestPlug::OnUpdate, this));
+    this->model->GetJointController()->SetVelocityPID(
+          this->joint->GetScopedName(), this->pidV);
+    this->model->GetJointController()->SetPositionPID(
+          this->joint->GetScopedName(), this->pidP);
 
   }
   
@@ -143,17 +140,18 @@ namespace gazebo
     {	
        if(mode == 0){
        }
-       else if(mode == 1){
+       else if(mode == 2){
           this->model->GetJointController()->SetPositionTarget(
               this->joint->GetScopedName(),2*3.14*((double)flippAngle)/360.0);
           this->link->AddRelativeForce(ignition::math::Vector3d(0,0,force));
-          std::cout << force << std::endl;
        }
-       else if(mode == 2){
+       else if(mode == 1){
           double vel = 31.1*((double)spinSpeed)/90;
           this->model->GetJointController()->SetVelocityTarget(
             this->joint->GetScopedName(), vel);
        }
+       common::PID tempo = this->model->GetJointController()->GetPositionPIDs().find(this->joint->GetScopedName())->second;
+       //std::cout << joint_name << " " << tempo.GetPGain();
     }
 
     // Pointer to the model
@@ -164,7 +162,7 @@ namespace gazebo
     private: physics::JointPtr joint;
 
 
-    private: int mode, spinSpeed, flippAngle, flippSpeed;
+    private: int mode = 0, spinSpeed = 0, flippAngle = 0, flippSpeed = 0;
     // Pointer to the update event connection
     private: event::ConnectionPtr updateConnection;
     /// \brief A PID controller for the joint.

@@ -59,12 +59,12 @@ int main(int argc ,char **argv){
     mot1_pub = n.advertise<underwater_msgs::Cmd>("/motor1/cmd",10);
     mot2_pub = n.advertise<underwater_msgs::Cmd>("/motor2/cmd",10);
     mot3_pub = n.advertise<underwater_msgs::Cmd>("/motor3/cmd",10);
-    center_pub = n.advertise<underwater_msgs::Cmd>("/center_motor/cmd",10);
+    center_pub = n.advertise<underwater_msgs::Cmd>("/robot_base_link/cmd",10);
     underwater_msgs::Cmd mot1_mes, mot2_mes, mot3_mes, center_mes;
-    mot1_mes.mode = 2;
-    mot2_mes.mode = 2;
-    mot3_mes.mode = 2;
-    center_mes.mode = 2;
+    mot1_mes.mode = 1;
+    mot2_mes.mode = 1;
+    mot3_mes.mode = 1;
+    center_mes.mode = 1;
     bool start = true;
     ros::Rate loop_rate(100);
     while(ros::ok()){
@@ -95,21 +95,20 @@ int main(int argc ,char **argv){
         v << fx, fy, dtheta;
         v = m*v;
         if(buttons[0] == 1){
+            mot1_mes.mode = 2;
+            mot2_mes.mode = 2;
+            mot3_mes.mode = 2;
+        }
+        if(buttons[1] == 1){
             mot1_mes.mode = 1;
             mot2_mes.mode = 1;
             mot3_mes.mode = 1;
             center_mes.mode = 1;
         }
-        if(buttons[1] == 1){
-            mot1_mes.mode = 2;
-            mot2_mes.mode = 2;
-            mot3_mes.mode = 2;
-            center_mes.mode = 2;
-        }
         mot1_mes.spinning_speed = 90*v(0);
         mot2_mes.spinning_speed = 90*v(1);
         mot3_mes.spinning_speed = 90*v(2);
-        center_mes.spinning_speed = axis[2]*1;
+        center_mes.spinning_speed = axis[2]*30;
         //cout << fx << ' '<< fy << ' ' << dtheta;
         //cout << mot1.data << ' ' << mot2.data << ' ' << mot3.data << ' ' << central.data << endl;
         mot1_mes.flipping_angle = axis[1]*180;
@@ -119,7 +118,10 @@ int main(int argc ,char **argv){
         mot1_mes.flipping_speed = axis[3]*90;
         mot2_mes.flipping_speed = axis[3]*90;
         mot3_mes.flipping_speed = axis[3]*90;
-        center_mes.flipping_speed = (1-axis[2])*90;
+        center_mes.flipping_speed = (1-axis[2])*30;
+        if(axis[2] == 1){
+           center_mes.flipping_speed = -1*(1-axis[5])*30;
+        }
         mot1_pub.publish(mot1_mes);
         mot2_pub.publish(mot2_mes);
         mot3_pub.publish(mot3_mes);

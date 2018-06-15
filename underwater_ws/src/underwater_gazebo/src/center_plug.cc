@@ -52,18 +52,8 @@ namespace gazebo
 
   protected: void setReset(){
     this->model->GetJointController()->Reset();
-  }
-  protected: void setPostion(){
-    this->model->GetJointController()->Reset();
-    this->model->GetJointController()->SetPositionPID(
-          this->joint->GetScopedName(), this->pidP);
-  }
-  protected: void setVelocity(){
-    this->model->GetJointController()->Reset();
-    this->model->GetJointController()->SetVelocityPID(
-          this->joint->GetScopedName(), this->pidV);
-  }
 
+  }
 
 	public: void OnRosMsg(const underwater_msgs::CmdConstPtr &_msg)
 	{   int oldmode = this->mode;
@@ -72,14 +62,14 @@ namespace gazebo
       this->spinSpeed = _msg->spinning_speed;
       this->flippAngle = _msg->flipping_angle;
       this->flippSpeed = _msg->flipping_speed;
-      this->force = 1*100*(((double)flippSpeed)/90);
-      if(this->mode == 2 && oldmode != 2){
-        setVelocity();
-      }
-      else if(this->mode == 1 && oldmode != 1){
-        setPostion();
+      this->force = 1*5*(((double)flippSpeed));
+      if(this->mode == 1 && oldmode != 1){
+        setReset();
       }
       else if(this->mode == 0 && oldmode != 0){
+        setReset();
+      }
+      else if(this->mode == 2 && oldmode != 2){
         setReset();
       }
       
@@ -97,8 +87,7 @@ namespace gazebo
 
 
   protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-  { this->pidV= common::PID(0.1, 0, 0);
-    this->pidP= common::PID(.2, .01, .1);
+  { this->pidV= common::PID(.1,0,0);
     // Store the pointer to the model
     this->model = _parent;
     if (!_sdf->HasElement("linkName"))
@@ -111,12 +100,9 @@ namespace gazebo
     flippAngle = 0;
     flippSpeed = 0;
     this->link_name = _sdf->Get<std::string>("linkName");
-    this->joint_name = _sdf->Get<std::string>("jointName"); 
     std::cout << this->link_name << std::endl; 
-    std::cout << this->joint_name << std::endl;
 
     this->link = this->model->GetLink(link_name);
-    this->joint = this->model->GetJoint(joint_name);
     if(!ros::isInitialized())
     {
       return;
@@ -126,7 +112,7 @@ namespace gazebo
     this->rosNode.reset(new ros::NodeHandle(link_name));
     ros::SubscribeOptions so =
         ros::SubscribeOptions::create<underwater_msgs::Cmd>(
-          "/" + joint_name + "/cmd",
+          "/" + link_name + "/cmd",
           1,
          boost::bind(&CenterPlug::OnRosMsg, this, _1),
          ros::VoidPtr(), &this->rosQueue);
@@ -137,7 +123,6 @@ namespace gazebo
     std::thread(boost::bind(&CenterPlug::QueueThread, this));
     this->updateConnection = event::Events::ConnectWorldUpdateEnd(
           boost::bind(&CenterPlug::OnUpdate, this));
-
   }
   
 
@@ -145,13 +130,16 @@ namespace gazebo
   protected:  virtual void OnUpdate()
     {	
        if(mode == 0){
+       // this->model->GetJointController()->SetVelocityTarget(
+       //     this->joint->GetScopedName(), 0);
        }
-       else{
-         double vel = 31.1*((double)spinSpeed)/90;
-          this->model->GetJointController()->SetVelocityTarget(
-            this->joint->GetScopedName(), vel);
+       else if (mode == 1){
+         double vel = ((double)spinSpeed);
+          //this->model->GetJointController()->SetVelocityTarget(
+          //  this->joint->GetScopedName(), vel);
           this->link->AddRelativeForce(ignition::math::Vector3d(0,0,force));
        }
+       //std::cout << std::endl;
     }
 
     // Pointer to the model
@@ -162,7 +150,7 @@ namespace gazebo
     private: physics::JointPtr joint;
 
 
-    private: int mode, spinSpeed, flippAngle, flippSpeed;
+    private: int mode = 0, spinSpeed = 0, flippAngle = 0, flippSpeed = 0;
     // Pointer to the update event connection
     private: event::ConnectionPtr updateConnection;
     /// \brief A PID controller for the joint.

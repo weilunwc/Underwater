@@ -33,7 +33,8 @@
     <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)">
         <arg name="bag_name" value="$(arg bag_name)"/>
     </include>
-
+    
+    <!-- camera and record -->
     <include file="$(find underwater_robot)/launch/video_recorder.launch" if="$(arg cam)">
         <arg name="display" value="false"/>
         <arg name="record" value="$(arg record)"/>

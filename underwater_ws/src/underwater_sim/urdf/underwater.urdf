@@ -478,7 +478,8 @@
         <transparency>0.7</transparency>
         </visual>
     </gazebo>
-
+    
+    <!--
     <gazebo>
         <plugin name="test_plug2" filename="libtest_plug.so">
             <linkName>shaft1_link</linkName>
@@ -502,7 +503,7 @@
             <linkName>robot_base_link</linkName>
         </plugin>
     </gazebo>
-
+    -->
 
  
 

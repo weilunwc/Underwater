@@ -1,0 +1,22 @@
+<launch>
+    <arg name="rviz"  default="true"/>
+
+    <!-- visualize the underwater urdf robot model-->
+    <arg name="model" default="$(find underwater_sim)/urdf/tank.urdf"/>
+    <arg name="water_depth" default="1"/>
+
+    <!-- Convert a xacro and put on parameter server -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find underwater_sim)/urdf/ar_tag_tank.xacro water_depth:=$(arg water_depth)"/>
+    
+    <node name="tank_broadcast" pkg="underwater_sim" type="ar_tank_broadcast.py"/> 
+
+    <!-- send fake joint values -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false"/> 
+    </node>
+
+    <!-- Combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    
+    <node name="rviz" type="rviz" pkg="rviz" args="-d $(find underwater_sim)/rviz/tank.rviz" if="$(arg rviz)"/>
+</launch>

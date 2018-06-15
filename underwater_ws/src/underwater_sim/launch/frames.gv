@@ -1,0 +1,33 @@
+digraph G {
+"tank_base_link" -> "ar_tag_link"[label="Broadcaster: /tank/robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"world" -> "tank_base_link"[label="Broadcaster: /tank/tank_broadcast\nAverage rate: 50000.000 Hz\nMost recent transform: 1528944157.144 ( 933.310 sec old)\nBuffer length: 0.000 sec\n"];
+"tank_base_link" -> "tank_water_link"[label="Broadcaster: /tank/robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"cylinder2_link" -> "camera_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "cylinder2_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "cerlab_logo_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"world" -> "robot_base_link"[label="Broadcaster: /sensor_broadcast\nAverage rate: 100.204 Hz\nMost recent transform: 1528945090.444 ( 0.011 sec old)\nBuffer length: 4.860 sec\n"];
+"robot_base_link" -> "cylinder1_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "cylinder3_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"cylinder2_link" -> "imu_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "motorcylinder1_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "motorcylinder2_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "motorcylinder3_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"shaft1_link" -> "wheel1_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "shaft1_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 1528945090.423 ( 0.032 sec old)\nBuffer length: 4.800 sec\n"];
+"shaft2_link" -> "wheel2_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "shaft2_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 1528945090.423 ( 0.032 sec old)\nBuffer length: 4.800 sec\n"];
+"shaft3_link" -> "wheel3_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "shaft3_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 1528945090.423 ( 0.032 sec old)\nBuffer length: 4.800 sec\n"];
+"base_link" -> "optical_frame"[label="Broadcaster: /state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1528945090.455 sec old)\nBuffer length: 0.000 sec\n"];
+"robot_base_link" -> "center_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.208 Hz\nMost recent transform: 1528945090.423 ( 0.032 sec old)\nBuffer length: 4.800 sec\n"];
+"usb_cam" -> "ar_marker_0"[label="Broadcaster: /ar_track_alvar\nAverage rate: 8.239 Hz\nMost recent transform: 1528945090.376 ( 0.079 sec old)\nBuffer length: 4.734 sec\n"];
+"world" -> "usb_cam"[label="Broadcaster: /camera_broadcast\nAverage rate: 50000.000 Hz\nMost recent transform: 1528945061.878 ( 28.577 sec old)\nBuffer length: 0.000 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1528945090.455"[ shape=plaintext ] ;
+ }->"base_link";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1528945090.455"[ shape=plaintext ] ;
+ }->"world";
+}

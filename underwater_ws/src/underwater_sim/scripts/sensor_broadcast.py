@@ -27,7 +27,7 @@ class SensorBroadcast:
 
 
     def broadcast(self):
-        # Send joint states of motors
+        # Send joint stamport tf2_ros
         self.encoder_broadcast.broadcast()
         
         # Get quaternions values from imu
@@ -58,7 +58,7 @@ class SensorBroadcast:
 class PositionBroadcast:
     def __init__(self):
         self.pos = Point() 
-        self.sub = rospy.Subscriber('position', Point32, self.position_sub)
+        self.sub = rospy.Subscriber('position', Point, self.position_sub)
     
     def position_sub(self, msg):
         self.pos.x = msg.x

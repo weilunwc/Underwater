@@ -1,0 +1,24 @@
+<launch>
+    <!--replays the sensor info in the tank test-->    
+
+    <arg name="robot_model" default="$(find underwater_sim)/urdf/underwater.urdf"/>
+    <arg name="tank_model" default="$(find underwater_sim)/urdf/tank_depth.urdf"/>
+    <arg name="water_depth" default="1"/>
+
+    
+    <include file="$(find underwater_sim)/launch/robot_rviz.launch">
+        <arg name="rviz" value="false"/>
+    </include>
+    
+    <group ns="tank">
+        <include file="$(find underwater_sim)/launch/ar_tag_tank_rviz.launch">
+            <arg name="model" value="$(arg tank_model)"/>
+            <arg name="rviz" value="false"/>
+            <arg name="water_depth" value="$(arg water_depth)"/>
+        </include>
+    </group> 
+    
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find underwater_sim)/rviz/tank_experiment_ar.rviz"/>
+
+</launch>

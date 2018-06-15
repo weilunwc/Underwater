@@ -23,7 +23,6 @@ if __name__ == '__main__':
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()
 
-    print('success')
     t.header.stamp = rospy.Time.now()
     t.header.frame_id = "world"
     t.child_frame_id = "tank_base_link"

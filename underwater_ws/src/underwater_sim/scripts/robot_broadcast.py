@@ -35,7 +35,7 @@ if __name__ == '__main__':
     t = TransformStamped()
 
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "world"
+    t.header.frame_id = "usb_cam"
     t.child_frame_id = "robot_base_link"
     t.transform.translation.x = x
     t.transform.translation.y = y

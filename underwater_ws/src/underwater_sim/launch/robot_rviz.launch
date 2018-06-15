@@ -9,7 +9,7 @@
     
     <group if="$(arg read_sensor)">
         <!--send joint states from sensor readings-->
-        <node name="sensor_broadcast" pkg="underwater_sim" type="sensor_broadcast.py"/>
+        <node name="sensor_broadcast" pkg="underwater_sim" type="ar_sensor_broadcast.py"/>
     </group>
 
     <group unless="$(arg read_sensor)">

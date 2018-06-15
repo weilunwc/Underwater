@@ -10,23 +10,21 @@ import tf2_ros
 import numpy as np
 
 if __name__ == '__main__':
-    rospy.init_node('tank_broadcast')
+    rospy.init_node('camera_broadcast')
     
-    water_depth = rospy.get_param('/water_depth', 1.5)
     
 
     x = 0
     y = 0
-    z = -water_depth
+    z = 0
 
      # set up transformation
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()
 
-    print('success')
     t.header.stamp = rospy.Time.now()
     t.header.frame_id = "world"
-    t.child_frame_id = "tank_base_link"
+    t.child_frame_id = "usb_cam"
     t.transform.translation.x = x
     t.transform.translation.y = y
     t.transform.translation.z = z

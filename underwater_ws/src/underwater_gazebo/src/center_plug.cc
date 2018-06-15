@@ -12,50 +12,66 @@
 #include "underwater_msgs/Cmd.h"
 #include <boost/bind.hpp>
 #include <gazebo/physics/JointController.hh>
-
 namespace gazebo
 {
-  class SamplePlug : public ModelPlugin
+  float ElectricMotorModel(const float _speed, const float _pwm)
   {
-  public: SamplePlug(){};
+    float stallT = _pwm*.3;
+    float noLoadS = 31.1*_pwm;
+    if (_speed > noLoadS)
+      return 0;
+    return stallT-stallT*(_speed/noLoadS);
+  }
+
+
+
+  class CenterPlug : public ModelPlugin
+  {
+  public: CenterPlug(){};
 
   private: std::unique_ptr<ros::NodeHandle> rosNode;
   private: ros::NodeHandle n;
-  //ros::Publisher central_pub;
-/// \brief A ROS subscriber
   private: ros::Subscriber rosSub;
 
-/// \brief A ROS callbackqueue that helps process messages
   private: ros::CallbackQueue rosQueue;
 
-/// \brief A thread the keeps running the rosQueue
   private: std::thread rosQueueThread;
-
+  private: common::PID pidP;
+  private: common::PID pidV;
   private: double force = 0;
-
+  private: double effort = 0;
   
-  public: ~SamplePlug()
+
+  public: ~CenterPlug()
    {
       updateConnection.reset();
 
     }
   	/// \brief A node use for ROS transport
 	
-  
 
-	public: void SetForce(const double &_for)
-	{
-  	// Set the joint's target velocity.
-  	  force = _for;
-	}
+  protected: void setReset(){
+    this->model->GetJointController()->Reset();
+
+  }
 
 	public: void OnRosMsg(const underwater_msgs::CmdConstPtr &_msg)
-	{
+	{   int oldmode = this->mode;
+      
   		this->mode = _msg->mode;
       this->spinSpeed = _msg->spinning_speed;
       this->flippAngle = _msg->flipping_angle;
       this->flippSpeed = _msg->flipping_speed;
-  		//std::cout << "woop" << std::endl;
+      this->force = 1*5*(((double)flippSpeed));
+      if(this->mode == 1 && oldmode != 1){
+        setReset();
+      }
+      else if(this->mode == 0 && oldmode != 0){
+        setReset();
+      }
+      else if(this->mode == 2 && oldmode != 2){
+        setReset();
+      }
       
 	}
 
@@ -71,7 +87,7 @@ namespace gazebo
 
 
   protected:  void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-  {
+  { this->pidV= common::PID(.1,0,0);
     // Store the pointer to the model
     this->model = _parent;
     if (!_sdf->HasElement("linkName"))
@@ -84,49 +100,46 @@ namespace gazebo
     flippAngle = 0;
     flippSpeed = 0;
     this->link_name = _sdf->Get<std::string>("linkName");
-    this->joint_name = _sdf->Get<std::string>("jointName"); 
     std::cout << this->link_name << std::endl; 
-    std::cout << this->joint_name << std::endl;
-    std::cout << "///////////////////////////////////////////////////////////////////" << std::endl;
-    std::vector<physics::LinkPtr> Link_V = this->model->GetLinks();
-    std::cout << Link_V.size();
-    for(int i = 0; i < Link_V.size(); i++){
-      std::cout << Link_V[i]->GetName() << std::endl;
-    }
-    std::cout << "*******************************************************************" << std::endl;
-    this->link = this->model->GetLink(link_name);
-    this->joint = this->model->GetJoint(joint_name);
 
+    this->link = this->model->GetLink(link_name);
     if(!ros::isInitialized())
     {
       return;
     }
+
     ros::Duration gazebo_period(model->GetWorld()->Physics()->GetMaxStepSize());
     this->rosNode.reset(new ros::NodeHandle(link_name));
     ros::SubscribeOptions so =
         ros::SubscribeOptions::create<underwater_msgs::Cmd>(
-          "/" + joint_name + "/cmd",
+          "/" + link_name + "/cmd",
           1,
-         boost::bind(&SamplePlug::OnRosMsg, this, _1),
+         boost::bind(&CenterPlug::OnRosMsg, this, _1),
          ros::VoidPtr(), &this->rosQueue);
 
     this->rosSub = this->rosNode->subscribe(so);
-
-
-      // Spin up the queue helper thread.
-      this->rosQueueThread =
-      std::thread(boost::bind(&SamplePlug::QueueThread, this));
-
+    // Spin up the queue helper thread.
+    this->rosQueueThread =
+    std::thread(boost::bind(&CenterPlug::QueueThread, this));
+    this->updateConnection = event::Events::ConnectWorldUpdateEnd(
+          boost::bind(&CenterPlug::OnUpdate, this));
+  }
   
-      this->updateConnection = event::Events::ConnectWorldUpdateEnd(
-          boost::bind(&SamplePlug::OnUpdate, this));
-      
 
-	  }
-    // Called by the world update start event
-    protected:  virtual void OnUpdate()
-    {	//std::cout << "what" << std::endl;
-      // Apply a small linear velocity to the model.
+
+  protected:  virtual void OnUpdate()
+    {	
+       if(mode == 0){
+       // this->model->GetJointController()->SetVelocityTarget(
+       //     this->joint->GetScopedName(), 0);
+       }
+       else if (mode == 1){
+         double vel = ((double)spinSpeed);
+          //this->model->GetJointController()->SetVelocityTarget(
+          //  this->joint->GetScopedName(), vel);
+          this->link->AddRelativeForce(ignition::math::Vector3d(0,0,force));
+       }
+       //std::cout << std::endl;
     }
 
     // Pointer to the model
@@ -137,11 +150,10 @@ namespace gazebo
     private: physics::JointPtr joint;
 
 
-    private: int mode, spinSpeed, flippAngle, flippSpeed;
+    private: int mode = 0, spinSpeed = 0, flippAngle = 0, flippSpeed = 0;
     // Pointer to the update event connection
     private: event::ConnectionPtr updateConnection;
     /// \brief A PID controller for the joint.
-    private: common::PID pid;
 
         /// \brief A node used for transport
     private: transport::NodePtr node;
@@ -151,5 +163,5 @@ namespace gazebo
   };
 
   // Register this plugin with the simulator
-  GZ_REGISTER_MODEL_PLUGIN(SamplePlug);
+  GZ_REGISTER_MODEL_PLUGIN(CenterPlug);
 }

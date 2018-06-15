@@ -8,7 +8,7 @@
 #include <ignition/math/Pose3.hh>
 // ros
 #include <ros/ros.h>
-#include <geometry_msgs/Point32.h>
+#include <geometry_msgs/Point.h>
 
 namespace gazebo
 {
@@ -29,7 +29,7 @@ namespace gazebo
         // ros
         ros::NodeHandle* node_handle_; 
         ros::Publisher position_publisher_;
-        geometry_msgs::Point32 position_;
+        geometry_msgs::Point position_;
 
     };
 
@@ -52,7 +52,7 @@ namespace gazebo
         this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                std::bind(&Position::OnUpdate, this));
         node_handle_ = new ros::NodeHandle();
-        position_publisher_ = node_handle_->advertise<geometry_msgs::Point32>("position", 10);
+        position_publisher_ = node_handle_->advertise<geometry_msgs::Point>("position", 10);
     }
 
     void Position::OnUpdate(){

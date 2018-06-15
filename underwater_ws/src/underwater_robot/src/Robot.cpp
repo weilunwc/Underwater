@@ -92,7 +92,8 @@ void Robot::read_imu(const geometry_msgs::Quaternion &imu_info){
     // transform to euler
     tf::Quaternion quater(quat.x, quat.y, quat.z, quat.w);
     double roll, pitch, yaw;
-    tf::Matrix3x3(quater).getRPY(roll, pitch, yaw);
+    // the orientation is a little different
+    tf::Matrix3x3(quater).getRPY(pitch, roll, yaw);
      
     
     euler.roll = rad2deg(roll);

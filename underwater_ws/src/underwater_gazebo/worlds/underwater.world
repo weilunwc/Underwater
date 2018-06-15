@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
     <world name="underwater_world">
-        <gravity>0 0 0</gravity>
+        <gravity>0 0 -9.8</gravity>
         <scene>
             <grid>false</grid>
             <sky>

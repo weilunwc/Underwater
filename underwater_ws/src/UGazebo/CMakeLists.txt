@@ -11,6 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
   controller_manager
   joint_state_controller
   robot_state_publisher
+  geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+  sensor_msgs
+  message_generation
+  underwater_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -201,3 +208,7 @@ include_directories(
 add_executable(walk src/walk.cpp)
 target_link_libraries(walk  ${catkin_LIBRARIES})
 add_dependencies(walk ${catkin_EXPORTED_TARGETS})
+
+add_executable(testwalk src/testwalk.cpp)
+target_link_libraries(testwalk  ${catkin_LIBRARIES} )
+add_dependencies(testwalk ${catkin_EXPORTED_TARGETS})

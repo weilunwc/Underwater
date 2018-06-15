@@ -141,6 +141,13 @@ target_link_libraries(position ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 add_library(model_push SHARED src/model_push.cc)
 target_link_libraries(model_push ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 
+add_library(test_plug SHARED src/test_plug.cc)
+target_link_libraries(test_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+
+add_library(center_plug SHARED src/center_plug.cc)
+target_link_libraries(center_plug ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
+
+
 add_library(fake_imu SHARED src/fake_imu.cc)
 target_link_libraries(fake_imu ${GAZEBO_LIBRARIES} ${catkin_LIBRARIES})
 add_dependencies(fake_imu ${catkin_EXPORTED_TARGETS})

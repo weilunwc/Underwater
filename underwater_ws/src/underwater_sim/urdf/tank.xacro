@@ -57,12 +57,12 @@
     </joint>
 
     <gazebo reference="tank_water_link">
-        <visual name='visual'>
+        <!--<visual name='visual'>
             <material>
             <lighting>1</lighting>
             <script>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
-                <name>Gazebo/Grey</name>
+                <name>Gazebo/Black</name>
             </script>
             <ambient>0.3 0.3 0.3 0.4</ambient>
             <diffuse>0.7 0.7 0.7 0.4</diffuse>
@@ -73,8 +73,13 @@
             </shader>
             </material>
             <cast_shadows>1</cast_shadows>
-            <transparency>0.7</transparency>
-        </visual>
+            <transparency>0</transparency>
+        </visual>-->
+        <material>Gazebo/BlueTransparent</material>
+    </gazebo>
+
+    <gazebo reference="tank_base_link">
+        <material>Gazebo/GreyTransparent</material>
     </gazebo>
 </robot>
 

@@ -12,7 +12,7 @@
     <arg name="debug" default="false"/>
     <arg name="world" default="underwater"/>
     
-    <arg name="water_depth" default="1.5"/>
+    <arg name="water_depth" default="1"/>
 
     <!--launch an empty gazebo world-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">

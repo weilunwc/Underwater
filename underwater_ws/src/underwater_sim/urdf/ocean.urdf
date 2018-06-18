@@ -9,7 +9,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="-10 -10 0"/>
             <geometry>
-                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="0.001 0.001 -0.001"/>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="0.001 0.001 -0.0001"/>
             </geometry>
             <material name="transparent"/>
         </visual>
@@ -33,6 +33,9 @@
         <child link="dummy_link"/>
     </joint>
 
+    <gazebo reference="ocean_base_link">
+        <material>Gazebo/BlueTransparent</material>
+    </gazebo>
 
 </robot>
 

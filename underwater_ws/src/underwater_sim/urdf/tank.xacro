@@ -8,6 +8,10 @@
         <color rgba="1 1 1 0.4"/>
     </material>
 
+    <material name="full_transparent">
+        <color rgba="1 1 1 0"/>
+    </material>
+
     <link name="tank_base_link">
         <visual>
             <origin rpy="0 0 0" xyz="1.4 1.2 0"/>
@@ -50,36 +54,87 @@
         </inertial>
     </link>
 
+    <link name="tank_ceiling_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="-0.1 -0.11 1.5"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="0.000032 0.000022 0.000001"/>
+            </geometry>
+            <material name="full_transparent"/>
+        </visual>
+        <collision name="tank_ceiling_collision">
+            <origin rpy="0 0 0" xyz="-0.1 -0.11 1.5"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="0.000032 0.000022 0.000001"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
+
     <joint name="tank_joint" type="fixed">
         <origin xyz="0 0 0"/>
         <parent link="tank_base_link"/>
         <child link="tank_water_link"/>
     </joint>
 
+    <joint name="ceiling_joint" type="fixed">
+        <origin xyz="0 0 0"/>
+        <parent link="tank_base_link"/>
+        <child link="tank_ceiling_link"/>
+    </joint>
+
     <gazebo reference="tank_water_link">
-        <!--<visual name='visual'>
+        <visual name='visual'>
             <material>
             <lighting>1</lighting>
             <script>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
                 <name>Gazebo/Black</name>
             </script>
-            <ambient>0.3 0.3 0.3 0.4</ambient>
-            <diffuse>0.7 0.7 0.7 0.4</diffuse>
-            <specular>0.01 0.01 0.01 0.4</specular>
+            <ambient>0.1 0.18725 0.1745 0.8</ambient>
+            <diffuse>0.396 0.74151 0.69102 0.8</diffuse>
+            <specular>0.0297254 0.030829 0.0306678 0.8</specular>
             <emissive>0 0 0 0.4</emissive>
             <shader type='vertex'>
                 <normal_map>__default__</normal_map>
             </shader>
             </material>
             <cast_shadows>1</cast_shadows>
-            <transparency>0</transparency>
-        </visual>-->
-        <material>Gazebo/BlueTransparent</material>
+            <transparency>0.2</transparency>
+        </visual>
+        <!--<material>Gazebo/BlueTransparent</material>-->
     </gazebo>
 
     <gazebo reference="tank_base_link">
-        <material>Gazebo/GreyTransparent</material>
+        <visual name='visual'>
+            <material>
+            <lighting>1</lighting>
+            <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Black</name>
+            </script>
+            <ambient>0.19225 0.19225 0.19225 1</ambient>
+            <diffuse>0.50754 0.50754 0.50754 1</diffuse>
+            <specular>0.508273 0.508273 0.508273 1</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+                <normal_map>__default__</normal_map>
+            </shader>
+            </material>
+            <cast_shadows>1</cast_shadows>
+            <transparency>0.4</transparency>
+        </visual>
+        <!--<material>Gazebo/GreyTransparent</material>-->
+    </gazebo>
+
+    <gazebo reference="tank_ceiling_link">
+        <visual name='visual'>
+            <transparency>1</transparency>
+        </visual>
     </gazebo>
 </robot>
 

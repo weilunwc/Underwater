@@ -24,17 +24,59 @@
             <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
         </inertial>
     </link>
+
+    <link name="ocean_ceiling_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="-10 -10 10"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="0.001 0.001 -0.0001"/>
+            </geometry>
+            <material name="transparent"/>
+        </visual>
+        <!--
+        <collision name="ocean_ceiling_link_collision">
+            <origin rpy="0 0 0" xyz="-10 -10 10"/>
+            <geometry>
+                <mesh filename="package://underwater_sim/models/meshes/ocean/ocean_hollow.STL" scale="1 1 1"/>
+            </geometry>
+        </collision>-->
+        <inertial>
+            <mass value="95.78"/>
+            <inertia ixx="57.28" ixy="0.00" ixz="-0.23" iyy="57.28" iyz="0.00" izz="6.09"/>
+        </inertial>
+    </link>
     
-    <link name="dummy_link"/>
-    
-    <joint name="dummy_joint" type="fixed">
+    <joint name="ceiling_joint" type="fixed">
         <origin xyz="0 0 0"/>
         <parent link="ocean_base_link"/>
-        <child link="dummy_link"/>
+        <child link="ocean_ceiling_link"/>
     </joint>
 
     <gazebo reference="ocean_base_link">
-        <material>Gazebo/BlueTransparent</material>
+        <visual name='visual'>
+            <material>
+            <lighting>1</lighting>
+            <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Black</name>
+            </script>
+            <ambient>0.1 0.18725 0.1745 0.8</ambient>
+            <diffuse>0.396 0.74151 0.69102 0.8</diffuse>
+            <specular>0.0297254 0.030829 0.0306678 0.8</specular>
+            <emissive>0 0 0 0.4</emissive>
+            <shader type='vertex'>
+                <normal_map>__default__</normal_map>
+            </shader>
+            </material>
+            <cast_shadows>1</cast_shadows>
+            <transparency>0.2</transparency>
+        </visual>
+    </gazebo>
+
+    <gazebo reference="ocean_ceiling_link">
+        <visual name='visual'>
+            <transparency>1</transparency>
+        </visual>
     </gazebo>
 
 </robot>

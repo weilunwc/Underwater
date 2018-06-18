@@ -11,6 +11,8 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
     <arg name="world" default="underwater"/>
+    
+    <arg name="water_depth" default="1.5"/>
 
     <!--launch an empty gazebo world-->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -23,8 +25,14 @@
     </include>
     
     <!--spawn underwater urdf into gazebo-->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    <node name="robot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -x 0 -y 0 -z 0 -model underwater"/>
-   
-
+       
+    <!--spawn tank urdf into gazebo-->
+    <param name="robot_description" 
+        command="$(find xacro)/xacro --inorder $(find underwater_sim)/urdf/tank.xacro 
+        water_depth:=$(arg water_depth)"/>
+    <node name="tank_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -x 0 -y 20 -z 0 -param robot_description -model tank"/>
+    
 </launch>

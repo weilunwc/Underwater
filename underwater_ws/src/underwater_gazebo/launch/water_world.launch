@@ -17,6 +17,6 @@
     
     <!--spawn underwater urdf into gazebo-->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" 
-        respawn="false" output="screen" args="-file $(find underwater_sim)/urdf/ros_ship.urdf -urdf -z 0 -model ship"/>
+        respawn="false" output="screen" args="-file $(find underwater_sim)/urdf/ship.urdf -urdf -x 20 -y 20 -z 0 -model ship"/>
     
 </launch>

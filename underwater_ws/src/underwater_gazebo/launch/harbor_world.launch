@@ -23,8 +23,16 @@
     </include>
     
     <!--spawn underwater urdf into gazebo-->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    <node name="robot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-file $(find underwater_sim)/urdf/underwater.urdf -urdf -x 0 -y 0 -z 0 -model underwater"/>
    
-
+    <!--spawn ship urdf into gazebo-->
+    <node name="ship_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/ship.urdf -urdf -x 0 -y 20 -z 0 -model ship"/>
+    
+    <!--spawn ocean urdf into gazebo-->
+    <!--
+    <node name="ocean_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-file $(find underwater_sim)/urdf/ocean.urdf -urdf -x 0 -y 20 -z 0 -model ocean"/>
+    -->
 </launch>

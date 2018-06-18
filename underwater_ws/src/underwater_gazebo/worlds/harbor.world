@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+    <world name="underwater_world">
+        <gravity>0 0 -9.8</gravity>
+        <scene>
+            <grid>false</grid>
+            <sky>
+                <clouds>
+                    <speed>12</speed>
+                </clouds>
+            </sky>
+        </scene>
+
+        <include>
+            <pose>0 0 -10 0 0 0</pose>
+            <uri>model://ground_plane</uri>
+            <pose>0 0 -10 0 0 0</pose>
+        </include>
+
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+    <model name='ship'>
+      <link name='ship_base_link'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <mass>95.78</mass>
+          <inertia>
+            <ixx>57.28</ixx>
+            <ixy>0</ixy>
+            <ixz>-0.23</ixz>
+            <iyy>57.28</iyy>
+            <iyz>0</iyz>
+            <izz>6.09</izz>
+          </inertia>
+        </inertial>
+        <collision name='ship_base_link_fixed_joint_lump__base_link_collision_collision'>
+          <pose frame=''>0 0 5 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0025 0.0025 0.0025</scale>
+              <uri>/home/william/Underwater/underwater_ws/src/underwater_sim/models/meshes/ship/hull.dae</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='ship_base_link_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.0025 0.0025 0.0025</scale>
+              <uri>/home/william/Underwater/underwater_ws/src/underwater_sim/models/meshes/ship/testShip.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose frame=''>20 20 0 0 -0 0</pose>
+    </model>
+
+
+    </world>
+</sdf>

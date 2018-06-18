@@ -4,18 +4,12 @@
     <arg name="rviz" default="False"/>
     <arg name="record" default="False"/>
     <arg name="cam" default="true"/>
+    <arg name="video_record" default="false"/>
     <arg name="bag_name" default="sensor"/>
     <arg name="video_name" default="video"/>
-    <arg name="video_record" default="false"/>
-
-    <!-- set up the confiuration for experiment --> 
-    <node pkg="underwater_robot" type="configs.py" name="set_configuration"/>  
-    
-    <!-- arduino node -->
-    <include file="$(find underwater_robot)/launch/arduino_nodes.launch"/>
-    
-    <!-- position locator -->
-    <node pkg="underwater_robot" type="position_localization.py" name="position_localization"/>
+        
+    <!-- launch gazebo -->
+    <include file="$(find underwater_gazebo)/launch/harbor_world.launch"/>
 
     <!-- joystick node -->
     <node pkg="joy" type="joy_node" name="joy"/>
@@ -33,13 +27,6 @@
     <!-- record bag file -->
     <include file="$(find underwater_robot)/launch/sensor_record.launch" if="$(arg record)">
         <arg name="bag_name" value="$(arg bag_name)"/>
-    </include>
-    
-    <!-- camera and record -->
-    <include file="$(find underwater_robot)/launch/video_recorder.launch" if="$(arg cam)">
-        <arg name="display" value="false"/>
-        <arg name="record" value="$(arg video_record)"/>
-        <arg name="video_name" value="$(arg video_name)"/>
     </include>
 
 </launch>
